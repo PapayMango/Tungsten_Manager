@@ -3,6 +3,32 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<GridPane fx:id="main" fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
+          stylesheets="@main.css">
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50"/>
+        <ColumnConstraints percentWidth="50"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="50"/>
+        <RowConstraints percentHeight="50"/>
+    </rowConstraints>
+    <Pane GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pane01"/>
+    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border"/>
+    <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" >
+        <columnConstraints/>
+        <rowConstraints/>
+        <Label text="Label1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+    </GridPane>
+    <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <columnConstraints/>
+        <rowConstraints/>
+        <Button text="button" fx:id="b1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+    </GridPane>
 </GridPane>
+
