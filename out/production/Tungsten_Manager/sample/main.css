@@ -1,0 +1,14 @@
+.label {-fx-background-color  : yellow;}
+#b1 {-fx-color: blue;}
+#main {
+    -fx-background-color :green;
+}
+#pane01{
+    -fx-background-color :blue;
+}
+#border {
+        -fx-background-color :white;
+}
+.grid-pane {
+        -fx-background-color :pink;
+}
