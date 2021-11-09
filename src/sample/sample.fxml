@@ -7,6 +7,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <GridPane fx:id="main" fx:controller="sample.Controller"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
           stylesheets="@main.css">
@@ -19,16 +21,30 @@
         <RowConstraints percentHeight="50"/>
     </rowConstraints>
     <Pane GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pane01"/>
-    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border"/>
-    <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" >
-        <columnConstraints/>
-        <rowConstraints/>
-        <Label text="Label1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
+<!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border"/>-->
+<!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border">-->
+<!--        <Label text="border">borderpane</Label>-->
+<!--        <Button text="border"/>-->
+<!--    </BorderPane>-->
+    <Label text="border" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="CENTER" GridPane.halignment="CENTER">borderpane</Label>
+    <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="pane02" >
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER"/>
+            <ColumnConstraints halignment="CENTER"/>
+            <ColumnConstraints halignment="CENTER"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints valignment="CENTER"/>
+            <RowConstraints valignment="CENTER"/>
+            <RowConstraints valignment="CENTER"/>
+        </rowConstraints>
+<!--        <Label text="Label1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>-->
+        <Label text="Label1" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
     </GridPane>
-    <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <columnConstraints/>
-        <rowConstraints/>
-        <Button text="button" fx:id="b1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>
-    </GridPane>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <Button  fx:id="b1" prefWidth="300" prefHeight="120" >生産管理1</Button>
+        <Label  fx:id="b2" prefWidth="300" prefHeight="120" >Management</Label>
+        <Label  fx:id="b3" prefWidth="300" prefHeight="120" >せいさんかんり12334</Label>
+    </VBox>
 </GridPane>
 

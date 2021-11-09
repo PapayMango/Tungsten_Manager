@@ -1,14 +1,57 @@
 .label {-fx-background-color  : yellow;}
-#b1 {-fx-color: blue;}
+#b1 {
+        -fx-color: rgb(0,75,134);
+        -fx-font-size:30px;
+        -fx-font-family:sans-serif;
+        //-fx-font-family:serif;
+        -fx-alignment:top-left;
+        -fx-text-fill:pink;
+        -fx-font-weight:100;
+        -fx-font-style:normal;
+}
+#b2 {
+        -fx-background-color: rgb(0,75,134);
+        -fx-font-size:30px;
+        //-fx-font-family:sans-serif;
+        -fx-font-family:serif;
+        -fx-text-fill:linear-gradient(to bottom right,red ,white);
+        //-fx-alignment:LEFT;
+        -fx-font-weight:lighter;
+        -fx-alignment:center;
+        -fx-font-style:normal;
+        -fx-background-insets:5 5 5 5;
+        -fx-background-radius:5;
+        -fx-border-color:black;
+        -fx-border-width:5;
+        -fx-padding: 5;
+}
+#b3 {
+        -fx-color: rgb(0,75,134);
+        -fx-font-size:30px;
+        //-fx-font-style:bold;
+        -fx-font-family:dialog;
+        //-fx-font-family:serif;
+        //-fx-alignment:LEFT;
+        -fx-text-fill:rgb(255,123,0);
+        -fx-background-color:radial-gradient(radius 50%, blue,green,white);
+        -fx-font-weight:700;
+        -fx-alignment:center;
+}
 #main {
     -fx-background-color :green;
 }
-#pane01{
+#pane01 {
     -fx-background-color :blue;
 }
 #border {
         -fx-background-color :white;
 }
-.grid-pane {
-        -fx-background-color :pink;
+.border-pane {
+    -fx-background-color :white;
+}
+#pane02{
+    -fx-background-color :orange;
+}
+.gridpane {
+        -fx-background-color :orange;
 }
