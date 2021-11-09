@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="home.Controller"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@home.css"
+            fx:id="main">
+    <AnchorPane fx:id="stock" prefHeight="250" prefWidth="325" AnchorPane.leftAnchor="87.5" AnchorPane.topAnchor="230">
+        <Label AnchorPane.topAnchor="25" AnchorPane.leftAnchor="25">在庫管理</Label>
+    </AnchorPane>
+    <AnchorPane fx:id="product" prefHeight="250" prefWidth="325" AnchorPane.rightAnchor="87.5" AnchorPane.topAnchor="230">
+        <Label AnchorPane.topAnchor="25" AnchorPane.leftAnchor="25">生産管理</Label>
+    </AnchorPane>
+</AnchorPane>

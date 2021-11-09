@@ -1,0 +1,22 @@
+#main{
+    -fx-background-color: rgb(64,64,64);
+}
+#stock{
+    -fx-background-color:rgb(0,75,134);
+}
+#product{
+    -fx-background-color:rgb(0,75,134);
+}
+.label{
+    -fx-text-fill:white;
+    -fx-font-size:35px;
+}
+#stock:hover{
+    -fx-background-color:rgb(0,97,175);
+    -fx-cursor:hand;
+}
+#product:hover{
+    -fx-background-color:rgb(0,97,175);
+    -fx-cursor:hand;
+}
+//#stock:pressed{-fx-background-color:rgb(0,100,180);}
