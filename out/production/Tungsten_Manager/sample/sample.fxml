@@ -42,7 +42,7 @@
         <Label text="Label1" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
     </GridPane>
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <Button  fx:id="b1" prefWidth="300" prefHeight="120" >生産管理1</Button>
+        <Button  fx:id="nextButton" prefWidth="300" prefHeight="120" onAction="#OnclickedNextButton" >生産管理1</Button>
         <Label  fx:id="b2" prefWidth="300" prefHeight="120" >Management</Label>
         <Label  fx:id="b3" prefWidth="300" prefHeight="120" >せいさんかんり12334</Label>
     </VBox>
