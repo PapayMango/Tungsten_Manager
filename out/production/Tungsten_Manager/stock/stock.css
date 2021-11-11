@@ -1,3 +1,33 @@
 #main{
     -fx-background-color: rgb(64,64,64);
 }
+.label{
+    -fx-text-fill:rgb(180,179,179);
+    //-fx-font-size:17px;
+    -fx-font-size:16px;
+    -fx-font-family:sans-serif;
+}
+#filter{
+    //-fx-background-color: rgba(0,64,64,0.5);
+}
+#method{
+    -fx-padding:5 0 5 0;
+}
+#date{
+    -fx-padding:5 0 5 0;
+}
+#no{
+    -fx-padding:5 0 5 0;
+}
+#stock{
+    -fx-padding:5 0 5 0;
+}
+#quality{
+    -fx-padding:5 0 5 0;
+}
+#shipment{
+    -fx-padding:5 0 5 0;
+}
+#data{
+    -fx-background-color: rgb(69,72,73);
+}
