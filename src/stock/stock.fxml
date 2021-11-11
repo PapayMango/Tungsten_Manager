@@ -10,17 +10,17 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="stock.Controller"
             prefHeight="1000.0" prefWidth="800.0" stylesheets="@stock.css">
-    <AnchorPane fx:id="filter" AnchorPane.topAnchor="30" AnchorPane.leftAnchor="30">
+    <AnchorPane fx:id="filter" AnchorPane.topAnchor="25" AnchorPane.leftAnchor="30">
         <VBox>
-            <HBox fx:id="method"><Label>製造方法:</Label><Label>3F花瓶</Label><Label>2F電気分解</Label><Label>1Fポット</Label></HBox>
-            <HBox fx:id="date"><Label>最終更新日:</Label></HBox>
-            <HBox fx:id="no"><Label>Lot No.:</Label></HBox>
-            <HBox fx:id="stock"><Label>在庫量:</Label></HBox>
-            <HBox fx:id="quality"><Label>品質評価:</Label></HBox>
-            <HBox fx:id="shipment"><Label>総出荷量:</Label></HBox>
+            <HBox fx:id="method"><Label>製造方法 :</Label><Label>3F花瓶</Label><Label>2F電気分解</Label><Label>1Fポット</Label></HBox>
+            <HBox fx:id="date"><Label>最終更新日 :</Label></HBox>
+            <HBox fx:id="no"><Label>Lot No. :</Label></HBox>
+            <HBox fx:id="stock"><Label>在庫量 :</Label></HBox>
+            <HBox fx:id="quality"><Label>品質評価 :</Label></HBox>
+            <HBox fx:id="shipment"><Label>総出荷量 :</Label></HBox>
         </VBox>
     </AnchorPane>
-    <AnchorPane fx:id="data" prefWidth="800" prefHeight="400" AnchorPane.leftAnchor="30" AnchorPane.topAnchor="300">
+    <AnchorPane fx:id="data" prefWidth="940" prefHeight="525" AnchorPane.topAnchor="245" AnchorPane.leftAnchor="30">
 
     </AnchorPane>
 </AnchorPane>
