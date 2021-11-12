@@ -3,31 +3,58 @@
 }
 .label{
     -fx-text-fill:rgb(180,179,179);
-    //-fx-font-size:17px;
     -fx-font-size:16px;
-    -fx-font-family:sans-serif;
+    -fx-font-family:cursive;
 }
 #filter{
     //-fx-background-color: rgba(0,64,64,0.5);
 }
 #method{
-    -fx-padding:5 0 5 0;
+    -fx-padding:2 0 5 0;
+    -fx-spacing:38;
 }
 #date{
     -fx-padding:5 0 5 0;
+    -fx-spacing:38;
 }
 #no{
     -fx-padding:5 0 5 0;
+    -fx-spacing:38;
 }
 #stock{
     -fx-padding:5 0 5 0;
+    -fx-spacing:38;
 }
 #quality{
     -fx-padding:5 0 5 0;
+    -fx-spacing:38;
 }
 #shipment{
     -fx-padding:5 0 5 0;
+    -fx-spacing:38;
 }
 #data{
     -fx-background-color: rgb(69,72,73);
+}
+.text-field{
+    -fx-background-color:rgb(68,72,73);
+    -fx-border-color:rgb(98,99,99);
+    -fx-text-fill:rgb(180,179,179);
+    -fx-font-family:cursive;
+    -fx-background-insets:0;
+    //-fx-font-weight:500;
+}
+.date-picker{
+    -fx-background-insets:0;
+}
+.combo-box-base{
+    -fx-background-color:rgb(68,72,73);
+    -fx-background-radius:0;
+    -fx-border-color:rgb(98,99,99);
+}
+.combo-box .combo-box-popup .list-view{
+    -fx-background-color:rgb(98,99,99);
+}
+#header{
+    -fx-spacing:32;
 }

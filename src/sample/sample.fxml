@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
 <GridPane fx:id="main" fx:controller="sample.Controller"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
           stylesheets="@main.css">
@@ -20,13 +22,15 @@
         <RowConstraints percentHeight="50"/>
         <RowConstraints percentHeight="50"/>
     </rowConstraints>
-    <Pane GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pane01"/>
+<!--    <Pane GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pane01"/>-->
+    <DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="0"></DatePicker>
 <!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border"/>-->
 <!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border">-->
 <!--        <Label text="border">borderpane</Label>-->
 <!--        <Button text="border"/>-->
 <!--    </BorderPane>-->
-    <Label text="border" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="CENTER" GridPane.halignment="CENTER">borderpane</Label>
+<!--    <Label text="border" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="CENTER" GridPane.halignment="CENTER">borderpane</Label>-->
+    <TextField fx:id="text" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="50" maxWidth="200" prefHeight="10"></TextField>
     <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="pane02" >
         <columnConstraints>
             <ColumnConstraints halignment="CENTER"/>

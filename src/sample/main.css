@@ -55,3 +55,42 @@
 .gridpane {
         -fx-background-color :orange;
 }
+#date{
+    //-fx-background-color:rgb(180,179,179);
+    //-fx-text-fill:blue;
+    //-fx-primary-color:pink;
+    //-fx-secndary-color:green;
+    -fx-border-color:black;
+    -fx-border-width:0;
+    -fx-background-insets:0;
+    -fx-background-radius:0;
+}
+#date .cell{
+    -fx-background-color:rgb(180,179,179);
+}
+#date .text-field{
+    -fx-background-color:rgb(180,179,179);
+    -fx-border-color:black;
+    -fx-border-width:0;
+    -fx-background-insets:0;
+    -fx-background-radius:0;
+}
+#date .arrow-button{
+    -fx-background-color:rgb(180,179,179);
+    -fx-border-width:0;
+    -fx-background-insets:0;
+    -fx-background-radius:0;
+}
+#date .label{
+    -fx-background-color:rgb(180,179,179);
+}
+#date :forcused{
+    -fx-background-color:rgb(180,179,179);
+}
+#text{
+    -fx-background-color:rgb(180,179,179);
+    -fx-accent:green;
+}
+#text:focused{
+    -fx-background-color:pink;
+}
