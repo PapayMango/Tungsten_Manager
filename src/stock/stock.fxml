@@ -6,13 +6,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.skin.TableHeaderRow?>
 <AnchorPane fx:id="main" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="stock.Controller"
             prefHeight="1000.0" prefWidth="800.0" stylesheets="@stock.css">
     <AnchorPane fx:id="filter" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30">
         <VBox>
-            <HBox fx:id="method"><Label>製造方法 :</Label><Label>3F花瓶</Label><Label>2F電気分解</Label><Label>1Fポット</Label></HBox>
+            <HBox fx:id="method"><Label fx:id="title">製造方法 :</Label><Label fx:id="isSelected">3F花瓶</Label><Label>2F電気分解</Label><Label>1Fポット</Label></HBox>
             <HBox fx:id="date"><Label>最終更新日 :</Label><DatePicker maxWidth="150"/><Label>～</Label><DatePicker maxWidth="150"/></HBox>
             <HBox fx:id="no"><Label>Lot No. :</Label><TextField maxWidth="130" prefWidth="130" /></HBox>
             <HBox fx:id="stock"><Label>在庫量 :</Label><HBox><TextField maxWidth="65"/><Label text="   Kg"/></HBox><Label>～</Label><HBox><TextField maxWidth="70"/><Label text="   Kg"/></HBox></HBox>
@@ -21,7 +22,16 @@
         </VBox>
     </AnchorPane>
     <AnchorPane fx:id="data" prefWidth="940" prefHeight="525" AnchorPane.topAnchor="250" AnchorPane.leftAnchor="30">
-        <HBox prefWidth="920" prefHeight="30" fx:id="header"><Label prefWidth="200" text="  Lot No."/><Label prefWidth="100" text="在庫量"/><Label prefWidth="100" text="総出荷量"/><Label prefWidth="100" text="最終更新日"/><Label prefWidth="80" text="品質評価"/><Label prefWidth="100" text="製造方法"/></HBox>
-
+<!--        <HBox prefWidth="920" prefHeight="30" fx:id="header"><Label prefWidth="200" text="  Lot No."/><Label prefWidth="100" text="在庫量"/><Label prefWidth="100" text="総出荷量"/><Label prefWidth="100" text="最終更新日"/><Label prefWidth="80" text="品質評価"/><Label prefWidth="100" text="製造方法"/></HBox>-->
+        <TableView fx:id="result_tb" prefWidth="940" prefHeight="525" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">
+            <columns>
+                <TableColumn prefWidth="237" text="  Lot No."/>
+                <TableColumn prefWidth="135" text="在庫量"/>
+                <TableColumn prefWidth="135" text="総出荷量"/>
+                <TableColumn prefWidth="135" text="最終更新日"/>
+                <TableColumn prefWidth="115" text="品質評価"/>
+                <TableColumn prefWidth="135" text="製造方法"/>
+            </columns>
+        </TableView>
     </AnchorPane>
 </AnchorPane>
