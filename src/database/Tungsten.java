@@ -1,8 +1,9 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.Date;
 
-public class Tungsten {
+public class Tungsten implements DataObject{
     
     private String lot;
     private Date update_date;
@@ -10,6 +11,9 @@ public class Tungsten {
     private int quantity;
     private char quality;
     private String method;
+
+    private boolean isInitiated = false;
+    private ArrayList<Shipment> shipments = new ArrayList<Shipment>();
 
     public Tungsten(String lot, Date update_date, Date product_date, int quantity, char quality, String method) {
         this.lot = lot;
@@ -66,5 +70,19 @@ public class Tungsten {
 
     public void setMethod(String method) {
         this.method = method;
+    }
+
+    @Override
+    public DataType getType() {
+        return DataType.Tungsten;
+    }
+
+    public ArrayList<Shipment> getShipments(){
+
+        if(isInitiated){
+
+        }
+
+        return new ArrayList<Shipment>(shipments);
     }
 }

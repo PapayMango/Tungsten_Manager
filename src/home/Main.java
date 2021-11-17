@@ -1,5 +1,8 @@
 package home;
 
+import database.DataObject;
+import database.Evaluation;
+import database.Tungsten;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Date;
 import java.util.Random;
 
 public class Main extends Application {
@@ -52,6 +56,27 @@ public class Main extends Application {
         return rand.nextInt(1000);
     }
 
+    private static int amount(){
+
+        Random rand = new Random();
+
+        return rand.nextInt(100);
+    }
+
+    private static int price(){
+
+        Random rand = new Random();
+
+        return rand.nextInt(1000000);
+    }
+
+    private static int company(){
+
+        Random rand = new Random();
+
+        return rand.nextInt(50);
+    }
+
     private static String quality(){
 
         String[] quality = {"A","B","C","D"};
@@ -71,17 +96,47 @@ public class Main extends Application {
     public static void main(String[] args) {
         System.out.println("main");
         try{
-//            Class.forName(driver);
-//            Connection connection = DriverManager.getConnection(uri,"user001","rmml0321");
-////            Connection connection = DriverManager.getConnection(uri);
+            Class.forName(driver);
+            Connection connection = DriverManager.getConnection(uri,"user001","rmml0321");
+//            Connection connection = DriverManager.getConnection(uri);
 //            PreparedStatement preparedStatement = connection.prepareStatement("select * from tungsten");
 //            ResultSet resultSet = preparedStatement.executeQuery();
+
+            Tungsten tungsten = new Tungsten("a",new Date(),new Date(),1,'A',"A");
+            Evaluation evaluation = new Evaluation();
+            DataObject dataObject = (DataObject)evaluation;
+
+            System.out.println(tungsten instanceof DataObject);
+            System.out.println(dataObject instanceof Evaluation);
+
 //
 //            while (resultSet.next()){
 //                System.out.println(resultSet);
 //            }
-//            for (int i = 1001; i <= 2000;i++){
+//            for (int i = 1; i <= 10;i++){
 //                String sql = "insert into tungsten(lot,update_date,product_date,quantity,quality,method) values('" + lot("MWx",i) +"',now(),now()," + quantity() + ",'" + quality() + "','" + method_str() + "'"+")";
+//                System.out.println(sql);
+//                preparedStatement = connection.prepareStatement(sql);
+//                System.out.println("a");
+//                System.out.println(preparedStatement.executeUpdate());
+//                while (resultSet.next()){
+//                    System.out.println(resultSet);
+//                }
+//            }
+//            Random random = new Random();
+//
+//            for (int i = 1; i <= 1980;i++){
+//                String sql = "insert into shipment(lot,shipping_date,company,amount,price) values('" + lot("MWx", random.nextInt(2001)) +"',now()," + company() +  "," +  amount() + "," + price()  +")";
+//                System.out.println(sql);
+//                preparedStatement = connection.prepareStatement(sql);
+//                System.out.println("a");
+//                System.out.println(preparedStatement.executeUpdate());
+//                while (resultSet.next()){
+//                    System.out.println(resultSet);
+//                }
+//            }
+//            for (int i = 1; i <= 49;i++){
+//                String sql = "insert into company(name,capital,num_employees) values('" + lot("Company", i) +"'," + price() +  "," +  quantity() + ")";
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println("a");
