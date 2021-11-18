@@ -12,10 +12,12 @@ public class Tungsten implements DataObject{
     private int quantity;
     private String quality;
     private String method;
+    private int shipment;
+
 
     private boolean isInitiated = false;
-    private ArrayList<Shipment> shipments = new ArrayList<Shipment>();
 
+    private ArrayList<Shipment> shipments = new ArrayList<Shipment>();
     public Tungsten(String lot, Date update_date, Date product_date, int quantity, String quality, String method) {
         this.lot = lot;
         this.update_date = update_date;
@@ -26,6 +28,20 @@ public class Tungsten implements DataObject{
     }
 
     private Tungsten() {}
+
+    public int getShipment() {
+//        setShipments();
+//        System.out.println("getShipment : " + isInitiated);
+//        System.out.println("lot no : " + this.getLot());
+        if(!isInitiated){
+            setShipments();
+            System.out.println("setShipment : " + shipment);
+            return shipment;
+        }else {
+//            System.out.println("getShipment : "+ shipment);
+            return shipment;
+        }
+    }
 
     public String getLot() {
         return lot;
@@ -82,11 +98,25 @@ public class Tungsten implements DataObject{
 
     public ArrayList<Shipment> getShipments(){
 
-        if(isInitiated){
-
-        }
+        setShipments();
 
         return new ArrayList<Shipment>(shipments);
+    }
+
+    public boolean setShipments(){
+
+        try {
+            String sql = "select * from shipment where lot = '" + getLot() + "'";
+            shipments =(ArrayList<Shipment>) ConnectionDB.connectionDB.connectDB().select(DataType.Shipment,sql);
+            for(Shipment ship: shipments){
+                shipment += ship.getAmount();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        isInitiated = true;
+        return true;
     }
 
     public static ArrayList<? extends DataObject> createData(ResultSet resultSet){

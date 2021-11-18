@@ -47,7 +47,13 @@ public class Controller implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("init");
 
-        ArrayList<? extends DataObject>arrayList = ConnectionDB.connectionDB.connectDB().select(DataType.Tungsten,Tungsten.createSelectSQL());
+        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
+
+        try {
+            arrayList = ConnectionDB.connectionDB.connectDB().select(DataType.Tungsten, Tungsten.createSelectSQL());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println(arrayList.size());
 
         observableList = FXCollections.observableList((ArrayList<Tungsten>)arrayList);
@@ -60,6 +66,6 @@ public class Controller implements Initializable{
         column_method.setCellValueFactory(new PropertyValueFactory<Tungsten,String>("method"));
 
         result_tb.setItems(observableList);
-        result_tb.getColumns().addAll(column_lot,column_stock,column_date,column_quality,column_method);
+        result_tb.getColumns().addAll(column_lot,column_stock,column_shipment,column_date,column_quality,column_method);
     }
 }

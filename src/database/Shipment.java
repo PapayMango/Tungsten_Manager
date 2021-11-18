@@ -1,5 +1,7 @@
 package database;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Shipment implements DataObject{
@@ -17,6 +19,8 @@ public class Shipment implements DataObject{
         this.amount = amount;
         this.price = price;
     }
+
+    private Shipment() {}
 
     @Override
     public DataType getType() {
@@ -61,6 +65,27 @@ public class Shipment implements DataObject{
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public static ArrayList<? extends DataObject> createData(ResultSet resultSet){
+        ArrayList<Shipment> arrayList = new ArrayList<Shipment>();
+        Shipment shipment;
+        System.out.println("createdata");
+        try{
+            while (resultSet.next()){
+                shipment  = new Shipment();
+                shipment.setLot(resultSet.getString("lot"));
+                shipment.setShipping_date(resultSet.getDate("shipping_date"));
+//                shipment.setCompany(resultSet.getInt("quantity"));
+                shipment.setCompany(new Company());
+                shipment.setAmount(resultSet.getInt("amount"));
+                shipment.setPrice(resultSet.getInt("price"));
+                arrayList.add(shipment);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return arrayList;
     }
 
 }

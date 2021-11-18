@@ -18,7 +18,7 @@ public class ConnectionDB {
 
     private ConnectionDB(){}
 
-    public ConnectionDB connectDB(){
+    public ConnectionDB connectDB() throws Exception{
         if(!isConnected){
             try{
                 Class.forName(driver);
@@ -31,7 +31,7 @@ public class ConnectionDB {
                 return this;
             }catch (Exception e){
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }else {
             return this;
@@ -79,7 +79,7 @@ public class ConnectionDB {
                     case Company:
                         break;
                     case Shipment:
-                        break;
+                        return Shipment.createData(resultSet);
                     case Evaluation:
                         break;
                     default:
