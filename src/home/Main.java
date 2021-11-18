@@ -98,21 +98,22 @@ public class Main extends Application {
         try{
             Class.forName(driver);
             Connection connection = DriverManager.getConnection(uri,"user001","rmml0321");
-//            Connection connection = DriverManager.getConnection(uri);
-//            PreparedStatement preparedStatement = connection.prepareStatement("select * from tungsten");
-//            ResultSet resultSet = preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(Tungsten.createSelectSQL());
+            ResultSet resultSet = preparedStatement.executeQuery();
+//            System.out.println(resultSet.next());
+//            System.out.println(resultSet);
 
-            Tungsten tungsten = new Tungsten("a",new Date(),new Date(),1,'A',"A");
-            Evaluation evaluation = new Evaluation();
-            DataObject dataObject = (DataObject)evaluation;
-
-            System.out.println(tungsten instanceof DataObject);
-            System.out.println(dataObject instanceof Evaluation);
+//            Tungsten tungsten = new Tungsten("a",new Date(),new Date(),1,'A',"A");
+//            Evaluation evaluation = new Evaluation();
+//            DataObject dataObject = (DataObject)evaluation;
+//
 
 //
-//            while (resultSet.next()){
-//                System.out.println(resultSet);
-//            }
+            while (resultSet.next()){
+                System.out.println(resultSet);
+                System.out.println("ID : " + resultSet.getInt("id"));
+                System.out.println(resultSet.getDate("update_date"));
+            }
 //            for (int i = 1; i <= 10;i++){
 //                String sql = "insert into tungsten(lot,update_date,product_date,quantity,quality,method) values('" + lot("MWx",i) +"',now(),now()," + quantity() + ",'" + quality() + "','" + method_str() + "'"+")";
 //                System.out.println(sql);

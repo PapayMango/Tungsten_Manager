@@ -23,8 +23,10 @@ public class ConnectionDB {
             try{
                 Class.forName(driver);
                 connection = DriverManager.getConnection(uri,"user001","rmml0321");
-//            preparedStatement = connection.prepareStatement("select * from tungsten");
-//            resultSet = preparedStatement.executeQuery();
+/*
+            preparedStatement = connection.prepareStatement("select * from tungsten");
+            resultSet = preparedStatement.executeQuery();
+*/
                 setConnected(true);
                 return this;
             }catch (Exception e){
@@ -36,9 +38,22 @@ public class ConnectionDB {
         }
     }
 
-    public boolean insertTungsten(String table,Tungsten tungsten){
+    public boolean insert(DataType dataType,DataObject dataObject){
         if (isConnected){
-            String sql = "insert into tungsten(lot,update_date,product_date,quantity,quality,method) values('" + tungsten.getLot() +"'," + tungsten.getUpdate_date() + "," + tungsten.getProduct_date() + "," + tungsten.getQuantity() + ",'" + tungsten.getQuality() + "','" + tungsten.getMethod() + "'"+")";
+            String sql = "";
+            switch (dataType){
+                case Tungsten:
+                     sql = Tungsten.createInsertSQL((Tungsten) dataObject);
+                    break;
+                case Company:
+                    break;
+                case Shipment:
+                    break;
+                case Evaluation:
+                    break;
+                default:
+                    break;
+            }
             System.out.println(sql);
             try {
                 preparedStatement = connection.prepareStatement(sql);
@@ -53,8 +68,30 @@ public class ConnectionDB {
         return true;
     }
 
-    public ArrayList<Tungsten> selectTungsten(){
-        return new ArrayList<Tungsten>();
+    public ArrayList<? extends DataObject> select(DataType dataType,String sql){
+        System.out.println("select");
+        if (isConnected){
+            try {
+                resultSet = connection.prepareStatement(sql).executeQuery();
+                switch (dataType){
+                    case Tungsten:
+                        return Tungsten.createData(resultSet);
+                    case Company:
+                        break;
+                    case Shipment:
+                        break;
+                    case Evaluation:
+                        break;
+                    default:
+                        break;
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }else {
+
+        }
+        return new ArrayList<DataObject>();
     }
 
     public boolean isConnected() {

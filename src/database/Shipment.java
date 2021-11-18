@@ -10,6 +10,14 @@ public class Shipment implements DataObject{
     private int amount;
     private int price;
 
+    public Shipment(String lot, Date shipping_date, Company company, int amount, int price) {
+        this.lot = lot;
+        this.shipping_date = shipping_date;
+        this.company = company;
+        this.amount = amount;
+        this.price = price;
+    }
+
     @Override
     public DataType getType() {
         return DataType.Shipment;
@@ -54,4 +62,5 @@ public class Shipment implements DataObject{
     public void setPrice(int price) {
         this.price = price;
     }
+
 }

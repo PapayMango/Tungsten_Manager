@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,13 +10,13 @@ public class Tungsten implements DataObject{
     private Date update_date;
     private Date product_date;
     private int quantity;
-    private char quality;
+    private String quality;
     private String method;
 
     private boolean isInitiated = false;
     private ArrayList<Shipment> shipments = new ArrayList<Shipment>();
 
-    public Tungsten(String lot, Date update_date, Date product_date, int quantity, char quality, String method) {
+    public Tungsten(String lot, Date update_date, Date product_date, int quantity, String quality, String method) {
         this.lot = lot;
         this.update_date = update_date;
         this.product_date = product_date;
@@ -23,6 +24,8 @@ public class Tungsten implements DataObject{
         this.quality = quality;
         this.method = method;
     }
+
+    private Tungsten() {}
 
     public String getLot() {
         return lot;
@@ -56,11 +59,11 @@ public class Tungsten implements DataObject{
         this.quantity = quantity;
     }
 
-    public char getQuality() {
+    public String getQuality() {
         return quality;
     }
 
-    public void setQuality(char quality) {
+    public void setQuality(String quality) {
         this.quality = quality;
     }
 
@@ -84,5 +87,43 @@ public class Tungsten implements DataObject{
         }
 
         return new ArrayList<Shipment>(shipments);
+    }
+
+    public static ArrayList<? extends DataObject> createData(ResultSet resultSet){
+        ArrayList<Tungsten> arrayList = new ArrayList<Tungsten>();
+        Tungsten tungsten;
+        System.out.println("createdata");
+        try{
+            while (resultSet.next()){
+                tungsten  = new Tungsten();
+                tungsten.setLot(resultSet.getString("lot"));
+                tungsten.setUpdate_date(resultSet.getDate("update_date"));
+                tungsten.setProduct_date(resultSet.getDate("product_date"));
+                tungsten.setQuantity(resultSet.getInt("quantity"));
+                tungsten.setQuality(resultSet.getString("quality"));
+                tungsten.setMethod(resultSet.getString("method"));
+                arrayList.add(tungsten);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public static String createInsertSQL(Tungsten tungsten){
+        return "insert into tungsten(lot,update_date,product_date,quantity,quality,method) values('" + tungsten.getLot() +"'," + tungsten.getUpdate_date() + "," + tungsten.getProduct_date() + "," + tungsten.getQuantity() + ",'" + tungsten.getQuality() + "','" + tungsten.getMethod() + "')";
+    }
+
+    public static String createSelectSQL(String... args){
+        String sql = "select * from tungsten";
+        if(args.length == 0){
+            return sql;
+        }else{
+            sql += " where ";
+            for(String str:args){
+                sql += str;
+            }
+        }
+        return  sql;
     }
 }
