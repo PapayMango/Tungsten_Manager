@@ -109,20 +109,19 @@ public class Main extends Application {
 //
 
 //
-            while (resultSet.next()){
-                System.out.println(resultSet);
-                System.out.println("ID : " + resultSet.getInt("id"));
-                System.out.println(resultSet.getDate("update_date"));
-            }
-//            for (int i = 1; i <= 10;i++){
-//                String sql = "insert into tungsten(lot,update_date,product_date,quantity,quality,method) values('" + lot("MWx",i) +"',now(),now()," + quantity() + ",'" + quality() + "','" + method_str() + "'"+")";
+//            while (resultSet.next()){
+//                System.out.println(resultSet);
+//                System.out.println("ID : " + resultSet.getInt("id"));
+//                System.out.println(resultSet.getDate("update_date"));
+//            }
+//            Random random = new Random();
+//
+//
+//            for (int i = 1; i <= 5;i++){
+//                String sql = "update tungsten set update_date = now() where id = " + i;
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
-//                System.out.println("a");
 //                System.out.println(preparedStatement.executeUpdate());
-//                while (resultSet.next()){
-//                    System.out.println(resultSet);
-//                }
 //            }
 //            Random random = new Random();
 //

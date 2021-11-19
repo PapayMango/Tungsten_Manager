@@ -43,6 +43,20 @@ public class Controller implements Initializable{
     @FXML
     private TableColumn<Tungsten,String> column_method;
 
+    @FXML
+    private TableColumn<Tungsten,String> column_deodorize;
+
+    @FXML
+    private TableColumn<Tungsten,String> column_methylene;
+
+    @FXML
+    private TableColumn<Tungsten,String> column_cockroach;
+
+    @FXML
+    private TableColumn<Tungsten,Float> column_ph;
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("init");
@@ -62,10 +76,17 @@ public class Controller implements Initializable{
         column_stock.setCellValueFactory(new PropertyValueFactory<Tungsten,Integer>("quantity"));
         column_shipment.setCellValueFactory(new PropertyValueFactory<Tungsten,Integer>("shipment"));
         column_date.setCellValueFactory(new PropertyValueFactory<Tungsten,Date>("update_date"));
-        column_quality.setCellValueFactory(new PropertyValueFactory<Tungsten,String>("quality"));
+        column_deodorize.setCellValueFactory(new PropertyValueFactory<Tungsten,String>("deodorize"));
+        column_methylene.setCellValueFactory(new PropertyValueFactory<Tungsten,String>("methylene"));
+        column_cockroach.setCellValueFactory(new PropertyValueFactory<Tungsten,String>("cockroach"));
         column_method.setCellValueFactory(new PropertyValueFactory<Tungsten,String>("method"));
+        column_ph.setCellValueFactory(new PropertyValueFactory<Tungsten,Float>("ph"));
 
+        result_tb.getColumns().clear();
+        System.out.println("columns_num : " + result_tb.getColumns().size());
         result_tb.setItems(observableList);
-        result_tb.getColumns().addAll(column_lot,column_stock,column_shipment,column_date,column_quality,column_method);
+        System.out.println("columns_num : " + result_tb.getColumns().size());
+        result_tb.getColumns().addAll(column_lot,column_stock,column_shipment,column_date,column_ph,column_quality,column_method);
+        System.out.println("columns_num : " + result_tb.getColumns().size());
     }
 }

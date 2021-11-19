@@ -1,34 +1,40 @@
 package database;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Tungsten implements DataObject{
     
     private String lot;
-    private Date update_date;
-    private Date product_date;
+    private Timestamp update_date;
+    private Timestamp product_date;
     private int quantity;
-    private String quality;
+    private String deodorize;
+    private String methylene;
+    private String cockroach;
+
     private String method;
+
     private int shipment;
-
-
+    private float ph;
     private boolean isInitiated = false;
 
     private ArrayList<Shipment> shipments = new ArrayList<Shipment>();
-    public Tungsten(String lot, Date update_date, Date product_date, int quantity, String quality, String method) {
+
+    public Tungsten(String lot, Timestamp update_date, Timestamp product_date, int quantity, String deodorize, String method,float ph,String methylene,String cockroach) {
         this.lot = lot;
         this.update_date = update_date;
         this.product_date = product_date;
         this.quantity = quantity;
-        this.quality = quality;
+        this.deodorize = deodorize;
         this.method = method;
+        this.ph = ph;
+        this.methylene = methylene;
+        this.cockroach = cockroach;
     }
 
     private Tungsten() {}
-
     public int getShipment() {
 //        setShipments();
 //        System.out.println("getShipment : " + isInitiated);
@@ -43,6 +49,30 @@ public class Tungsten implements DataObject{
         }
     }
 
+    public String getMethylene() {
+        return methylene;
+    }
+
+    public void setMethylene(String methylene) {
+        this.methylene = methylene;
+    }
+
+    public String getCockroach() {
+        return cockroach;
+    }
+
+    public void setCockroach(String cockroach) {
+        this.cockroach = cockroach;
+    }
+
+    public float getPh() {
+        return ph;
+    }
+
+    public void setPh(float ph) {
+        this.ph = ph;
+    }
+
     public String getLot() {
         return lot;
     }
@@ -51,19 +81,19 @@ public class Tungsten implements DataObject{
         this.lot = lot;
     }
 
-    public Date getUpdate_date() {
+    public Timestamp getUpdate_date() {
         return update_date;
     }
 
-    public void setUpdate_date(Date update_date) {
+    public void setUpdate_date(Timestamp update_date) {
         this.update_date = update_date;
     }
 
-    public Date getProduct_date() {
+    public Timestamp getProduct_date() {
         return product_date;
     }
 
-    public void setProduct_date(Date product_date) {
+    public void setProduct_date(Timestamp product_date) {
         this.product_date = product_date;
     }
 
@@ -75,12 +105,12 @@ public class Tungsten implements DataObject{
         this.quantity = quantity;
     }
 
-    public String getQuality() {
-        return quality;
+    public String getDeodorize() {
+        return deodorize;
     }
 
-    public void setQuality(String quality) {
-        this.quality = quality;
+    public void setDeodorize(String deodorize) {
+        this.deodorize = deodorize;
     }
 
     public String getMethod() {
@@ -127,11 +157,14 @@ public class Tungsten implements DataObject{
             while (resultSet.next()){
                 tungsten  = new Tungsten();
                 tungsten.setLot(resultSet.getString("lot"));
-                tungsten.setUpdate_date(resultSet.getDate("update_date"));
-                tungsten.setProduct_date(resultSet.getDate("product_date"));
+                tungsten.setUpdate_date(resultSet.getTimestamp("update_date"));
+                tungsten.setProduct_date(resultSet.getTimestamp("product_date"));
                 tungsten.setQuantity(resultSet.getInt("quantity"));
-                tungsten.setQuality(resultSet.getString("quality"));
+                tungsten.setDeodorize(resultSet.getString("deodorize"));
                 tungsten.setMethod(resultSet.getString("method"));
+                tungsten.setPh(resultSet.getFloat("ph"));
+                tungsten.setMethylene(resultSet.getString("methylene"));
+                tungsten.setCockroach(resultSet.getString("cockroach"));
                 arrayList.add(tungsten);
             }
         }catch (Exception e){
@@ -141,7 +174,7 @@ public class Tungsten implements DataObject{
     }
 
     public static String createInsertSQL(Tungsten tungsten){
-        return "insert into tungsten(lot,update_date,product_date,quantity,quality,method) values('" + tungsten.getLot() +"'," + tungsten.getUpdate_date() + "," + tungsten.getProduct_date() + "," + tungsten.getQuantity() + ",'" + tungsten.getQuality() + "','" + tungsten.getMethod() + "')";
+        return "insert into tungsten(lot,update_date,product_date,quantity,deodorize,method,ph,methylene,cockroach) values('" + tungsten.getLot() +"'," + tungsten.getUpdate_date() + "," + tungsten.getProduct_date() + "," + tungsten.getQuantity() + ",'" + tungsten.getDeodorize() + "','" + tungsten.getMethod() + "' " + tungsten.getPh() + "," + tungsten.getMethylene() +"'," + tungsten.getCockroach() + "')";
     }
 
     public static String createSelectSQL(String... args){
