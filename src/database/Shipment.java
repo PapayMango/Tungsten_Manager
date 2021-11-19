@@ -87,5 +87,4 @@ public class Shipment implements DataObject{
         }
         return arrayList;
     }
-
 }
