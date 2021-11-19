@@ -70,7 +70,7 @@ public class Shipment implements DataObject{
     public static ArrayList<? extends DataObject> createData(ResultSet resultSet){
         ArrayList<Shipment> arrayList = new ArrayList<Shipment>();
         Shipment shipment;
-        System.out.println("createdata");
+//        System.out.println("createdata");
         try{
             while (resultSet.next()){
                 shipment  = new Shipment();

@@ -1,5 +1,6 @@
 package stock;
 
+import com.sun.javafx.scene.control.LabeledText;
 import database.ConnectionDB;
 import database.DataObject;
 import database.DataType;
@@ -9,13 +10,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -55,7 +59,9 @@ public class Controller implements Initializable{
     @FXML
     private TableColumn<Tungsten,Float> column_ph;
 
+    private ArrayList<Label> selectedMethods = new ArrayList<Label>();
 
+    private HashMap<String,String> constraints = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,10 +89,86 @@ public class Controller implements Initializable{
         column_ph.setCellValueFactory(new PropertyValueFactory<Tungsten,Float>("ph"));
 
         result_tb.getColumns().clear();
-        System.out.println("columns_num : " + result_tb.getColumns().size());
         result_tb.setItems(observableList);
-        System.out.println("columns_num : " + result_tb.getColumns().size());
         result_tb.getColumns().addAll(column_lot,column_stock,column_shipment,column_date,column_ph,column_quality,column_method);
-        System.out.println("columns_num : " + result_tb.getColumns().size());
+    }
+
+    public boolean refreshTable(HashMap<String,String> constraintsMap){
+        System.out.println("hash map : " + constraintsMap);
+        System.out.println(constraintsMap.entrySet());
+        System.out.println("method : " + constraintsMap.get("method"));
+        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
+        ArrayList<String> constraintList = new ArrayList<>(constraintsMap.values());
+//        System.out.println((String[]) constraintList.toArray(constraintList.toArray(new String[arrayList.size()])));
+//        System.out.println(constraintsMap.values());
+//        System.out.println(constraintsMap.values().toArray()[0].getClass());
+//        System.out.println(constraintsMap.values().toArray().getClass());
+//        System.out.println((String[])constraintsMap.values().toArray());
+        String[] args = constraintList.toArray(constraintList.toArray(new String[arrayList.size()]));
+//        String[] args = (String[])constraintsMap.values().toArray();
+
+        System.out.println(args.length);
+        System.out.println(args);
+        try {
+            arrayList = ConnectionDB.connectionDB.connectDB().select(DataType.Tungsten, Tungsten.createSelectSQL(args));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(arrayList.size());
+
+        observableList = FXCollections.observableList((ArrayList<Tungsten>)arrayList);
+
+        result_tb.getColumns().clear();
+        result_tb.getItems().clear();
+        result_tb.setItems(observableList);
+        result_tb.getColumns().addAll(column_lot,column_stock,column_shipment,column_date,column_ph,column_quality,column_method);
+
+        return true;
+    }
+
+    @FXML
+    private void changeMethod(MouseEvent mouseEvent){
+        Label label = (Label)mouseEvent.getSource();
+        String constraint = "method = '";
+
+        if(label.getStyleClass().size()==1){
+            label.getStyleClass().add("isSelected");
+            selectedMethods.add(label);
+        }else {
+            label.getStyleClass().remove(1);
+            selectedMethods.remove(label);
+        }
+        if(selectedMethods.size()==0){
+            if(constraints.containsKey("method"))
+                constraints.remove("method");
+            refreshTable(constraints);
+        }else {
+            for(int i = 0; i < selectedMethods.size(); i++) {
+                if (i == 0) {
+                    constraint += selectedMethods.get(i).getText() + "'";
+                    continue;
+                }
+                constraint += " or method = '" + selectedMethods.get(i).getText() + "'";
+            }
+            if(constraints.containsKey("method")){
+                constraints.replace("method",constraint);
+            }else {
+                constraints.put("method",constraint);
+            }
+            refreshTable(constraints);
+        }
+    }
+
+    @FXML
+    private void changeLot(KeyEvent keyEvent){
+        TextField textField = (TextField)keyEvent.getSource();
+        String constraint = "lot like '%" + textField.getText() + "%'";
+
+        if(constraints.containsKey("lot")){
+            constraints.replace("lot",constraint);
+        }else {
+            constraints.put("lot",constraint);
+        }
+        refreshTable(constraints);
     }
 }

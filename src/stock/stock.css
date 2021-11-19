@@ -6,7 +6,7 @@
     -fx-font-size:16px;
     -fx-font-family:cursive;
 }
-#method > #isSelected{
+#method > .label.isSelected{
     -fx-text-fill:rgb(180,179,179);
 }
 #method > .label{

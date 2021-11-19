@@ -41,7 +41,7 @@ public class Tungsten implements DataObject{
 //        System.out.println("lot no : " + this.getLot());
         if(!isInitiated){
             setShipments();
-            System.out.println("setShipment : " + shipment);
+//            System.out.println("setShipment : " + shipment);
             return shipment;
         }else {
 //            System.out.println("getShipment : "+ shipment);
@@ -152,7 +152,7 @@ public class Tungsten implements DataObject{
     public static ArrayList<? extends DataObject> createData(ResultSet resultSet){
         ArrayList<Tungsten> arrayList = new ArrayList<Tungsten>();
         Tungsten tungsten;
-        System.out.println("createdata");
+//        System.out.println("createdata");
         try{
             while (resultSet.next()){
                 tungsten  = new Tungsten();
@@ -181,12 +181,18 @@ public class Tungsten implements DataObject{
         String sql = "select * from tungsten";
         if(args.length == 0){
             return sql;
-        }else{
+        }else {
+
             sql += " where ";
-            for(String str:args){
-                sql += str;
+            for(int i = 0; i < args.length; i++){
+                if(i == 0){
+                    sql += "(" + args[i] + ")";
+                    continue;
+                }
+                sql += " and (" + args[i] + ")";
             }
         }
+        System.out.println("sql : " + sql);
         return  sql;
     }
 }

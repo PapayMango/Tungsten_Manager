@@ -69,7 +69,7 @@ public class ConnectionDB {
     }
 
     public ArrayList<? extends DataObject> select(DataType dataType,String sql){
-        System.out.println("select");
+//        System.out.println("select");
         if (isConnected){
             try {
                 resultSet = connection.prepareStatement(sql).executeQuery();

@@ -13,9 +13,9 @@
             prefHeight="1000.0" prefWidth="800.0" stylesheets="@stock.css">
     <AnchorPane fx:id="filter" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30">
         <VBox>
-            <HBox fx:id="method"><Label fx:id="title">製造方法 :</Label><Label fx:id="isSelected">3F花瓶</Label><Label>2F電気分解</Label><Label>1Fポット</Label></HBox>
+            <HBox fx:id="method"><Label fx:id="title">製造方法 :</Label><Label onMouseClicked="#changeMethod">3F花瓶</Label><Label onMouseClicked="#changeMethod">2F電気分解</Label><Label onMouseClicked="#changeMethod">1Fポット</Label></HBox>
             <HBox fx:id="date"><Label>最終更新日 :</Label><DatePicker maxWidth="150"/><Label>～</Label><DatePicker maxWidth="150"/></HBox>
-            <HBox fx:id="no"><Label>Lot No. :</Label><TextField maxWidth="130" prefWidth="130" /></HBox>
+            <HBox fx:id="no"><Label>Lot No. :</Label><TextField maxWidth="130" prefWidth="130" onKeyTyped="#changeLot"/></HBox>
             <HBox fx:id="stock"><Label>在庫量 :</Label><HBox><TextField maxWidth="65"/><Label text="   Kg"/></HBox><Label>～</Label><HBox><TextField maxWidth="70"/><Label text="   Kg"/></HBox></HBox>
             <HBox fx:id="quality"><Label>品質評価 :</Label><ComboBox prefWidth="70"></ComboBox></HBox>
             <HBox fx:id="shipment"><Label>総出荷量 :</Label><HBox><TextField maxWidth="65"/><Label text="   Kg"/></HBox><Label>～</Label><HBox><TextField maxWidth="70"/><Label text="   Kg"/></HBox></HBox>
@@ -25,12 +25,19 @@
 <!--        <HBox prefWidth="920" prefHeight="30" fx:id="header"><Label prefWidth="200" text="  Lot No."/><Label prefWidth="100" text="在庫量"/><Label prefWidth="100" text="総出荷量"/><Label prefWidth="100" text="最終更新日"/><Label prefWidth="80" text="品質評価"/><Label prefWidth="100" text="製造方法"/></HBox>-->
         <TableView fx:id="result_tb" prefWidth="940" prefHeight="525" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0">
             <columns>
-                <TableColumn fx:id="column_lot" prefWidth="237" text="  Lot No."/>
-                <TableColumn fx:id="column_stock" prefWidth="135" text="在庫量"/>
-                <TableColumn fx:id="column_shipment" prefWidth="135" text="総出荷量"/>
-                <TableColumn fx:id="column_date" prefWidth="135" text="最終更新日"/>
-                <TableColumn fx:id="column_quality" prefWidth="115" text="品質評価"/>
-                <TableColumn fx:id="column_method" prefWidth="135" text="製造方法"/>
+                <TableColumn fx:id="column_lot" prefWidth="170" text="  Lot No."/>
+                <TableColumn fx:id="column_stock" prefWidth="90" text="在庫量"/>
+                <TableColumn fx:id="column_shipment" prefWidth="90" text="総出荷量"/>
+                <TableColumn fx:id="column_date" prefWidth="150" text="最終更新日"/>
+                <TableColumn fx:id="column_ph" prefWidth="75" text="PH"/>
+                <TableColumn fx:id="column_quality" prefWidth="225" text="品質評価">
+                      <columns>
+                        <TableColumn fx:id="column_deodorize" prefWidth="75"  text="消臭"/>
+                        <TableColumn fx:id="column_methylene" prefWidth="75"  text="メチレン"/>
+                        <TableColumn fx:id="column_cockroach" prefWidth="75"  text="ゴキブリ"/>
+                    </columns>
+                </TableColumn>
+                <TableColumn fx:id="column_method" prefWidth="125" text="製造方法"/>
             </columns>
         </TableView>
     </AnchorPane>
