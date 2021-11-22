@@ -3,13 +3,15 @@
 }
 .label{
     -fx-text-fill:rgb(180,179,179);
-    -fx-font-size:16px;
+    //-fx-font-size:16px;
+    -fx-font-size:15px;
     -fx-font-family:cursive;
 }
 #method > .label.isSelected{
     -fx-text-fill:rgb(180,179,179);
 }
 #method > .label{
+    -fx-font-size:16px;
     -fx-text-fill:rgb(113,112,113);
 }
 #method > #title{
@@ -24,23 +26,23 @@
 }
 #date{
     -fx-padding:5 0 5 0;
-    -fx-spacing:38;
+    -fx-spacing:25;
 }
 #no{
     -fx-padding:5 0 5 0;
-    -fx-spacing:38;
+    -fx-spacing:25;
 }
 #stock{
     -fx-padding:5 0 5 0;
-    -fx-spacing:38;
+    -fx-spacing:25;
 }
 #quality{
     -fx-padding:5 0 5 0;
-    -fx-spacing:38;
+    -fx-spacing:20;
 }
 #shipment{
     -fx-padding:5 0 5 0;
-    -fx-spacing:38;
+    -fx-spacing:25;
 }
 #data{
     -fx-background-color: rgb(69,72,73);
