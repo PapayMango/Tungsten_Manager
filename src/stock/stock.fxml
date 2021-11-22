@@ -14,11 +14,14 @@
     <AnchorPane fx:id="filter" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30">
         <VBox>
             <HBox fx:id="method"><Label fx:id="title">製造方法 :</Label><Label onMouseClicked="#changeMethod">3F花瓶</Label><Label onMouseClicked="#changeMethod">2F電気分解</Label><Label onMouseClicked="#changeMethod">1Fポット</Label></HBox>
-            <HBox fx:id="date"><Label>最終更新日 :</Label><DatePicker maxWidth="150" onAction="#changeDate"/><Label>～</Label><DatePicker maxWidth="150" onAction="#changeDate"/></HBox>
+            <HBox fx:id="date"><Label>最終更新日 :</Label><DatePicker fx:id="fromDate" maxWidth="150" onAction="#changeDate"/><Label>～</Label><DatePicker fx:id="toDate" maxWidth="150" onAction="#changeDate"/></HBox>
             <HBox fx:id="no"><Label>Lot No. :</Label><TextField maxWidth="130" prefWidth="130" onKeyTyped="#changeLot"/></HBox>
-            <HBox fx:id="stock"><Label>在庫量 :</Label><HBox><TextField maxWidth="65"/><Label text="   Kg"/></HBox><Label>～</Label><HBox><TextField maxWidth="70"/><Label text="   Kg"/></HBox></HBox>
-            <HBox fx:id="quality"><Label>品質評価 :</Label><ComboBox prefWidth="70"></ComboBox></HBox>
-            <HBox fx:id="shipment"><Label>総出荷量 :</Label><HBox><TextField maxWidth="65"/><Label text="   Kg"/></HBox><Label>～</Label><HBox><TextField maxWidth="70"/><Label text="   Kg"/></HBox></HBox>
+            <HBox fx:id="stock"><Label>在庫量 :</Label><HBox><TextField fx:id="fromStock" maxWidth="65" onKeyTyped="#changeStock"/><Label text="   Kg"/></HBox><Label>～</Label><HBox><TextField fx:id="toStock" maxWidth="70" onKeyTyped="#changeStock"/><Label text="   Kg"/></HBox></HBox>
+            <HBox fx:id="quality"><Label>品質評価 :</Label><Label text="消臭"/><ComboBox fx:id="deodorize" prefWidth="70" onAction="#changeQuality"></ComboBox><Label text="メチレン"/><ComboBox fx:id="methylene"  prefWidth="70" onAction="#changeQuality"></ComboBox><Label text="ゴキブリ"/><ComboBox fx:id="cockroach" prefWidth="70" onAction="#changeQuality"></ComboBox></HBox>
+            <HBox fx:id="shipment">
+                <Label>総出荷量 :</Label><HBox><TextField fx:id="fromShipment" maxWidth="65" onKeyTyped="#changeShipment"/><Label text="   Kg"/></HBox><Label>～</Label><HBox><TextField fx:id="toShipment" maxWidth="70" onKeyTyped="#changeShipment"/><Label text="   Kg"/></HBox>
+                <Label>PH :</Label><HBox><TextField fx:id="fromPh" maxWidth="65" onKeyTyped="#changePh"/></HBox><Label>～</Label><HBox><TextField fx:id="toPh" maxWidth="70" onKeyTyped="#changePh"/></HBox>
+            </HBox>
         </VBox>
     </AnchorPane>
     <AnchorPane fx:id="data" prefWidth="940" prefHeight="525" AnchorPane.topAnchor="250" AnchorPane.leftAnchor="30">

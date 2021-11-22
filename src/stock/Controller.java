@@ -1,11 +1,14 @@
 package stock;
 
+import com.sun.javafx.scene.control.DatePickerContent;
 import com.sun.javafx.scene.control.LabeledText;
 import database.ConnectionDB;
 import database.DataObject;
 import database.DataType;
 import database.Tungsten;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,10 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Controller implements Initializable{
 
@@ -60,13 +61,98 @@ public class Controller implements Initializable{
     @FXML
     private TableColumn<Tungsten,Float> column_ph;
 
+    @FXML
+    private DatePicker fromDate;
+
+    @FXML
+    private DatePicker toDate;
+
+    @FXML
+    private TextField fromStock;
+
+    @FXML
+    private TextField toStock;
+
+    @FXML
+    private TextField fromShipment;
+
+    @FXML
+    private TextField toShipment;
+
+    @FXML
+    private ComboBox<String> deodorize;
+
+    @FXML
+    private ComboBox<String> methylene;
+
+    @FXML
+    private ComboBox<String> cockroach;
+
+    @FXML
+    private TextField fromPh;
+
+    @FXML
+    private TextField toPh;
+
+
     private ArrayList<Label> selectedMethods = new ArrayList<Label>();
+
+    private ArrayList<ComboBox<String>>qualities = new ArrayList<>();
 
     private HashMap<String,String> constraints = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("init");
+
+        fromStock.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+//                System.out.println(observableValue + " : " + s + " : " + t1);
+                if(!t1.matches("\\d*")){
+                    fromStock.setText(t1.replaceAll("[^\\d]",""));
+                }
+            }
+        });
+
+        toStock.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if(!t1.matches("\\d*")){
+                    toStock.setText(t1.replaceAll("[^\\d]",""));
+                }
+            }
+        });
+        
+        fromShipment.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+//                System.out.println(observableValue + " : " + s + " : " + t1);
+                if(!t1.matches("\\d*")){
+                    fromShipment.setText(t1.replaceAll("[^\\d]",""));
+                }
+            }
+        });
+
+        toShipment.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if(!t1.matches("\\d*")){
+                    toShipment.setText(t1.replaceAll("[^\\d]",""));
+                }
+            }
+        });
+
+        String[] qualitiy_str = {"-","A","B","C","D"};
+
+        qualities.add(deodorize);
+        qualities.add(methylene);
+        qualities.add(cockroach);
+
+        for (ComboBox<String> comboBox:qualities){
+            comboBox.getItems().addAll(qualitiy_str);
+            comboBox.getSelectionModel().selectFirst();
+        }
 
         ArrayList<? extends DataObject>arrayList = new ArrayList<>();
 
@@ -175,6 +261,179 @@ public class Controller implements Initializable{
 
     @FXML
     private void changeDate(ActionEvent actionEvent){
-        System.out.println(actionEvent);
+        String constraint = "update_date ";
+
+        if (fromDate.getValue() != null){
+            if(toDate.getValue() != null){
+                constraint += " between '" + fromDate.getValue() + "' and '" + toDate.getValue() + "'";
+            }else {
+                constraint += " >= '" + fromDate.getValue() + "'";
+            }
+        }else if(toDate.getValue() != null){
+            constraint += " <= '" + toDate.getValue() + "'";
+        }else {
+            constraints.remove("Date");
+            refreshTable(constraints);
+            return;
+        }
+
+        if(constraints.containsKey("Date")){
+            constraints.replace("Date",constraint);
+        }else {
+            constraints.put("Date",constraint);
+        }
+
+        System.out.println(constraint);
+
+        refreshTable(constraints);
+
+    }
+
+    @FXML
+    private void changeStock(KeyEvent keyEvent){
+        String constraint = "quantity ";
+
+        if (fromStock.getText() != ""){
+            if(toStock.getText() != ""){
+                constraint += " between " + fromStock.getText() + " and " + toStock.getText();
+            }else {
+                constraint += " >= " + fromStock.getText();
+            }
+        }else if(toStock.getText() != ""){
+            constraint += " <= " + toStock.getText();
+        }else {
+            constraints.remove("stock");
+            refreshTable(constraints);
+            return;
+        }
+
+        if(constraints.containsKey("stock")){
+            constraints.replace("stock",constraint);
+        }else {
+            constraints.put("stock",constraint);
+        }
+
+        System.out.println(constraint);
+
+        refreshTable(constraints);
+        
+    }
+
+    @FXML
+    private void changeShipment(KeyEvent keyEvent){
+        String constraint = "total_shipment ";
+
+        if (fromShipment.getText() != ""){
+            if(toShipment.getText() != ""){
+                constraint += " between " + fromShipment.getText() + " and " + toShipment.getText();
+            }else {
+                constraint += " >= " + fromShipment.getText();
+            }
+        }else if(toShipment.getText() != ""){
+            constraint += " <= " + toShipment.getText();
+        }else {
+            constraints.remove("shipment");
+            refreshTable(constraints);
+            return;
+        }
+
+        if(constraints.containsKey("shipment")){
+            constraints.replace("shipment",constraint);
+        }else {
+            constraints.put("shipment",constraint);
+        }
+
+        System.out.println(constraint);
+
+        refreshTable(constraints);
+
+    }
+    
+    @FXML
+    private void changePh(KeyEvent keyEvent){
+        String constraint = "ph ";
+
+        if (fromPh.getText() != ""){
+            if(toPh.getText() != ""){
+                constraint += " between " + fromPh.getText() + " and " + toPh.getText();
+            }else {
+                constraint += " >= " + fromPh.getText();
+            }
+        }else if(toPh.getText() != ""){
+            constraint += " <= " + toPh.getText();
+        }else {
+            constraints.remove("ph");
+            refreshTable(constraints);
+            return;
+        }
+
+        if(constraints.containsKey("ph")){
+            constraints.replace("ph",constraint);
+        }else {
+            constraints.put("ph",constraint);
+        }
+
+        System.out.println(constraint);
+
+        refreshTable(constraints);
+
+    }
+
+    @FXML
+    private void changeQuality(ActionEvent actionEvent){
+
+        String constraint = "";
+        String qualityType = "";
+        for (ComboBox<String> comboBox:qualities) {
+            qualityType = comboBox.getId();
+            System.out.println(qualityType);
+            if (comboBox.getValue() != "-") {
+                constraint = qualityType + " = '" + comboBox.getValue() + "'";
+                if (constraints.containsKey(qualityType)){
+                    constraints.replace(qualityType, constraint);
+                } else {
+                    constraints.put(qualityType, constraint);
+                }
+            } else {
+            if(constraints.containsKey(qualityType))
+                constraints.remove(qualityType);
+            }
+        }
+
+        refreshTable(constraints);
+//        if(deodorize.getValue() != "-"){
+//            constraint = "deodorize = '" + deodorize.getValue() + "'";
+//            if(constraints.containsKey("deodorize")){
+//                constraints.replace("deodorize",constraint);
+//            }else {
+//                constraints.put("deodorize",constraint);
+//            }
+//        }else {
+//            if(constraints.containsKey("deodorize"))
+//                constraints.remove("deodorize");
+//        }
+//        if(methylene.getValue() != "-"){
+//            constraint = "methylene = '" + methylene.getValue() + "'";
+//            if(constraints.containsKey("methylene")){
+//                constraints.replace("methylene",constraint);
+//            }else {
+//                constraints.put("methylene",constraint);
+//            }
+//        }else {
+//            if(constraints.containsKey("methylene"))
+//                constraints.remove("methylene");
+//        }
+//        if(cockroach.getValue() != "-"){
+//            constraint = "cockroach = '" + cockroach.getValue() + "'";
+//            if(constraints.containsKey("cockroach")){
+//                constraints.replace("cockroach",constraint);
+//            }else {
+//                constraints.put("cockroach",constraint);
+//            }
+//        }else {
+//            if(constraints.containsKey("cockroach"))
+//                constraints.remove("cockroach");
+//        }
+
     }
 }

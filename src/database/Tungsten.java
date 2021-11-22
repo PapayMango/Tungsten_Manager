@@ -13,16 +13,17 @@ public class Tungsten implements DataObject{
     private String deodorize;
     private String methylene;
     private String cockroach;
-
     private String method;
-
     private int shipment;
     private float ph;
+
+    @Deprecated
     private boolean isInitiated = false;
 
+    @Deprecated
     private ArrayList<Shipment> shipments = new ArrayList<Shipment>();
 
-    public Tungsten(String lot, Timestamp update_date, Timestamp product_date, int quantity, String deodorize, String method,float ph,String methylene,String cockroach) {
+    public Tungsten(String lot, Timestamp update_date, Timestamp product_date, int quantity, String deodorize, String method,float ph,String methylene,String cockroach,int shipment) {
         this.lot = lot;
         this.update_date = update_date;
         this.product_date = product_date;
@@ -32,21 +33,17 @@ public class Tungsten implements DataObject{
         this.ph = ph;
         this.methylene = methylene;
         this.cockroach = cockroach;
+        this.shipment = shipment;
     }
 
     private Tungsten() {}
+
+    public void setShipment(int shipment) {
+        this.shipment = shipment;
+    }
+
     public int getShipment() {
-//        setShipments();
-//        System.out.println("getShipment : " + isInitiated);
-//        System.out.println("lot no : " + this.getLot());
-        if(!isInitiated){
-            setShipments();
-//            System.out.println("setShipment : " + shipment);
-            return shipment;
-        }else {
-//            System.out.println("getShipment : "+ shipment);
-            return shipment;
-        }
+        return shipment;
     }
 
     public String getMethylene() {
@@ -126,6 +123,7 @@ public class Tungsten implements DataObject{
         return DataType.Tungsten;
     }
 
+    @Deprecated
     public ArrayList<Shipment> getShipments(){
 
         setShipments();
@@ -133,6 +131,7 @@ public class Tungsten implements DataObject{
         return new ArrayList<Shipment>(shipments);
     }
 
+    @Deprecated
     public boolean setShipments(){
 
         try {
@@ -165,6 +164,7 @@ public class Tungsten implements DataObject{
                 tungsten.setPh(resultSet.getFloat("ph"));
                 tungsten.setMethylene(resultSet.getString("methylene"));
                 tungsten.setCockroach(resultSet.getString("cockroach"));
+                tungsten.setShipment(resultSet.getInt("total_shipment"));
                 arrayList.add(tungsten);
             }
         }catch (Exception e){

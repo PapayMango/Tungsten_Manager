@@ -74,7 +74,7 @@ public class Main extends Application {
 
         Random rand = new Random();
 
-        return rand.nextInt(50);
+        return rand.nextInt(49) + 1;
     }
 
     private static String quality(){
@@ -125,8 +125,8 @@ public class Main extends Application {
 //            }
 //            Random random = new Random();
 //
-//            for (int i = 1; i <= 1980;i++){
-//                String sql = "insert into shipment(lot,shipping_date,company,amount,price) values('" + lot("MWx", random.nextInt(2001)) +"',now()," + company() +  "," +  amount() + "," + price()  +")";
+//            for (int i = 1; i <= 500;i++){
+//                String sql = "insert into shipment(lot,shipping_date,company,amount,price) values('" + lot("MWx", random.nextInt(2000)+1) +"',now()," + company() +  "," +  amount() + "," + price()  +")";
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println("a");
