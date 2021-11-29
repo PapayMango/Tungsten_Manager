@@ -6,6 +6,7 @@ import database.ConnectionDB;
 import database.DataObject;
 import database.DataType;
 import database.Tungsten;
+import home.SceneTransition;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +20,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+import org.w3c.dom.ls.LSOutput;
 
 import java.net.URL;
 import java.util.*;
@@ -93,6 +97,8 @@ public class Controller implements Initializable{
 
     @FXML
     private TextField toPh;
+
+    private Stage evaluation;
 
 
     private ArrayList<Label> selectedMethods = new ArrayList<Label>();
@@ -178,6 +184,31 @@ public class Controller implements Initializable{
         result_tb.getColumns().clear();
         result_tb.setItems(observableList);
         result_tb.getColumns().addAll(column_lot,column_stock,column_shipment,column_date,column_ph,column_quality,column_method);
+        result_tb.setRowFactory((t) ->{
+            TableRow tableRow = new TableRow();
+            tableRow.addEventFilter(MouseEvent.MOUSE_CLICKED,(event)->{
+                if(event.getClickCount() >= 2){
+                    TableRow selected = (TableRow)event.getSource();
+                    if(result_tb.getSelectionModel().getSelectedIndex() == selected.getIndex()){
+                        System.out.println(((Tungsten)result_tb.getSelectionModel().getSelectedItem()));
+//                        result_tb.getScene().getWindow().hide();
+//                        evaluation = SceneTransition.sceneTransition.transition("../evaluation/evaluation.fxml","評価試験");
+                        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
+
+//                        evaluation.show();
+                    }
+                    System.out.println("tablerow : " + event);
+                    System.out.println("button : " + event.getButton());
+                    System.out.println("count : " + event.getClickCount());
+                    System.out.println("target : " + event.getTarget());
+                    System.out.println("source : " + event.getSource());
+                    System.out.println(((TableRow)event.getSource()).getIndex());
+                    System.out.println("event : " + event.getEventType());
+                }
+            });
+            return tableRow;
+        });
+
     }
 
     public boolean refreshTable(HashMap<String,String> constraintsMap){
@@ -380,23 +411,23 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    private void changeQuality(ActionEvent actionEvent){
+    private void changeQuality(ActionEvent actionEvent) {
 
         String constraint = "";
         String qualityType = "";
-        for (ComboBox<String> comboBox:qualities) {
+        for (ComboBox<String> comboBox : qualities) {
             qualityType = comboBox.getId();
             System.out.println(qualityType);
             if (comboBox.getValue() != "-") {
                 constraint = qualityType + " = '" + comboBox.getValue() + "'";
-                if (constraints.containsKey(qualityType)){
+                if (constraints.containsKey(qualityType)) {
                     constraints.replace(qualityType, constraint);
                 } else {
                     constraints.put(qualityType, constraint);
                 }
             } else {
-            if(constraints.containsKey(qualityType))
-                constraints.remove(qualityType);
+                if (constraints.containsKey(qualityType))
+                    constraints.remove(qualityType);
             }
         }
 
