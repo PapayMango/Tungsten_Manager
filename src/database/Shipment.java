@@ -23,8 +23,8 @@ public class Shipment implements DataObject{
     private Shipment() {}
 
     @Override
-    public DataType getType() {
-        return DataType.Shipment;
+    public DataObjectType getType() {
+        return DataObjectType.Shipment;
     }
 
     public String getLot() {

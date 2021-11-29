@@ -1,13 +1,10 @@
 package stock;
 
-import com.sun.javafx.scene.control.DatePickerContent;
-import com.sun.javafx.scene.control.LabeledText;
 import database.ConnectionDB;
 import database.DataObject;
-import database.DataType;
+import database.DataObjectType;
 import database.Tungsten;
 import home.SceneTransition;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,14 +16,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.w3c.dom.ls.LSOutput;
 
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Controller implements Initializable{
 
@@ -163,7 +156,7 @@ public class Controller implements Initializable{
         ArrayList<? extends DataObject>arrayList = new ArrayList<>();
 
         try {
-            arrayList = ConnectionDB.connectionDB.connectDB().select(DataType.Tungsten, Tungsten.createSelectSQL());
+            arrayList = ConnectionDB.connectionDB.connectDB().select(DataObjectType.Tungsten, Tungsten.createSelectSQL());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,8 +186,9 @@ public class Controller implements Initializable{
                         System.out.println(((Tungsten)result_tb.getSelectionModel().getSelectedItem()));
 //                        result_tb.getScene().getWindow().hide();
 //                        evaluation = SceneTransition.sceneTransition.transition("../evaluation/evaluation.fxml","評価試験");
-                        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
-
+//                        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
+                        Stage stage = SceneTransition.sceneTransition.transition("../evaluation/evaluation.fxml","評価試験",(Tungsten)result_tb.getSelectionModel().getSelectedItem());
+                        stage.show();
 //                        evaluation.show();
                     }
                     System.out.println("tablerow : " + event);
@@ -228,7 +222,7 @@ public class Controller implements Initializable{
         System.out.println(args.length);
         System.out.println(args);
         try {
-            arrayList = ConnectionDB.connectionDB.connectDB().select(DataType.Tungsten, Tungsten.createSelectSQL(args));
+            arrayList = ConnectionDB.connectionDB.connectDB().select(DataObjectType.Tungsten, Tungsten.createSelectSQL(args));
         } catch (Exception e) {
             e.printStackTrace();
         }

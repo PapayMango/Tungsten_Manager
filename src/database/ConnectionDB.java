@@ -2,7 +2,6 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class ConnectionDB {
 
@@ -38,10 +37,10 @@ public class ConnectionDB {
         }
     }
 
-    public boolean insert(DataType dataType,DataObject dataObject){
+    public boolean insert(DataObjectType dataObjectType, DataObject dataObject){
         if (isConnected){
             String sql = "";
-            switch (dataType){
+            switch (dataObjectType){
                 case Tungsten:
                      sql = Tungsten.createInsertSQL((Tungsten) dataObject);
                     break;
@@ -68,12 +67,12 @@ public class ConnectionDB {
         return true;
     }
 
-    public ArrayList<? extends DataObject> select(DataType dataType,String sql){
+    public ArrayList<? extends DataObject> select(DataObjectType dataObjectType, String sql){
 //        System.out.println("select");
         if (isConnected){
             try {
                 resultSet = connection.prepareStatement(sql).executeQuery();
-                switch (dataType){
+                switch (dataObjectType){
                     case Tungsten:
                         return Tungsten.createData(resultSet);
                     case Company:

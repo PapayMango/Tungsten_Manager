@@ -3,6 +3,6 @@ package database;
 
 public interface DataObject {
 
-    public DataType getType();
+    public DataObjectType getType();
 
 }

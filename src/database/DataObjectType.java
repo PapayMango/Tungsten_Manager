@@ -1,6 +1,6 @@
 package database;
 
-public enum DataType {
+public enum DataObjectType {
     Tungsten,
     Company,
     Evaluation,

@@ -10,3 +10,22 @@
     -fx-font-size:25px;
     -fx-font-weight:200;
 }
+.text-field{
+    -fx-background-color:rgb(68,72,73);
+    -fx-border-color:rgb(98,99,99);
+    -fx-text-fill:rgb(180,179,179);
+    -fx-font-family:cursive;
+    -fx-background-insets:0;
+}
+.table-column{
+    //-fx-background-color:rgb(69,72,73);
+}
+.table-view .column-header-background .filler{
+    -fx-background-color:rgb(110,110,110);
+}
+.table-view{
+    -fx-background-color:rgb(69,72,73);
+}
+.table-view .column-header{
+    -fx-background-color:rgb(110,110,110);
+}

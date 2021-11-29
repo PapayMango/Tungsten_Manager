@@ -6,6 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<!--<AnchorPane xmlns="http://javafx.com/javafx"-->
+<!--            xmlns:fx="http://javafx.com/fxml"-->
+<!--            prefHeight="400.0" prefWidth="600.0" fx:id="main" stylesheets="@evaluation.css">-->
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="evaluation.Controller"
@@ -19,11 +22,12 @@
     </AnchorPane>
     <AnchorPane fx:id="filter" AnchorPane.topAnchor="120" AnchorPane.leftAnchor="30">
         <VBox>
-            <HBox><Label text="濃度 : "/></HBox>
-            <HBox><Label text="PH : "/></HBox>
-            <HBox><Label text="消臭 : "/></HBox>
+            <HBox><Label text="濃度 : "/><TextField fx:id="from_Concentration" maxWidth="65" /><Label>～</Label><TextField fx:id="to_Concentration" maxWidth="70"/></HBox>
+            <HBox><Label text="PH : "/><TextField fx:id="from_Ph" maxWidth="65" /><Label>～</Label><TextField fx:id="to_Ph" maxWidth="70"/></HBox>
+            <HBox><Label text="消臭 : "/><TextField fx:id="fromPh" maxWidth="65" /><Label>～</Label><TextField fx:id="toPh" maxWidth="70"/></HBox>
         </VBox>
     </AnchorPane>
+    <Label text="出荷データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" onMouseClicked="#changePage"/>
     <TableView fx:id="result_tb" prefWidth="940" prefHeight="525" AnchorPane.topAnchor="250" AnchorPane.leftAnchor="30">
         <columns>
             <TableColumn fx:id="column_concentration" prefWidth="170" text="濃度"/>

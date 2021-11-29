@@ -119,8 +119,8 @@ public class Tungsten implements DataObject{
     }
 
     @Override
-    public DataType getType() {
-        return DataType.Tungsten;
+    public DataObjectType getType() {
+        return DataObjectType.Tungsten;
     }
 
     @Deprecated
@@ -136,7 +136,7 @@ public class Tungsten implements DataObject{
 
         try {
             String sql = "select * from shipment where lot = '" + getLot() + "'";
-            shipments =(ArrayList<Shipment>) ConnectionDB.connectionDB.connectDB().select(DataType.Shipment,sql);
+            shipments =(ArrayList<Shipment>) ConnectionDB.connectionDB.connectDB().select(DataObjectType.Shipment,sql);
             for(Shipment ship: shipments){
                 shipment += ship.getAmount();
             }

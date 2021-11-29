@@ -11,8 +11,8 @@ public class Evaluation implements DataObject{
     private Date update_date;
 
     @Override
-    public DataType getType() {
-        return DataType.Evaluation;
+    public DataObjectType getType() {
+        return DataObjectType.Evaluation;
     }
 
     public String getLot() {

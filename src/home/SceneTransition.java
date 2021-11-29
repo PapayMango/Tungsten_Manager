@@ -1,7 +1,6 @@
 package home;
 
-import database.DataObject;
-import database.Tungsten;
+import database.*;
 import evaluation.Controller;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -37,13 +36,46 @@ public class SceneTransition {
         return stage;
     }
 
-    public Scene changeScene(String fxmlName, Scene scene, DataObject dataObject){
+    public Stage transition(String fxmlName, String title,DataObject dataObject){
+        Stage stage = new Stage();
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlName));
             Parent root = loader.load();
+            Object controller = loader.getController();
+            if(controller instanceof hasDataObject){
+                ((hasDataObject)controller).setDataObject(dataObject);
+            }
+            Scene scene = new Scene(root,1000,800);
+
+            stage.getIcons().add(new Image("file:./src/home/images/logo2.png"));
+            stage.setScene(scene);
+            stage.setTitle(title);
+
+        }catch (Exception e){
+            e.printStackTrace();
+//          create process to show error messages on stage
+        }
+        return stage;
+    }
+
+    public Scene changeScene(String fxmlName, Scene scene, DataObject dataObject){
+        System.out.println("changeScene");
+        System.out.println((Tungsten) dataObject);
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlName));
+            System.out.println(loader);
+            loader.setController(new Controller());
             Controller controller = loader.getController();
-            if(controller instanceof Controller)
-                controller.setTungsten((Tungsten) dataObject);
+            System.out.println(controller);
+            if(controller instanceof Controller){
+                controller.setDataObject(dataObject);
+                System.out.println("b");
+            }
+
+            Parent root = loader.load();
+            System.out.println(controller);
+            System.out.println("a");
+
             scene.setRoot(root);
         }catch (Exception e){
             e.printStackTrace();

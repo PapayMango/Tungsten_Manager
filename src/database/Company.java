@@ -40,7 +40,7 @@ public class Company implements DataObject{
     }
 
     @Override
-    public DataType getType() {
-        return DataType.Company;
+    public DataObjectType getType() {
+        return DataObjectType.Company;
     }
 }
