@@ -1,0 +1,132 @@
+warning: LF will be replaced by CRLF in out/production/Tungsten_Manager/stock/stock.fxml.
+The file will have its original line endings in your working directory
+[1mdiff --git a/out/production/Tungsten_Manager/database/Company.class b/out/production/Tungsten_Manager/database/Company.class[m
+[1mindex 2f1efad..603a02d 100644[m
+Binary files a/out/production/Tungsten_Manager/database/Company.class and b/out/production/Tungsten_Manager/database/Company.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/database/ConnectionDB$1.class b/out/production/Tungsten_Manager/database/ConnectionDB$1.class[m
+[1mindex ec33388..8399a46 100644[m
+Binary files a/out/production/Tungsten_Manager/database/ConnectionDB$1.class and b/out/production/Tungsten_Manager/database/ConnectionDB$1.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/database/ConnectionDB.class b/out/production/Tungsten_Manager/database/ConnectionDB.class[m
+[1mindex f16393e..97803cd 100644[m
+Binary files a/out/production/Tungsten_Manager/database/ConnectionDB.class and b/out/production/Tungsten_Manager/database/ConnectionDB.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/database/DataObject.class b/out/production/Tungsten_Manager/database/DataObject.class[m
+[1mindex e682ae9..2c431d0 100644[m
+Binary files a/out/production/Tungsten_Manager/database/DataObject.class and b/out/production/Tungsten_Manager/database/DataObject.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/database/DataType.class b/out/production/Tungsten_Manager/database/DataType.class[m
+[1mdeleted file mode 100644[m
+[1mindex 80a5988..0000000[m
+Binary files a/out/production/Tungsten_Manager/database/DataType.class and /dev/null differ
+[1mdiff --git a/out/production/Tungsten_Manager/database/Evaluation.class b/out/production/Tungsten_Manager/database/Evaluation.class[m
+[1mindex f8a222c..99246ed 100644[m
+Binary files a/out/production/Tungsten_Manager/database/Evaluation.class and b/out/production/Tungsten_Manager/database/Evaluation.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/database/Shipment.class b/out/production/Tungsten_Manager/database/Shipment.class[m
+[1mindex 698c804..c4f5b95 100644[m
+Binary files a/out/production/Tungsten_Manager/database/Shipment.class and b/out/production/Tungsten_Manager/database/Shipment.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/database/Tungsten.class b/out/production/Tungsten_Manager/database/Tungsten.class[m
+[1mindex 01a6b2a..bcbbe7d 100644[m
+Binary files a/out/production/Tungsten_Manager/database/Tungsten.class and b/out/production/Tungsten_Manager/database/Tungsten.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/evaluation/Controller.class b/out/production/Tungsten_Manager/evaluation/Controller.class[m
+[1mindex d8f5aaf..6302567 100644[m
+Binary files a/out/production/Tungsten_Manager/evaluation/Controller.class and b/out/production/Tungsten_Manager/evaluation/Controller.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/home/Controller.class b/out/production/Tungsten_Manager/home/Controller.class[m
+[1mindex dbd1ce1..66d17a6 100644[m
+Binary files a/out/production/Tungsten_Manager/home/Controller.class and b/out/production/Tungsten_Manager/home/Controller.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/home/SceneTransition.class b/out/production/Tungsten_Manager/home/SceneTransition.class[m
+[1mindex eed6f8e..da635c7 100644[m
+Binary files a/out/production/Tungsten_Manager/home/SceneTransition.class and b/out/production/Tungsten_Manager/home/SceneTransition.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/stock/Controller$1.class b/out/production/Tungsten_Manager/stock/Controller$1.class[m
+[1mindex fd91453..300551e 100644[m
+Binary files a/out/production/Tungsten_Manager/stock/Controller$1.class and b/out/production/Tungsten_Manager/stock/Controller$1.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/stock/Controller$2.class b/out/production/Tungsten_Manager/stock/Controller$2.class[m
+[1mindex ad243cb..cd95096 100644[m
+Binary files a/out/production/Tungsten_Manager/stock/Controller$2.class and b/out/production/Tungsten_Manager/stock/Controller$2.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/stock/Controller$3.class b/out/production/Tungsten_Manager/stock/Controller$3.class[m
+[1mindex bdeff19..d623fb1 100644[m
+Binary files a/out/production/Tungsten_Manager/stock/Controller$3.class and b/out/production/Tungsten_Manager/stock/Controller$3.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/stock/Controller$4.class b/out/production/Tungsten_Manager/stock/Controller$4.class[m
+[1mindex 15068e2..3daa555 100644[m
+Binary files a/out/production/Tungsten_Manager/stock/Controller$4.class and b/out/production/Tungsten_Manager/stock/Controller$4.class differ
+[1mdiff --git a/out/production/Tungsten_Manager/stock/Controller.class b/out/production/Tungsten_Manager/stock/Controller.class[m
+[1mindex 7106534..ad4ada5 100644[m
+Binary files a/out/production/Tungsten_Manager/stock/Controller.class and b/out/production/Tungsten_Manager/stock/Controller.class differ
+[1mdiff --git a/src/evaluation/Controller.java b/src/evaluation/Controller.java[m
+[1mindex b054308..2e295ab 100644[m
+[1m--- a/src/evaluation/Controller.java[m
+[1m+++ b/src/evaluation/Controller.java[m
+[36m@@ -10,12 +10,13 @@[m [mimport javafx.scene.control.Label;[m
+ import javafx.scene.input.MouseEvent;[m
+ import javafx.scene.layout.AnchorPane;[m
+ import javafx.stage.Stage;[m
+[32m+[m[32mimport javafx.stage.Window;[m
+ [m
+ import java.awt.*;[m
+ import java.net.URL;[m
+ import java.util.ResourceBundle;[m
+ [m
+[31m-public class Controller implements hasDataObject {[m
+[32m+[m[32mpublic class Controller implements hasDataObject{[m
+ [m
+     @FXML[m
+     private AnchorPane main;[m
+[36m@@ -43,11 +44,12 @@[m [mpublic class Controller implements hasDataObject {[m
+ [m
+     private Tungsten tungsten;[m
+ [m
+[31m-    private Stage parent;[m
+[32m+[m[32m//    private Stage currentWindow;[m
+ [m
+     @FXML[m
+     private void changePage(){[m
+[31m-        SceneTransition.sceneTransition.changeScene("../stock/stock.fxml",main.getScene());[m
+[32m+[m[32m//        currentWindow.hide();[m
+[32m+[m[32m//        ((Stage)SceneTransition.sceneTransition.getPrevious()).show();[m
+     }[m
+ [m
+     @Override[m
+[36m@@ -73,4 +75,5 @@[m [mpublic class Controller implements hasDataObject {[m
+         ph.setText("" + tungsten.getPh());[m
+         shipment.setText("" + tungsten.getShipment());[m
+     }[m
+[32m+[m
+ }[m
+[1mdiff --git a/src/home/Controller.java b/src/home/Controller.java[m
+[1mindex 790c779..101f1ff 100644[m
+[1m--- a/src/home/Controller.java[m
+[1m+++ b/src/home/Controller.java[m
+[36m@@ -2,17 +2,21 @@[m [mpackage home;[m
+ [m
+ import javafx.event.ActionEvent;[m
+ import javafx.fxml.FXML;[m
+[32m+[m[32mimport javafx.fxml.Initializable;[m
+ import javafx.scene.control.Button;[m
+ import javafx.scene.control.Label;[m
+ import javafx.scene.input.MouseEvent;[m
+ import javafx.scene.layout.AnchorPane;[m
+ import javafx.stage.Stage;[m
+[32m+[m[32mimport javafx.stage.Window;[m
+ [m
+[32m+[m[32mimport java.net.URL;[m
+ import java.util.Objects;[m
+[32m+[m[32mimport java.util.ResourceBundle;[m
+ [m
+ import static home.SceneTransition.sceneTransition;[m
+ [m
+[31m-public class Controller {[m
+[32m+[m[32mpublic class Controller implements Initializable {[m
+ [m
+     private Stage stock_stage;[m
+ [m
+[36m@@ -22,11 +26,15 @@[m [mpublic class Controller {[m
+     @FXML[m
+     private AnchorPane product;[m
+ [m
+[32m+[m[32m//    private Stage currentWindow;[m
+[32m+[m
+     @FXML[m
+     protected void OnClickedStock(MouseEvent event){[m
+         System.out.println(event);[m
+         stock.getScene().getWindow().hide();[m
+         if(stock_stage == null){[m
+[32m+[m[32m//            if(currentWindow == null)[m
+[32m+[m[32m//                currentWindow = (Stage) stock.getScene().getWindow();[m
+             stock_stage = sceneTransition.transition("../stock/stock.fxm

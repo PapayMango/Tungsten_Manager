@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.util.Objects;
 
 import static home.SceneTransition.sceneTransition;
 
@@ -27,7 +26,7 @@ public class Controller {
         System.out.println(event);
         stock.getScene().getWindow().hide();
         if(stock_stage == null){
-            stock_stage = sceneTransition.transition("../stock/stock.fxml","在庫管理");
+            stock_stage = sceneTransition.transition("../stock/stock.fxml","在庫管理",(Stage) stock.getScene().getWindow());
         }
         stock_stage.show();
     }

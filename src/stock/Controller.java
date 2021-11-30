@@ -12,11 +12,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.net.URL;
 import java.util.*;
@@ -91,7 +93,7 @@ public class Controller implements Initializable{
     @FXML
     private TextField toPh;
 
-    private Stage evaluation;
+//    private Stage evaluation;
 
 
     private ArrayList<Label> selectedMethods = new ArrayList<Label>();
@@ -100,9 +102,12 @@ public class Controller implements Initializable{
 
     private HashMap<String,String> constraints = new HashMap<>();
 
+    private Stage currentWindow;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("init");
+
 
         fromStock.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -183,13 +188,16 @@ public class Controller implements Initializable{
                 if(event.getClickCount() >= 2){
                     TableRow selected = (TableRow)event.getSource();
                     if(result_tb.getSelectionModel().getSelectedIndex() == selected.getIndex()){
-                        System.out.println(((Tungsten)result_tb.getSelectionModel().getSelectedItem()));
-//                        result_tb.getScene().getWindow().hide();
-//                        evaluation = SceneTransition.sceneTransition.transition("../evaluation/evaluation.fxml","評価試験");
+                        Stage current = (Stage)result_tb.getScene().getWindow();
+                        if(current != currentWindow){
+                            currentWindow = current;
+                            System.out.println("a");
+                        }
+                        result_tb.getScene().getWindow().hide();
 //                        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
-                        Stage stage = SceneTransition.sceneTransition.transition("../evaluation/evaluation.fxml","評価試験",(Tungsten)result_tb.getSelectionModel().getSelectedItem());
+
+                        Stage stage = SceneTransition.sceneTransition.transition("../evaluation/evaluation.fxml","評価試験",(Tungsten)result_tb.getSelectionModel().getSelectedItem(),(Stage) result_tb.getScene().getWindow());
                         stage.show();
-//                        evaluation.show();
                     }
                     System.out.println("tablerow : " + event);
                     System.out.println("button : " + event.getButton());
@@ -461,4 +469,10 @@ public class Controller implements Initializable{
 //        }
 
     }
+
+//    @FXML
+//    private void changePage(MouseEvent mouseEvent){
+//        System.out.println("changePage : " + mouseEvent);
+//        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
+//    }
 }

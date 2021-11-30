@@ -1,5 +1,6 @@
 package home;
 
+import com.sun.management.GarbageCollectionNotificationInfo;
 import database.DataObject;
 import database.Evaluation;
 import database.Tungsten;
@@ -11,12 +12,44 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import javax.management.Notification;
+import javax.management.NotificationEmitter;
+import javax.management.NotificationListener;
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.CompositeType;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Date;
 import java.util.Random;
 
 public class Main extends Application {
+
+//    static
+//    {
+//        // notification listener. is notified whenever a gc finishes.
+//        NotificationListener notificationListener = new NotificationListener()
+//        {
+//            @Override
+//            public void handleNotification(Notification notification, Object handback)
+//            {
+//                System.out.println("notification");
+//                System.out.println(notification);
+//                System.out.println(notification.getUserData());
+//                System.out.println(notification.getType());
+//                System.out.println(notification.getMessage());
+//            }
+//        };
+//
+//        // register our listener with all gc beans
+//        for (GarbageCollectorMXBean gcBean : ManagementFactory.getGarbageCollectorMXBeans())
+//        {
+//            System.out.println("register : " + gcBean);
+//            NotificationEmitter emitter = (NotificationEmitter) gcBean;
+//            emitter.addNotificationListener(notificationListener,null,null);
+//        }
+//    }
 
     private static String uri = "jdbc:mysql://192.168.1.3:3306/tungsten_db";
     private static String driver = "com.mysql.cj.jdbc.Driver";
