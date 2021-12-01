@@ -1,5 +1,8 @@
 package database;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
 public class Company implements DataObject{
 
     private int id;
@@ -43,4 +46,5 @@ public class Company implements DataObject{
     public DataObjectType getType() {
         return DataObjectType.Company;
     }
+
 }

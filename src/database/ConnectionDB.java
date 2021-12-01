@@ -80,7 +80,7 @@ public class ConnectionDB {
                     case Shipment:
                         return Shipment.createData(resultSet);
                     case Evaluation:
-                        break;
+                        return Evaluation.createData(resultSet);
                     default:
                         break;
                 }

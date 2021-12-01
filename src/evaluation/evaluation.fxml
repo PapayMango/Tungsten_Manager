@@ -25,7 +25,7 @@
         <VBox>
             <HBox><Label text="濃度 : "/><TextField fx:id="from_Concentration" maxWidth="50" /><Label>～</Label><TextField fx:id="to_Concentration" maxWidth="50"/><Label text="添加剤 : "/><TextField fx:id="additive" maxWidth="100" /></HBox>
             <HBox><Label text="PH : "/><TextField fx:id="from_Ph" maxWidth="50" /><Label>～</Label><TextField fx:id="to_Ph" maxWidth="50"/><Label text="バインダー : "/><TextField fx:id="binder" maxWidth="100" /></HBox>
-            <HBox><Label text="消臭 : "/><TextField fx:id="deodorize" maxWidth="65" /><Label text="メチレン : "/><TextField fx:id="methylene" maxWidth="65" /><Label text="ゴキブリ : "/><TextField fx:id="cockroach" maxWidth="65" /></HBox>
+            <HBox><Label text="消臭 : "/><ComboBox fx:id="deodorize" maxWidth="65" /><Label text="メチレン : "/><ComboBox fx:id="methylene" maxWidth="65" /><Label text="ゴキブリ : "/><ComboBox fx:id="cockroach" maxWidth="65" /></HBox>
         </VBox>
     </AnchorPane>
     <Label text="出荷データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" onMouseClicked="#changePage"/>

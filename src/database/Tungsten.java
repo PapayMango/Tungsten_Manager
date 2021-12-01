@@ -16,6 +16,8 @@ public class Tungsten implements DataObject{
     private String method;
     private int shipment;
     private float ph;
+    private float concentration;
+    private String location;
 
     @Deprecated
     private boolean isInitiated = false;
@@ -23,7 +25,7 @@ public class Tungsten implements DataObject{
     @Deprecated
     private ArrayList<Shipment> shipments = new ArrayList<Shipment>();
 
-    public Tungsten(String lot, Timestamp update_date, Timestamp product_date, int quantity, String deodorize, String method,float ph,String methylene,String cockroach,int shipment) {
+    public Tungsten(String lot, Timestamp update_date, Timestamp product_date, int quantity, String deodorize, String method, float ph, String methylene, String cockroach, int shipment, float concentration, String location) {
         this.lot = lot;
         this.update_date = update_date;
         this.product_date = product_date;
@@ -34,6 +36,8 @@ public class Tungsten implements DataObject{
         this.methylene = methylene;
         this.cockroach = cockroach;
         this.shipment = shipment;
+        this.concentration = concentration;
+        this.location = location;
     }
 
     private Tungsten() {}
@@ -118,6 +122,22 @@ public class Tungsten implements DataObject{
         this.method = method;
     }
 
+    public float getConcentration() {
+        return concentration;
+    }
+
+    public void setConcentration(float concentration) {
+        this.concentration = concentration;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     @Override
     public DataObjectType getType() {
         return DataObjectType.Tungsten;
@@ -151,7 +171,7 @@ public class Tungsten implements DataObject{
     public static ArrayList<? extends DataObject> createData(ResultSet resultSet){
         ArrayList<Tungsten> arrayList = new ArrayList<Tungsten>();
         Tungsten tungsten;
-//        System.out.println("createdata");
+//        System.out.println("create_data");
         try{
             while (resultSet.next()){
                 tungsten  = new Tungsten();
@@ -165,6 +185,8 @@ public class Tungsten implements DataObject{
                 tungsten.setMethylene(resultSet.getString("methylene"));
                 tungsten.setCockroach(resultSet.getString("cockroach"));
                 tungsten.setShipment(resultSet.getInt("total_shipment"));
+                tungsten.setConcentration(resultSet.getFloat("initial_concentration"));
+                tungsten.setLocation(resultSet.getString("location"));
                 arrayList.add(tungsten);
             }
         }catch (Exception e){
