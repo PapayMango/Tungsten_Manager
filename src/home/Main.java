@@ -160,16 +160,13 @@ public class Main extends Application {
 //                System.out.println(preparedStatement.executeUpdate());
 //            }
             Random random = new Random();
-//
-//            for (int i = 1; i <= 500;i++){
-//                String sql = "insert into shipment(lot,shipping_date,company,amount,price) values('" + lot("MWx", random.nextInt(2000)+1) +"',now()," + company() +  "," +  amount() + "," + price()  +")";
+
+//            for (int i = 1; i <= 5000;i++)    {
+//                String sql = "update evaluation set ph = " + 14*random.nextFloat()  + " where id = " + i;
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println("a");
 //                System.out.println(preparedStatement.executeUpdate());
-//                while (resultSet.next()){
-//                    System.out.println(resultSet);
-//                }
 //            }
 //            for (int i = 1; i <= 50;i++){
 //                String sql = "insert into binder(name,update_date) values('" + lot("Binder", i) +"',now())";
@@ -208,16 +205,22 @@ public class Main extends Application {
 //                    System.out.println(resultSet);
 //                }
 //            }
-//            for (int i = 0; i < 1000;i++){
-//                String sql = "insert into binder_mixing(evaluation_id,binder_id) values(" + list.get(i) + "," + (random.nextInt(50)+1) + ")";
-//                System.out.println(sql);
-//                preparedStatement = connection.prepareStatement(sql);
-//                System.out.println("a");
-//                System.out.println(preparedStatement.executeUpdate());
-//                while (resultSet.next()){
-//                    System.out.println(resultSet);
+//            String sql = "select s.id,e.id,e.lot from evaluation as e inner join shipment as s on e.lot = s.lot";
+//            System.out.println(sql);
+//            preparedStatement = connection.prepareStatement(sql);
+//            resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()){
+//                System.out.println(resultSet.getInt(1));
+//                System.out.println(resultSet.getInt(2));
+//                System.out.println(resultSet.getString(3));
+//                if(random.nextBoolean()){
+//                    sql = "insert into shipment_evaluation(shipment_id,evaluation_id) values(" + resultSet.getInt(1)+ "," + resultSet.getInt(2) + ")";
+//                    preparedStatement = connection.prepareStatement(sql);
+//                    System.out.println(preparedStatement.executeUpdate());
 //                }
+//
 //            }
+
 //            String[] materials = {"Pd","DPG","Mo","Fe2O3","FeO","Nb","C","Al2O3","Ag","Mn","Co","Ni","Fe","Al","SiO2","K","Na","NaCl"};
 //
 //

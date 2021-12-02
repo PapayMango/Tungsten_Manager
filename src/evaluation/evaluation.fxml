@@ -31,15 +31,15 @@
     <Label text="出荷データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" onMouseClicked="#changePage"/>
     <TableView fx:id="result_tb" prefWidth="940" prefHeight="490" AnchorPane.topAnchor="280" AnchorPane.leftAnchor="30">
         <columns>
-            <TableColumn fx:id="column_concentration" prefWidth="80" text="濃度"/>
-            <TableColumn fx:id="column_ph" prefWidth="80" text="PH"/>
-            <TableColumn fx:id="column_additive" prefWidth="150" text="添加剤"/>
-            <TableColumn fx:id="column_binder" prefWidth="150" text="バインダー"/>
-            <TableColumn fx:id="column_deodorize" prefWidth="80" text="消臭"/>
-            <TableColumn fx:id="column_methylene" prefWidth="80" text="メチレン"/>
-            <TableColumn fx:id="column_cockroach" prefWidth="80" text="ゴキブリ"/>
-            <TableColumn fx:id="column_shipment" prefWidth="80" text="出荷量"/>
-            <TableColumn fx:id="column_date" prefWidth="160" text="最終更新日"/>
+            <TableColumn fx:id="column_concentration" minWidth="80" text="濃度"/>
+            <TableColumn fx:id="column_ph" minWidth="80" text="PH"/>
+            <TableColumn fx:id="column_additive" minWidth="150" text="添加剤"/>
+            <TableColumn fx:id="column_binder" minWidth="150" text="バインダー"/>
+            <TableColumn fx:id="column_deodorize" minWidth="80" text="消臭"/>
+            <TableColumn fx:id="column_methylene" minWidth="80" text="メチレン"/>
+            <TableColumn fx:id="column_cockroach" minWidth="80" text="ゴキブリ"/>
+            <TableColumn fx:id="column_shipment" minWidth="80" text="出荷量"/>
+            <TableColumn fx:id="column_date" minWidth="160" text="最終更新日"/>
         </columns>
     </TableView>
 </AnchorPane>

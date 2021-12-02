@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -95,6 +96,9 @@ public class Controller implements hasDataObject,Initializable{
     @FXML
     private TableColumn column_date;
 
+    @FXML
+    private TableView result_tb;
+
     private ArrayList<ComboBox<String>> qualities = new ArrayList<>();
 
     private Tungsten tungsten;
@@ -136,6 +140,20 @@ public class Controller implements hasDataObject,Initializable{
         shipment.setText(tungsten.getShipment() + "kg");
         concentration.setText(tungsten.getConcentration() + " wt%");
         location_.setText(tungsten.getLocation());
+        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
+
+        try {
+            arrayList = ConnectionDB.connectionDB.connectDB().select(DataObjectType.Evaluation, Evaluation.createSelectSQL("lot = '" + tungsten.getLot() + "'"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(arrayList.size());
+
+        observableList = FXCollections.observableList((ArrayList<Evaluation>)arrayList);
+        result_tb.getColumns().clear();
+        result_tb.setItems(observableList);
+        result_tb.getColumns().addAll(column_concentration,column_ph,column_additive,column_binder,column_deodorize,column_methylene,column_cockroach,column_shipment,column_date);
+
     }
 
     @Override
@@ -160,26 +178,26 @@ public class Controller implements hasDataObject,Initializable{
             comboBox.getSelectionModel().selectFirst();
         }
 
-        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
-
-        try {
-            arrayList = ConnectionDB.connectionDB.connectDB().select(DataObjectType.Evaluation, Evaluation.createSelectSQL());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(arrayList.size());
-
-        observableList = FXCollections.observableList((ArrayList<Evaluation>)arrayList);
+//        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
+//
+//        try {
+//            arrayList = ConnectionDB.connectionDB.connectDB().select(DataObjectType.Evaluation, Evaluation.createSelectSQL());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(arrayList.size());
+//
+//        observableList = FXCollections.observableList((ArrayList<Evaluation>)arrayList);
 
         column_concentration.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("concentration"));
         column_ph.setCellValueFactory(new PropertyValueFactory<Evaluation,Integer>("ph"));
-        column_shipment.setCellValueFactory(new PropertyValueFactory<Evaluation,Integer>("shipment"));
-        column_date.setCellValueFactory(new PropertyValueFactory<Evaluation, Date>("update_date"));
+        column_additive.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("additive"));
+        column_binder.setCellValueFactory(new PropertyValueFactory<Evaluation,Float>("binder"));
         column_deodorize.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("deodorize"));
         column_methylene.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("methylene"));
         column_cockroach.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("cockroach"));
-        column_additive.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("additive"));
-        column_binder.setCellValueFactory(new PropertyValueFactory<Evaluation,Float>("binder"));
+        column_shipment.setCellValueFactory(new PropertyValueFactory<Evaluation,Integer>("shipment"));
+        column_date.setCellValueFactory(new PropertyValueFactory<Evaluation, Date>("update_date"));
 
     }
 }

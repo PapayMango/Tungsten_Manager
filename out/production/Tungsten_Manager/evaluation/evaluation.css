@@ -42,4 +42,11 @@
     -fx-padding:5 0 5 0;
     -fx-spacing:25;
 }
-
+.combo-box-base{
+    -fx-background-color:rgb(68,72,73);
+    -fx-background-radius:0;
+    -fx-border-color:rgb(98,99,99);
+}
+.combo-box .combo-box-popup .list-view{
+    -fx-background-color:rgb(98,99,99);
+}

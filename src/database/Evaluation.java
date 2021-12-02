@@ -121,20 +121,27 @@ public class Evaluation implements DataObject{
     public static ArrayList<? extends DataObject> createData(ResultSet resultSet){
         ArrayList<Evaluation> arrayList = new ArrayList<Evaluation>();
         Evaluation evaluation;
+        Evaluation previous_evaluation = new Evaluation();
         try{
             while (resultSet.next()){
                 evaluation  = new Evaluation();
-                evaluation.setLot(resultSet.getString("lot"));
-                evaluation.setConcentration(resultSet.getFloat("concentration"));
-                evaluation.setPh(resultSet.getFloat("ph"));
-                evaluation.setAdditive(resultSet.getString("additive"));
-                evaluation.setBinder(resultSet.getString("binder"));
-                evaluation.setDeodorize(resultSet.getString("deodorize"));
-                evaluation.setMethylene(resultSet.getString("methylene"));
-                evaluation.setCockroach(resultSet.getString("cockroach"));
-                evaluation.setShipment(resultSet.getInt("shipment"));
-                evaluation.setUpdate_date(resultSet.getTimestamp("update_date"));
-                arrayList.add(evaluation);
+                if(previous_evaluation.getLot() != resultSet.getString("lot")){
+                    evaluation.setLot(resultSet.getString("lot"));
+                    evaluation.setConcentration(resultSet.getFloat("concentration"));
+                    evaluation.setPh(resultSet.getFloat("ph"));
+                    evaluation.setAdditive(resultSet.getString("additive"));
+                    evaluation.setBinder(resultSet.getString("binder"));
+                    evaluation.setDeodorize(resultSet.getString("deodorize"));
+                    evaluation.setMethylene(resultSet.getString("methylene"));
+                    evaluation.setCockroach(resultSet.getString("cockroach"));
+                    evaluation.setShipment(resultSet.getInt("total_shipment"));
+                    evaluation.setUpdate_date(resultSet.getTimestamp("update_date"));
+                    previous_evaluation = evaluation;
+                    arrayList.add(evaluation);
+                }else {
+                    previous_evaluation.setAdditive(previous_evaluation.getAdditive() + " " + resultSet.getString("additive"));
+                    arrayList.set(arrayList.size()-1,previous_evaluation);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -143,7 +150,9 @@ public class Evaluation implements DataObject{
     }
 
     public static String createSelectSQL(String... args){
-        String sql = "select * from evaluation";
+//        String sql = "select * from evaluation";
+        String sql = "select e.deodorize,e.methylene,e.cockroach,e.total_shipment,e.concentration,e.ph,e.update_date, b.name as binder ,e.lot,a.name as additive from evaluation as e left join (select binder_mixing.binder_id,binder_mixing.evaluation_id ,binder.name from binder_mixing inner join binder on binder.id\n" +
+                "= binder_mixing.binder_id) as b on e.id = b.evaluation_id left join (select additive.material_id,additive.evaluation_id,material.name from additive inner join material on additive.material_id = material.id) as a on e.id = a.evaluation_id";
         if(args.length == 0){
             return sql;
         }else {
