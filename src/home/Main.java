@@ -159,7 +159,7 @@ public class Main extends Application {
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println(preparedStatement.executeUpdate());
 //            }
-            Random random = new Random();
+//            Random random = new Random();
 
 //            for (int i = 1; i <= 5000;i++)    {
 //                String sql = "update evaluation set ph = " + 14*random.nextFloat()  + " where id = " + i;
@@ -168,32 +168,33 @@ public class Main extends Application {
 //                System.out.println("a");
 //                System.out.println(preparedStatement.executeUpdate());
 //            }
-//            for (int i = 1; i <= 50;i++){
-//                String sql = "insert into binder(name,update_date) values('" + lot("Binder", i) +"',now())";
+//            for (int i = 51; i <= 1000;i++){
+//                String sql = "insert into binder(name) values('" + lot("Binder", i) +"')";
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println("a");
 //                System.out.println(preparedStatement.executeUpdate());
-//                while (resultSet.next()){
-//                    System.out.println(resultSet);
-//                }
 //            }
-//            for (int i = 1; i <= 1000;i++){
-//                String sql = "insert into additive(material_id,update_date,evaluation_id) values(" + (random.nextInt(18)+1) +",now()," + (random.nextInt(5000)+1) + ")";
+//            for (int i = 1; i <= 10000;i++){
+//                String sql = "insert into additive(material_id,update_date,evaluation_id) values(" + (random.nextInt(83)+1) +",now()," + (random.nextInt(20000)+1) + ")";
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println("a");
 //                System.out.println(preparedStatement.executeUpdate());
-//                while (resultSet.next()){
-//                    System.out.println(resultSet);
-//                }
 //            }
 //            ArrayList<Integer> list = new ArrayList<Integer>();
-//            for (int i=1; i<4061; i++) {
+//            for (int i=1001; i<20001; i++) {
 //                list.add(i);
 //            }
 //            Collections.shuffle(list);
-//
+//            for (int i = 0; i < 4000;i++){
+//                String sql = "insert into binder_mixing(evaluation_id,binder_id) values(" + list.get(i) +"," + (random.nextInt(1000)+1) + ")";
+//                System.out.println(sql);
+//                preparedStatement = connection.prepareStatement(sql);
+//                System.out.println("a");
+//                System.out.println(preparedStatement.executeUpdate());
+//            }
+////
 //            String[] locations = {"1F","2F","3F"};
 //            for (int i = 1; i <= 2000;i++){
 //                String sql = "update tungsten set initial_concentration = " + 30*random.nextFloat() + ", location = '" + locations[random.nextInt(3)] + "' where id = " + i;
@@ -205,7 +206,7 @@ public class Main extends Application {
 //                    System.out.println(resultSet);
 //                }
 //            }
-//            String sql = "select s.id,e.id,e.lot from evaluation as e inner join shipment as s on e.lot = s.lot";
+//            String sql = "select s.id,e.id,e.lot from evaluation as e inner join shipment as s on e.lot = s.lot where s.id > 4059";
 //            System.out.println(sql);
 //            preparedStatement = connection.prepareStatement(sql);
 //            resultSet = preparedStatement.executeQuery();
@@ -218,10 +219,10 @@ public class Main extends Application {
 //                    preparedStatement = connection.prepareStatement(sql);
 //                    System.out.println(preparedStatement.executeUpdate());
 //                }
-//
 //            }
 
 //            String[] materials = {"Pd","DPG","Mo","Fe2O3","FeO","Nb","C","Al2O3","Ag","Mn","Co","Ni","Fe","Al","SiO2","K","Na","NaCl"};
+//            String[] materials = {"H","He","Li","Be","B","N","O","F","Ne","Na","Mg","Sc","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Tc","Ru","Rh","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta"};
 //
 //
 //            for (int i = 0; i < materials.length;i++){
@@ -231,21 +232,15 @@ public class Main extends Application {
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println("a");
 //                System.out.println(preparedStatement.executeUpdate());
-//                while (resultSet.next()){
-//                    System.out.println(resultSet);
-//                }
 //            }
-//            for (int i = 1; i <= 4500;i++){
-//                String sql = "insert into evaluation(lot,deodorize,methylene,cockroach,update_date,concentration) values('" + lot("MWx", random.nextInt(2000)+1) +"','" + quality() +"','" + quality() +  "','" +  quality() + "',now()," + 30*random.nextFloat()  +")";
+//            for (int i = 1; i <= 15000;i++){
+//                String sql = "insert into evaluation(lot,deodorize,methylene,cockroach,update_date,concentration,ph) values('" + lot("MWx", random.nextInt(2000)+1) +"','" + quality() +"','" + quality() +  "','" +  quality() + "',now()," + 30*random.nextFloat()  +"," + 14*random.nextFloat() + ")";
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
 //                System.out.println("a");
 //                System.out.println(preparedStatement.executeUpdate());
-//                while (resultSet.next()){
-//                    System.out.println(resultSet);
-//                }
 //            }
-//            for (int i = 1; i <= 49;i++){
+//            for (int i = 50; i <= 1000;i++){
 //                String sql = "insert into company(name,capital,num_employees) values('" + lot("Company", i) +"'," + price() +  "," +  quantity() + ")";
 //                System.out.println(sql);
 //                preparedStatement = connection.prepareStatement(sql);
@@ -254,6 +249,13 @@ public class Main extends Application {
 //                while (resultSet.next()){
 //                    System.out.println(resultSet);
 //                }
+//            }
+//            for (int i = 1; i <= 5049;i++){
+//                String sql = "insert into shipment(lot,shipping_date,company,amount,price) values('" + lot("MWx", random.nextInt(2000)+1) +"',now()," + (random.nextInt(1000)+1) +  "," +  amount() + "," + price() + ")";
+//                System.out.println(sql);
+//                preparedStatement = connection.prepareStatement(sql);
+//                System.out.println("a");
+//                System.out.println(preparedStatement.executeUpdate());
 //            }
 
         }catch (Exception e){

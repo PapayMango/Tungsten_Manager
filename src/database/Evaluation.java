@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Evaluation implements DataObject{
 
+    private int id;
     private String lot;
     private String methylene;
     private String deodorize;
@@ -18,7 +19,8 @@ public class Evaluation implements DataObject{
     private int shipment;
 
 
-    public Evaluation(String lot, String methylene, String deodorize, String cockroach, Date update_date, float concentration, String additive, String binder, float ph, int shipment) {
+    public Evaluation(int id, String lot, String methylene, String deodorize, String cockroach, Date update_date, float concentration, String additive, String binder, float ph, int shipment) {
+        this.id = id;
         this.lot = lot;
         this.methylene = methylene;
         this.deodorize = deodorize;
@@ -124,8 +126,11 @@ public class Evaluation implements DataObject{
         Evaluation previous_evaluation = new Evaluation();
         try{
             while (resultSet.next()){
+                System.out.println(previous_evaluation.getId());
+                System.out.println(resultSet.getString("Id"));
                 evaluation  = new Evaluation();
-                if(previous_evaluation.getLot() != resultSet.getString("lot")){
+                if(previous_evaluation.getId() != resultSet.getInt("id")){
+                    evaluation.setId(resultSet.getInt("id"));
                     evaluation.setLot(resultSet.getString("lot"));
                     evaluation.setConcentration(resultSet.getFloat("concentration"));
                     evaluation.setPh(resultSet.getFloat("ph"));
@@ -139,8 +144,9 @@ public class Evaluation implements DataObject{
                     previous_evaluation = evaluation;
                     arrayList.add(evaluation);
                 }else {
-                    previous_evaluation.setAdditive(previous_evaluation.getAdditive() + " " + resultSet.getString("additive"));
-                    arrayList.set(arrayList.size()-1,previous_evaluation);
+//                    previous_evaluation.setAdditive(previous_evaluation.getAdditive() + " " + resultSet.getString("additive"));
+//                    arrayList.set(arrayList.size()-1,previous_evaluation);
+                    arrayList.get(arrayList.size()-1).setAdditive(previous_evaluation.getAdditive() + " " + resultSet.getString("additive"));
                 }
             }
         }catch (Exception e){
@@ -151,7 +157,7 @@ public class Evaluation implements DataObject{
 
     public static String createSelectSQL(String... args){
 //        String sql = "select * from evaluation";
-        String sql = "select e.deodorize,e.methylene,e.cockroach,e.total_shipment,e.concentration,e.ph,e.update_date, b.name as binder ,e.lot,a.name as additive from evaluation as e left join (select binder_mixing.binder_id,binder_mixing.evaluation_id ,binder.name from binder_mixing inner join binder on binder.id\n" +
+        String sql = "select e.deodorize,e.methylene,e.cockroach,e.total_shipment,e.concentration,e.ph,e.update_date, b.name as binder ,e.lot,e.id,a.name as additive from evaluation as e left join (select binder_mixing.binder_id,binder_mixing.evaluation_id ,binder.name from binder_mixing inner join binder on binder.id\n" +
                 "= binder_mixing.binder_id) as b on e.id = b.evaluation_id left join (select additive.material_id,additive.evaluation_id,material.name from additive inner join material on additive.material_id = material.id) as a on e.id = a.evaluation_id";
         if(args.length == 0){
             return sql;
@@ -168,5 +174,13 @@ public class Evaluation implements DataObject{
         }
         System.out.println("sql : " + sql);
         return  sql;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
