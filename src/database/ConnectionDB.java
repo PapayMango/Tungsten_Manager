@@ -93,6 +93,22 @@ public class ConnectionDB {
         return new ArrayList<DataObject>();
     }
 
+    public ArrayList<String> selectRaw(String sql){
+        ArrayList<String> arrayList = new ArrayList<>();
+        if(isConnected){
+            try {
+                resultSet = connection.prepareStatement(sql).executeQuery();
+                while (resultSet.next()){
+                    System.out.println(resultSet.getString(1));
+                    arrayList.add(resultSet.getString(1));
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return arrayList;
+    }
+
     public boolean isConnected() {
         return isConnected;
     }

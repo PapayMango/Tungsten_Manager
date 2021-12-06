@@ -3,14 +3,19 @@ package evaluation;
 import com.sun.management.GarbageCollectionNotificationInfo;
 import database.*;
 import home.SceneTransition;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventDispatchChain;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -113,6 +118,11 @@ public class Controller implements hasDataObject,Initializable{
     @FXML
     private TextField toPh;
 
+    @FXML
+    private ListView<String> autoComplete = new ListView<>();
+
+    private HashMap<String,Label> additives = new HashMap<>();
+
     private ArrayList<ComboBox<String>> qualities = new ArrayList<>();
 
     private Tungsten tungsten;
@@ -194,6 +204,9 @@ public class Controller implements hasDataObject,Initializable{
             comboBox.getSelectionModel().selectFirst();
         }
 
+        autoComplete.setVisible(false);
+        autoComplete.setMaxHeight(132);
+//        autoComplete.toFront();
 //        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
 //
 //        try {
@@ -333,5 +346,88 @@ public class Controller implements hasDataObject,Initializable{
         }
 
         refreshTable(constraints);
+    }
+
+    @FXML
+    private void changeAdditive(KeyEvent keyEvent){
+        TextField textField = (TextField) keyEvent.getSource();
+        HBox hBox = (HBox)((TextField)keyEvent.getSource()).getParent();
+        String text = textField.getText();
+        ArrayList<String> arrayList;
+        System.out.println("text : " + keyEvent.getText());
+        System.out.println("code : " + keyEvent.getCode());
+        System.out.println("char : " + keyEvent.getCharacter());
+        System.out.println("key event : " + keyEvent);
+        System.out.println("text : " + text);
+        System.out.println(keyEvent.getCode().isArrowKey());
+        if(text != "" & !keyEvent.getCode().isArrowKey()){
+            try {
+                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
+                ObservableList observableList = FXCollections.observableList(arrayList);
+                autoComplete.getItems().clear();
+                autoComplete.getItems().addAll(observableList);
+                autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+
+                if(observableList.size() == 0){
+                    autoComplete.setVisible(false);
+                }else {
+                    if(!autoComplete.isVisible()){
+                        AnchorPane.setTopAnchor(autoComplete,177.0);
+                        AnchorPane.setLeftAnchor(autoComplete,391.0);
+                        System.out.println("binding size : " + Bindings.size(observableList).get());
+                        System.out.println(Bindings.size(observableList).multiply(10).get());
+                        autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+                        autoComplete.setVisible(true);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else if(keyEvent.getCode().isArrowKey()){
+            KeyEvent event =new KeyEvent(autoComplete,autoComplete,keyEvent.getEventType(),keyEvent.getText(),keyEvent.getCharacter(),keyEvent.getCode(), keyEvent.isAltDown(),keyEvent.isControlDown(),keyEvent.isControlDown(), keyEvent.isShortcutDown());
+            Event.fireEvent(autoComplete,event);
+            System.out.println(event);
+//            Event.fireEvent(autoComplete,keyEvent.copyFor(autoComplete,autoComplete));]
+//            System.out.println(keyEvent.copyFor(autoComplete,autoComplete));
+        }else if(text == ""){
+            autoComplete.setVisible(false);
+        }
+//        System.out.println(keyEvent.getText());
+//        System.out.println(((TextField)keyEvent.getSource()).getText());
+//        System.out.println(keyEvent.getCode());
+        if(keyEvent.getCode() == KeyCode.ENTER){
+            System.out.println("Enter");
+            System.out.println(keyEvent.getSource());
+            System.out.println(((TextField)keyEvent.getSource()).getParent());
+            if(textField.getText() != ""){
+                if(!additives.containsKey(text)){
+                    Label label = new Label(textField.getText());
+                    label.getStyleClass().add("additive");
+                    label.setOnMouseClicked((e)->{
+                        System.out.println(e);
+                        System.out.println(label);
+                        System.out.println("a");
+                        if(e.getButton() == MouseButton.PRIMARY){
+                            System.out.println("click");
+                            if(label.getStyleClass().contains("selected")){
+                                label.getStyleClass().remove("selected");
+                            }else {
+                                label.getStyleClass().add("selected");
+                            }
+                        }else if(e.getButton() == MouseButton.SECONDARY){
+                            if(label.getStyleClass().contains("selected")){
+                                additives.remove(label.getText());
+                                hBox.getChildren().remove(label);
+                            }
+                            System.out.println(label);
+                        }
+                    });
+                    additives.put(text,label);
+                    System.out.println(((HBox)((TextField)keyEvent.getSource()).getParent()).getChildren().add(label));
+                }
+            }
+            textField.setText("");
+        }
     }
 }

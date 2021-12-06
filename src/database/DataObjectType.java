@@ -4,5 +4,5 @@ public enum DataObjectType {
     Tungsten,
     Company,
     Evaluation,
-    Shipment
+    Shipment,
 }
