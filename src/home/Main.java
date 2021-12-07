@@ -59,6 +59,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        System.out.println("Thread start : " + Thread.currentThread().getName());
         primaryStage.getIcons().add(new Image("file:./src/home/images/logo2.png"));
         Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
         primaryStage.setTitle("Rmml Co.,Ltd  希少金属材料研究所");
@@ -130,6 +131,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        System.out.println("Thread main : " + Thread.currentThread().getName());
         System.out.println("main");
         try{
             Class.forName(driver);

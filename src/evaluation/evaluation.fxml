@@ -43,5 +43,5 @@
             <TableColumn fx:id="column_date" minWidth="160" text="最終更新日"/>
         </columns>
     </TableView>
-    <ListView fx:id="autoComplete"/>
+    <ListView fx:id="autoComplete" onKeyPressed="#pressEnter"/>
 </AnchorPane>

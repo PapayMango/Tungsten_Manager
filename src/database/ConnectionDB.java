@@ -26,6 +26,7 @@ public class ConnectionDB {
             preparedStatement = connection.prepareStatement("select * from tungsten");
             resultSet = preparedStatement.executeQuery();
 */
+                System.out.println("Thread db : " + Thread.currentThread().getName());
                 setConnected(true);
                 return this;
             }catch (Exception e){
@@ -99,7 +100,7 @@ public class ConnectionDB {
             try {
                 resultSet = connection.prepareStatement(sql).executeQuery();
                 while (resultSet.next()){
-                    System.out.println(resultSet.getString(1));
+//                    System.out.println(resultSet.getString(1));
                     arrayList.add(resultSet.getString(1));
                 }
             } catch (SQLException throwables) {

@@ -1,5 +1,7 @@
 package evaluation;
 
+import com.sun.javafx.event.EventDispatchChainImpl;
+import com.sun.javafx.event.EventHandlerManager;
 import com.sun.management.GarbageCollectionNotificationInfo;
 import database.*;
 import home.SceneTransition;
@@ -159,6 +161,7 @@ public class Controller implements hasDataObject,Initializable{
         System.out.println(tungsten);
         System.out.println(tungsten.getLot());
         System.out.println(lot);
+        System.out.println("Thread setParameter : " + Thread.currentThread().getName());
         lot.setText(tungsten.getLot());
         date.setText(tungsten.getProduct_date().toString());
         product.setText(tungsten.getQuantity() + "kg");
@@ -184,6 +187,9 @@ public class Controller implements hasDataObject,Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        System.out.println("Thread init : " + Thread.currentThread().getName());
+
         ObservableList details_observableList = ((VBox)details.getChildren().get(0)).getChildren();
         for (int i = 0; i < details_observableList.size() ; i++) {
             ((HBox)details_observableList.get(i)).getStyleClass().add("details");
@@ -350,16 +356,17 @@ public class Controller implements hasDataObject,Initializable{
 
     @FXML
     private void changeAdditive(KeyEvent keyEvent){
+
         TextField textField = (TextField) keyEvent.getSource();
         HBox hBox = (HBox)((TextField)keyEvent.getSource()).getParent();
         String text = textField.getText();
         ArrayList<String> arrayList;
-        System.out.println("text : " + keyEvent.getText());
-        System.out.println("code : " + keyEvent.getCode());
-        System.out.println("char : " + keyEvent.getCharacter());
-        System.out.println("key event : " + keyEvent);
-        System.out.println("text : " + text);
-        System.out.println(keyEvent.getCode().isArrowKey());
+//        System.out.println("text : " + keyEvent.getText());
+//        System.out.println("code : " + keyEvent.getCode());
+//        System.out.println("char : " + keyEvent.getCharacter());
+//        System.out.println("key event : " + keyEvent);
+//        System.out.println("text : " + text);
+//        System.out.println(keyEvent.getCode().isArrowKey());
         if(text != "" & !keyEvent.getCode().isArrowKey()){
             try {
                 arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
@@ -377,6 +384,7 @@ public class Controller implements hasDataObject,Initializable{
                         System.out.println("binding size : " + Bindings.size(observableList).get());
                         System.out.println(Bindings.size(observableList).multiply(10).get());
                         autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+                        autoComplete.getSelectionModel().selectFirst();
                         autoComplete.setVisible(true);
                     }
                 }
@@ -384,10 +392,22 @@ public class Controller implements hasDataObject,Initializable{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(keyEvent.getCode().isArrowKey()){
-            KeyEvent event =new KeyEvent(autoComplete,autoComplete,keyEvent.getEventType(),keyEvent.getText(),keyEvent.getCharacter(),keyEvent.getCode(), keyEvent.isAltDown(),keyEvent.isControlDown(),keyEvent.isControlDown(), keyEvent.isShortcutDown());
-            Event.fireEvent(autoComplete,event);
-            System.out.println(event);
+        }else if(keyEvent.getCode().isArrowKey()|keyEvent.getCode().isWhitespaceKey()){
+//            KeyEvent event =new KeyEvent(autoComplete,autoComplete,keyEvent.getEventType(),keyEvent.getText(),keyEvent.getCharacter(),keyEvent.getCode(), keyEvent.isAltDown(),keyEvent.isControlDown(),keyEvent.isControlDown(), keyEvent.isShortcutDown());
+//            Event.fireEvent(textField,new KeyEvent(textField,textField,keyEvent.getEventType(),keyEvent.getText(),keyEvent.getCharacter(),keyEvent.getCode(), keyEvent.isAltDown(),keyEvent.isControlDown(),keyEvent.isControlDown(), keyEvent.isShortcutDown()));
+//            System.out.println(event);
+//            if(keyEvent.getCode() == KeyCode.UP)
+            if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN)
+                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
+//                autoComplete.getSelectionModel().selectFirst();
+//            if (keyEvent.getCode() == KeyCode.DOWN)
+            if (keyEvent.getCode().isWhitespaceKey()){
+                System.out.println("aaaaa");
+                autoComplete.requestFocus();
+                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
+            }
+//                autoComplete.getSelectionModel().selectNext();
+//            Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
 //            Event.fireEvent(autoComplete,keyEvent.copyFor(autoComplete,autoComplete));]
 //            System.out.println(keyEvent.copyFor(autoComplete,autoComplete));
         }else if(text == ""){
@@ -428,6 +448,14 @@ public class Controller implements hasDataObject,Initializable{
                 }
             }
             textField.setText("");
+        }
+    }
+    @FXML
+    public void pressEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().isWhitespaceKey()){
+            System.out.println("enter pressed");
+            additive.setText(autoComplete.getSelectionModel().getSelectedItem());
+            autoComplete.setVisible(false);
         }
     }
 }
