@@ -11,44 +11,60 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
-<GridPane fx:id="main" fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
-          stylesheets="@main.css">
-    <columnConstraints>
-        <ColumnConstraints percentWidth="50"/>
-        <ColumnConstraints percentWidth="50"/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints percentHeight="50"/>
-        <RowConstraints percentHeight="50"/>
-    </rowConstraints>
-<!--    <Pane GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pane01"/>-->
-    <DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="0"></DatePicker>
-<!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border"/>-->
-<!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border">-->
-<!--        <Label text="border">borderpane</Label>-->
-<!--        <Button text="border"/>-->
-<!--    </BorderPane>-->
-<!--    <Label text="border" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="CENTER" GridPane.halignment="CENTER">borderpane</Label>-->
-    <TextField fx:id="text" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="50" maxWidth="200" prefHeight="10"></TextField>
-    <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="pane02" >
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ListView?>
+<?import java.lang.String?>
+<?import javafx.scene.text.TextFlow?>
+<AnchorPane fx:id="root" fx:controller="sample.Controller"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@main.css">
+    <AnchorPane fx:id="container" prefWidth="1000">
+        <AnchorPane fx:id="content" prefWidth="1000">
+            <AnchorPane fx:id="wrapper" prefWidth="1000">
+                <Label fx:id="select" text="select" prefWidth="100" prefHeight="100" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"/>
+                <Button fx:id="button_" AnchorPane.leftAnchor="120" AnchorPane.topAnchor="120">Button</Button>
+                <ListView fx:id="listView" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="220"></ListView>
+                <TextField fx:id="textField" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="530"/>
+            </AnchorPane>
+        </AnchorPane>
+    </AnchorPane>
+    <GridPane fx:id="main" AnchorPane.topAnchor="200" AnchorPane.leftAnchor="0" alignment="center" hgap="10" vgap="10">
         <columnConstraints>
-            <ColumnConstraints halignment="CENTER"/>
-            <ColumnConstraints halignment="CENTER"/>
-            <ColumnConstraints halignment="CENTER"/>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints valignment="CENTER"/>
-            <RowConstraints valignment="CENTER"/>
-            <RowConstraints valignment="CENTER"/>
+            <RowConstraints percentHeight="50"/>
+            <RowConstraints percentHeight="50"/>
         </rowConstraints>
-<!--        <Label text="Label1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>-->
-        <Label text="Label1" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+    <!--    <Pane GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="pane01"/>-->
+        <DatePicker fx:id="date" GridPane.columnIndex="1" GridPane.rowIndex="0"></DatePicker>
+    <!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border"/>-->
+    <!--    <BorderPane GridPane.rowIndex="1" GridPane.columnIndex="0" fx:id="border">-->
+    <!--        <Label text="border">borderpane</Label>-->
+    <!--        <Button text="border"/>-->
+    <!--    </BorderPane>-->
+    <!--    <Label text="border" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="CENTER" GridPane.halignment="CENTER">borderpane</Label>-->
+        <TextField fx:id="text" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="50" maxWidth="200" prefHeight="10"></TextField>
+        <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" fx:id="pane02" >
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER"/>
+                <ColumnConstraints halignment="CENTER"/>
+                <ColumnConstraints halignment="CENTER"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints valignment="CENTER"/>
+                <RowConstraints valignment="CENTER"/>
+                <RowConstraints valignment="CENTER"/>
+            </rowConstraints>
+    <!--        <Label text="Label1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>-->
+            <Label text="Label1" GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="label_" onMouseClicked="#click"/>
+            <TextFlow fx:id="textFlow" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        </GridPane>
+        <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button  fx:id="nextButton" prefWidth="300" prefHeight="120" onAction="#OnclickedNextButton" >生産管理1</Button>
+            <Label  fx:id="b2" prefWidth="300" prefHeight="120" >Management</Label>
+            <Label  fx:id="b3" prefWidth="300" prefHeight="120" >せいさんかんり12334</Label>
+        </VBox>
     </GridPane>
-    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <Button  fx:id="nextButton" prefWidth="300" prefHeight="120" onAction="#OnclickedNextButton" >生産管理1</Button>
-        <Label  fx:id="b2" prefWidth="300" prefHeight="120" >Management</Label>
-        <Label  fx:id="b3" prefWidth="300" prefHeight="120" >せいさんかんり12334</Label>
-    </VBox>
-</GridPane>
-
+</AnchorPane>

@@ -94,3 +94,6 @@
 #text:focused{
     -fx-background-color:pink;
 }
+#textField{
+    -fx-text-fill:blue;
+}

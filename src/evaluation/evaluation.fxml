@@ -23,7 +23,8 @@
     </AnchorPane>
     <AnchorPane fx:id="filter" AnchorPane.topAnchor="145" AnchorPane.leftAnchor="30">
         <VBox>
-            <HBox><Label text="濃度 : "/><TextField fx:id="fromConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label>～</Label><TextField fx:id="toConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label text="添加剤 : "/><TextField fx:id="additive" maxWidth="100" onKeyReleased="#changeAdditive"/></HBox>
+<!--            <HBox><Label text="濃度 : "/><TextField fx:id="fromConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label>～</Label><TextField fx:id="toConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label text="添加剤 : "/><TextField fx:id="additive" maxWidth="100" onKeyReleased="#changeAdditive"/></HBox>-->
+            <HBox><Label text="濃度 : "/><TextField fx:id="fromConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label>～</Label><TextField fx:id="toConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label text="添加剤 : "/><TextField fx:id="additive" maxWidth="100"/></HBox>
             <HBox><Label text="PH : "/><TextField fx:id="fromPh" maxWidth="50" onKeyTyped="#changePh"/><Label>～</Label><TextField fx:id="toPh" maxWidth="50" onKeyTyped="#changePh"/><Label text="バインダー : "/><TextField fx:id="binder" maxWidth="100" /></HBox>
             <HBox><Label text="消臭 : "/><ComboBox fx:id="deodorize" maxWidth="65" onAction="#changeQuality"/><Label text="メチレン : "/><ComboBox fx:id="methylene" maxWidth="65" onAction="#changeQuality"/><Label text="ゴキブリ : "/><ComboBox fx:id="cockroach" maxWidth="65" onAction="#changeQuality"/></HBox>
         </VBox>
@@ -43,5 +44,5 @@
             <TableColumn fx:id="column_date" minWidth="160" text="最終更新日"/>
         </columns>
     </TableView>
-    <ListView fx:id="autoComplete" onKeyPressed="#pressEnter"/>
+    <ListView fx:id="autoComplete"/>
 </AnchorPane>

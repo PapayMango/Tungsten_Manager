@@ -13,6 +13,7 @@ import javafx.event.Event;
 import javafx.event.EventDispatchChain;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -22,15 +23,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.net.URL;
+import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.jar.Attributes;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements hasDataObject,Initializable{
 
@@ -121,7 +129,7 @@ public class Controller implements hasDataObject,Initializable{
     private TextField toPh;
 
     @FXML
-    private ListView<String> autoComplete = new ListView<>();
+    private ListView<TextFlow> autoComplete = new ListView<>();
 
     private HashMap<String,Label> additives = new HashMap<>();
 
@@ -212,6 +220,142 @@ public class Controller implements hasDataObject,Initializable{
 
         autoComplete.setVisible(false);
         autoComplete.setMaxHeight(132);
+        autoComplete.setFocusTraversable(false);
+        autoComplete.addEventFilter(MouseEvent.MOUSE_CLICKED,(e)->{
+            if (e.getClickCount() >= 2){
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
+                    if (node instanceof Text){
+                        stringBuilder.append(((Text)node).getText());
+                    }
+                }
+                additive.setText(stringBuilder.toString());
+                additive.positionCaret(additive.getText().length());
+                autoComplete.setVisible(false);
+            }
+        });
+        autoComplete.addEventFilter(KeyEvent.KEY_RELEASED,(e)->{
+            if (e.getCode() == KeyCode.UP & autoComplete.getSelectionModel().getSelectedIndex() == 0){
+                autoComplete.getSelectionModel().selectLast();
+                autoComplete.scrollTo(autoComplete.getItems().size()-1);
+                System.out.println(autoComplete.getSelectionModel().getSelectedItem());
+            }else if(e.getCode() == KeyCode.DOWN & autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1){
+                autoComplete.getSelectionModel().selectFirst();
+                autoComplete.scrollTo(0);
+                System.out.println(autoComplete.getSelectionModel().getSelectedItem());
+            }
+        });
+
+        additive.textProperty().addListener((ob,nv,ov)->{
+            TextField textField = additive;
+
+            String text = additive.getText();
+            ArrayList<String> arrayList;
+            ArrayList<TextFlow>textFlowArrayList = new ArrayList<>();
+            if(text != ""){
+                try {
+                    arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
+                    System.out.println(arrayList.size());
+                    System.out.println(text);
+                    for (String str:arrayList) {
+                        System.out.println(str);
+                        TextFlow textFlow = new TextFlow();
+                        Pattern pattern = Pattern.compile(text,Pattern.CASE_INSENSITIVE);
+                        Matcher matcher = pattern.matcher(str);
+//                    System.out.println(matcher.find());
+                        if (matcher.find()){
+                            int index = 0;
+                            int[] index_ = {matcher.start(),matcher.end(),str.length()};
+                            System.out.println(index_[0] + " : " + index_[1] + " : " + index_[2]);
+                            for(int i = 0; i < 3;i++){
+                                Text text_ = new Text();
+                                System.out.println("index : " + index + " index_ : " + index_[i]);
+                                text_.setText(str.substring(index,index_[i]));
+                                System.out.println(text_.getText() + " : " + i);
+                                if(i == 1)
+                                    text_.setFill(Color.AQUA);
+                                textFlow.getChildren().add(text_);
+                                index = index_[i];
+                            }
+                            textFlowArrayList.add(textFlow);
+                        }
+                    }
+                    ObservableList observableList = FXCollections.observableList(textFlowArrayList);
+                    autoComplete.getItems().clear();
+                    autoComplete.getItems().addAll(observableList);
+                    autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+                    autoComplete.getSelectionModel().selectFirst();
+                    if(observableList.size() == 0){
+                        if(!textField.getStyleClass().contains("validation_error")) {
+                            textField.getStyleClass().add("validation_error");
+                        }
+                        System.out.println(textField);
+                        autoComplete.setVisible(false);
+                    }else {
+                        if(!autoComplete.isVisible()){
+                            textField.getStyleClass().remove("validation_error");
+                            AnchorPane.setTopAnchor(autoComplete,177.0);
+                            AnchorPane.setLeftAnchor(autoComplete,391.0);
+                            autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+                            autoComplete.getSelectionModel().selectFirst();
+                            autoComplete.setVisible(true);
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else if(text == ""){
+                autoComplete.setVisible(false);
+            }
+        });
+
+        additive.addEventFilter(KeyEvent.KEY_PRESSED,(keyEvent)->{
+            if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN){
+                if(autoComplete.getSelectionModel().getSelectedIndex() == 0 & keyEvent.getCode() == KeyCode.UP | autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1 & keyEvent.getCode() == KeyCode.DOWN){
+                    Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_RELEASED,"","",keyEvent.getCode(),false,false,false,false));
+                }else {
+                    Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false)); 
+                }
+            }
+        });
+        additive.addEventFilter(KeyEvent.KEY_RELEASED,(keyEvent -> {
+            HBox hBox = (HBox)additive.getParent();
+            if(keyEvent.getCode().isWhitespaceKey() & autoComplete.isVisible()){
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
+                    if (node instanceof Text){
+                        stringBuilder.append(((Text)node).getText());
+                    }
+                }
+                additive.setText(stringBuilder.toString());
+                additive.positionCaret(additive.getText().length());
+                autoComplete.setVisible(false);
+            }else if(keyEvent.getCode() == KeyCode.ENTER & !autoComplete.isVisible()){
+                if(additive.getText() != ""){
+                    if(!additives.containsKey(additive.getText())){
+                        Label label = new Label(additive.getText());
+                        label.getStyleClass().add("additive");
+                        label.setOnMouseClicked((e)->{
+                            if(e.getButton() == MouseButton.PRIMARY){
+                                if(label.getStyleClass().contains("selected")){
+                                    label.getStyleClass().remove("selected");
+                                }else {
+                                    label.getStyleClass().add("selected");
+                                }
+                            }else if(e.getButton() == MouseButton.SECONDARY){
+                                if(label.getStyleClass().contains("selected")){
+                                    additives.remove(label.getText());
+                                    hBox.getChildren().remove(label);
+                                }
+                            }
+                        });
+                        additives.put(additive.getText(),label);
+                        ((HBox)((TextField)keyEvent.getSource()).getParent()).getChildren().add(label);
+                    }
+                    additive.setText("");
+                }
+            }
+        }));
 //        autoComplete.toFront();
 //        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
 //
@@ -233,7 +377,6 @@ public class Controller implements hasDataObject,Initializable{
         column_cockroach.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("cockroach"));
         column_shipment.setCellValueFactory(new PropertyValueFactory<Evaluation,Integer>("shipment"));
         column_date.setCellValueFactory(new PropertyValueFactory<Evaluation, Date>("update_date"));
-
     }
 
     public boolean refreshTable(HashMap<String,String> constraintsMap){
@@ -287,7 +430,6 @@ public class Controller implements hasDataObject,Initializable{
             refreshTable(constraints);
             return;
         }
-
         if(constraints.containsKey("concentration")){
             constraints.replace("concentration",constraint);
         }else {
@@ -350,112 +492,124 @@ public class Controller implements hasDataObject,Initializable{
                     constraints.remove(qualityType);
             }
         }
-
         refreshTable(constraints);
     }
 
     @FXML
     private void changeAdditive(KeyEvent keyEvent){
+        System.out.println("aaa");
 
-        TextField textField = (TextField) keyEvent.getSource();
-        HBox hBox = (HBox)((TextField)keyEvent.getSource()).getParent();
-        String text = textField.getText();
-        ArrayList<String> arrayList;
-//        System.out.println("text : " + keyEvent.getText());
-//        System.out.println("code : " + keyEvent.getCode());
-//        System.out.println("char : " + keyEvent.getCharacter());
-//        System.out.println("key event : " + keyEvent);
-//        System.out.println("text : " + text);
-//        System.out.println(keyEvent.getCode().isArrowKey());
-        if(text != "" & !keyEvent.getCode().isArrowKey()){
-            try {
-                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
-                ObservableList observableList = FXCollections.observableList(arrayList);
-                autoComplete.getItems().clear();
-                autoComplete.getItems().addAll(observableList);
-                autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
 
-                if(observableList.size() == 0){
-                    autoComplete.setVisible(false);
-                }else {
-                    if(!autoComplete.isVisible()){
-                        AnchorPane.setTopAnchor(autoComplete,177.0);
-                        AnchorPane.setLeftAnchor(autoComplete,391.0);
-                        System.out.println("binding size : " + Bindings.size(observableList).get());
-                        System.out.println(Bindings.size(observableList).multiply(10).get());
-                        autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
-                        autoComplete.getSelectionModel().selectFirst();
-                        autoComplete.setVisible(true);
-                    }
-                }
+        System.out.println(keyEvent.getCode() + " : " + keyEvent.getCode().isWhitespaceKey());
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }else if(keyEvent.getCode().isArrowKey()|keyEvent.getCode().isWhitespaceKey()){
-//            KeyEvent event =new KeyEvent(autoComplete,autoComplete,keyEvent.getEventType(),keyEvent.getText(),keyEvent.getCharacter(),keyEvent.getCode(), keyEvent.isAltDown(),keyEvent.isControlDown(),keyEvent.isControlDown(), keyEvent.isShortcutDown());
-//            Event.fireEvent(textField,new KeyEvent(textField,textField,keyEvent.getEventType(),keyEvent.getText(),keyEvent.getCharacter(),keyEvent.getCode(), keyEvent.isAltDown(),keyEvent.isControlDown(),keyEvent.isControlDown(), keyEvent.isShortcutDown()));
-//            System.out.println(event);
-//            if(keyEvent.getCode() == KeyCode.UP)
-            if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN)
-                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
+       
+    }
+//    @FXML
+//    private void changeAdditive(KeyEvent keyEvent){
+//        System.out.println("aaa");
+//
+//        TextField textField = (TextField) keyEvent.getSource();
+//        HBox hBox = (HBox)((TextField)keyEvent.getSource()).getParent();
+//        String text = textField.getText();
+//        ArrayList<String> arrayList;
+//        ArrayList<TextFlow>textFlowArrayList = new ArrayList<>();
+//        System.out.println(keyEvent.getCode() + " : " + keyEvent.getCode().isWhitespaceKey());
+//
+//        if(text != "" & !keyEvent.getCode().isArrowKey() & !keyEvent.getCode().isWhitespaceKey()){
+//            try {
+//                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
+//                System.out.println(arrayList.size());
+//                System.out.println(text);
+//                for (String str:arrayList) {
+//                    System.out.println(str);
+//                    TextFlow textFlow = new TextFlow();
+//                    Pattern pattern = Pattern.compile(text,Pattern.CASE_INSENSITIVE);
+//                    Matcher matcher = pattern.matcher(str);
+////                    System.out.println(matcher.find());
+//                    if (matcher.find()){
+//                        int index = 0;
+//                        int[] index_ = {matcher.start(),matcher.end(),str.length()};
+//                        System.out.println(index_[0] + " : " + index_[1] + " : " + index_[2]);
+//                        for(int i = 0; i < 3;i++){
+//                            Text text_ = new Text();
+//                            System.out.println("index : " + index + " index_ : " + index_[i]);
+//                            text_.setText(str.substring(index,index_[i]));
+//                            System.out.println(text_.getText() + " : " + i);
+//                            if(i == 1)
+//                                text_.setFill(Color.AQUA);
+//                            textFlow.getChildren().add(text_);
+//                            index = index_[i];
+//                        }
+//                        textFlowArrayList.add(textFlow);
+//                    }
+//                }
+//                ObservableList observableList = FXCollections.observableList(textFlowArrayList);
+//                autoComplete.getItems().clear();
+//                autoComplete.getItems().addAll(observableList);
+//                autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
 //                autoComplete.getSelectionModel().selectFirst();
-//            if (keyEvent.getCode() == KeyCode.DOWN)
-            if (keyEvent.getCode().isWhitespaceKey()){
-                System.out.println("aaaaa");
-                autoComplete.requestFocus();
-                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
-            }
-//                autoComplete.getSelectionModel().selectNext();
-//            Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
-//            Event.fireEvent(autoComplete,keyEvent.copyFor(autoComplete,autoComplete));]
-//            System.out.println(keyEvent.copyFor(autoComplete,autoComplete));
-        }else if(text == ""){
-            autoComplete.setVisible(false);
-        }
-//        System.out.println(keyEvent.getText());
-//        System.out.println(((TextField)keyEvent.getSource()).getText());
-//        System.out.println(keyEvent.getCode());
-        if(keyEvent.getCode() == KeyCode.ENTER){
-            System.out.println("Enter");
-            System.out.println(keyEvent.getSource());
-            System.out.println(((TextField)keyEvent.getSource()).getParent());
-            if(textField.getText() != ""){
-                if(!additives.containsKey(text)){
-                    Label label = new Label(textField.getText());
-                    label.getStyleClass().add("additive");
-                    label.setOnMouseClicked((e)->{
-                        System.out.println(e);
-                        System.out.println(label);
-                        System.out.println("a");
-                        if(e.getButton() == MouseButton.PRIMARY){
-                            System.out.println("click");
-                            if(label.getStyleClass().contains("selected")){
-                                label.getStyleClass().remove("selected");
-                            }else {
-                                label.getStyleClass().add("selected");
-                            }
-                        }else if(e.getButton() == MouseButton.SECONDARY){
-                            if(label.getStyleClass().contains("selected")){
-                                additives.remove(label.getText());
-                                hBox.getChildren().remove(label);
-                            }
-                            System.out.println(label);
-                        }
-                    });
-                    additives.put(text,label);
-                    System.out.println(((HBox)((TextField)keyEvent.getSource()).getParent()).getChildren().add(label));
-                }
-            }
-            textField.setText("");
-        }
-    }
-    @FXML
-    public void pressEnter(KeyEvent keyEvent) {
-        if (keyEvent.getCode().isWhitespaceKey()){
-            System.out.println("enter pressed");
-            additive.setText(autoComplete.getSelectionModel().getSelectedItem());
-            autoComplete.setVisible(false);
-        }
-    }
+//                if(observableList.size() == 0){
+//                    if(!textField.getStyleClass().contains("validation_error")) {
+//                        textField.getStyleClass().add("validation_error");
+//                    }
+//                    System.out.println(textField);
+//                    autoComplete.setVisible(false);
+//                }else {
+//                    if(!autoComplete.isVisible()){
+//                        textField.getStyleClass().remove("validation_error");
+//                        AnchorPane.setTopAnchor(autoComplete,177.0);
+//                        AnchorPane.setLeftAnchor(autoComplete,391.0);
+//                        autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+//                        autoComplete.getSelectionModel().selectFirst();
+//                        autoComplete.setVisible(true);
+//                    }
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }else if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN){
+//            if(autoComplete.getSelectionModel().getSelectedIndex() == 0 & keyEvent.getCode() == KeyCode.UP | autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1 & keyEvent.getCode() == KeyCode.DOWN){
+//                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_RELEASED,"","",keyEvent.getCode(),false,false,false,false));
+//            }else {
+//                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
+//            }
+//        }else if(text == ""){
+//            autoComplete.setVisible(false);
+//        }
+//        if(keyEvent.getCode().isWhitespaceKey() & autoComplete.isVisible()){
+//            StringBuilder stringBuilder = new StringBuilder();
+//            for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
+//                if (node instanceof Text){
+//                    stringBuilder.append(((Text)node).getText());
+//                }
+//            }
+//            textField.setText(stringBuilder.toString());
+//            textField.positionCaret(textField.getText().length());
+//            autoComplete.setVisible(false);
+//        }else if(keyEvent.getCode() == KeyCode.ENTER & !autoComplete.isVisible()){
+//            if(textField.getText() != ""){
+//                if(!additives.containsKey(text)){
+//                    Label label = new Label(textField.getText());
+//                    label.getStyleClass().add("additive");
+//                    label.setOnMouseClicked((e)->{
+//                        if(e.getButton() == MouseButton.PRIMARY){
+//                            if(label.getStyleClass().contains("selected")){
+//                                label.getStyleClass().remove("selected");
+//                            }else {
+//                                label.getStyleClass().add("selected");
+//                            }
+//                        }else if(e.getButton() == MouseButton.SECONDARY){
+//                            if(label.getStyleClass().contains("selected")){
+//                                additives.remove(label.getText());
+//                                hBox.getChildren().remove(label);
+//                            }
+//                        }
+//                    });
+//                    additives.put(text,label);
+//                    ((HBox)((TextField)keyEvent.getSource()).getParent()).getChildren().add(label);
+//                }
+//                textField.setText("");
+//            }
+//        }
+//    }
 }
