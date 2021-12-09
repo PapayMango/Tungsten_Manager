@@ -13,7 +13,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="evaluation.Controller"
             prefHeight="400.0" prefWidth="600.0" fx:id="main" stylesheets="@evaluation.css">
-    <AnchorPane fx:id="details" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30">
+    <AnchorPane fx:id="details" AnchorPane.topAnchor="15" AnchorPane.leftAnchor="30">
         <VBox>
             <HBox fx:id="title"><Label text="Lot  No."/><Label fx:id="lot"/></HBox>
             <HBox><Label text="生産日 : "/><Label fx:id="date"/><Label text="生産量 : "/><Label fx:id="product"/><Label text="PH : "/><Label fx:id="ph"/></HBox>
@@ -21,15 +21,15 @@
 <!--            <HBox><Label text="固形分濃度 : "/><Label fx:id="concentration"/><Label text="総出荷量 : "/><Label fx:id="shipment"/><Label text="保管場所 : "/></HBox>-->
         </VBox>
     </AnchorPane>
-    <AnchorPane fx:id="filter" AnchorPane.topAnchor="145" AnchorPane.leftAnchor="30">
+    <AnchorPane fx:id="filter" AnchorPane.topAnchor="140" AnchorPane.leftAnchor="30">
         <VBox>
             <HBox><Label text="濃度 : "/><TextField fx:id="fromConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label>～</Label><TextField fx:id="toConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label text="添加剤 : "/><TextField fx:id="additive" maxWidth="100" onKeyReleased="#changeAdditive"/></HBox>
             <HBox><Label text="PH : "/><TextField fx:id="fromPh" maxWidth="50" onKeyTyped="#changePh"/><Label>～</Label><TextField fx:id="toPh" maxWidth="50" onKeyTyped="#changePh"/><Label text="バインダー : "/><TextField fx:id="binder" maxWidth="100" onKeyReleased="#changeBinder"/></HBox>
             <HBox><Label text="消臭 : "/><ComboBox fx:id="deodorize" maxWidth="65" onAction="#changeQuality"/><Label text="メチレン : "/><ComboBox fx:id="methylene" maxWidth="65" onAction="#changeQuality"/><Label text="ゴキブリ : "/><ComboBox fx:id="cockroach" maxWidth="65" onAction="#changeQuality"/></HBox>
         </VBox>
     </AnchorPane>
-    <Label text="在庫データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="145" onMouseClicked="#changePage"/>
-    <Label text="出荷データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" onMouseClicked="#changePage"/>
+    <Label fx:id="toStock" text="在庫データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="145" onMouseClicked="#changePage"/>
+    <Label fx:id="toShipment" text="出荷データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" onMouseClicked="#changePage"/>
     <TableView fx:id="result_tb" prefWidth="940" prefHeight="490" AnchorPane.topAnchor="280" AnchorPane.leftAnchor="30">
         <columns>
             <TableColumn fx:id="column_concentration" minWidth="80" text="濃度"/>

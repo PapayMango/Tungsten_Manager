@@ -316,9 +316,9 @@ public class Controller implements hasDataObject,Initializable{
             System.out.println(additive.getBoundsInParent().getMinY()+filter.getBoundsInParent().getMinY() + additive.getParent().getBoundsInParent().getMinY());
             autoComplete_target = additive;
             if(nv.length() > ov.length()){
-                activateAutoComplete(additive,391.0,177.0);
+                activateAutoComplete(additive,377.0,172.0);
             }else if(nv.length()==0){
-                activateAutoComplete(additive,391.0,177.0);
+                activateAutoComplete(additive,377.0,172.0);
             }else if(nv.length() <= ov.length()){
                 validation(additive);
             }
@@ -391,9 +391,9 @@ public class Controller implements hasDataObject,Initializable{
             System.out.println(binder.getParent().getBoundsInParent());
             autoComplete_target = binder;
             if(nv.length() > ov.length()){
-                activateAutoComplete(binder,391.0,213.0);
+                activateAutoComplete(binder,377.0,208.0);
             }else if(nv.length()==0){
-                activateAutoComplete(binder,391.0,213.0);
+                activateAutoComplete(binder,377.0,208.0);
             }else if(nv.length() <= ov.length()){
                 validation(binder);
             }

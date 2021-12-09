@@ -3,11 +3,18 @@
 }
 .label{
     -fx-text-fill:rgb(180,179,179);
-    -fx-font-size:18px;
+//    -fx-font-size:18px;
+    -fx-font-size:16px;
     -fx-font-family:cursive;
 }
+#toStock{
+    -fx-font-size:17px;
+}
+#toShipment{
+    -fx-font-size:17px;
+}
 #title > .label{
-    -fx-font-size:25px;
+    -fx-font-size:21px;
     -fx-font-weight:200;
 }
 .text-field{
