@@ -18,7 +18,6 @@
             <HBox fx:id="title"><Label text="Lot  No."/><Label fx:id="lot"/></HBox>
             <HBox><Label text="生産日 : "/><Label fx:id="date"/><Label text="生産量 : "/><Label fx:id="product"/><Label text="PH : "/><Label fx:id="ph"/></HBox>
             <HBox><Label text="固形分濃度 : "/><Label fx:id="concentration"/><Label text="総出荷量 : "/><Label fx:id="shipment"/><Label text="保管場所 : "/><Label fx:id="location_"/></HBox>
-<!--            <HBox><Label text="固形分濃度 : "/><Label fx:id="concentration"/><Label text="総出荷量 : "/><Label fx:id="shipment"/><Label text="保管場所 : "/></HBox>-->
         </VBox>
     </AnchorPane>
     <AnchorPane fx:id="filter" AnchorPane.topAnchor="140" AnchorPane.leftAnchor="30">

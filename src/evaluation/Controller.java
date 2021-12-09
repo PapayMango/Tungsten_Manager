@@ -151,10 +151,22 @@ public class Controller implements hasDataObject,Initializable{
     private Stage currentWindow;
 
     @FXML
-    private void changePage(){
+    private void changePage(MouseEvent event){
+        System.out.println(event);
+        Label label = (Label)event.getSource();
         System.out.println(location_.getScene().getWindow());
+        System.out.println(label.getId());
+        System.out.println(label.getId().matches("toStock"));
         location_.getScene().getWindow().hide();
-        SceneTransition.sceneTransition.getPrevious().show();
+        if(label.getId().matches("toShipment")){
+            System.out.println("a");
+            Stage stage = SceneTransition.sceneTransition.transition("../shipment/shipment.fxml","出荷管理",tungsten,(Stage)result_tb.getScene().getWindow());
+            System.out.println(stage);
+            stage.show();
+        }else if(label.getId().matches("toStock")){
+            System.out.println("b");
+            SceneTransition.sceneTransition.getPrevious().show();
+        }
     }
 
     @Override

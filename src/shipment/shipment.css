@@ -10,20 +10,12 @@
 #toStock{
     -fx-font-size:17px;
 }
-#toShipment{
+#toEvaluation{
     -fx-font-size:17px;
 }
 #title > .label{
     -fx-font-size:21px;
     -fx-font-weight:200;
-}
-.text-field{
-    -fx-background-color:rgb(68,72,73);
-    -fx-border-color:rgb(98,99,99);
-    -fx-text-fill:rgb(180,179,179);
-    -fx-font-family:cursive;
-    -fx-background-insets:0;
-    -fx-font-size:12px;
 }
 .table-column{
     //-fx-background-color:rgb(69,72,73);
@@ -49,21 +41,3 @@
     -fx-padding:5 0 5 0;
     -fx-spacing:25;
 }
-.combo-box-base{
-    -fx-background-color:rgb(68,72,73);
-    -fx-background-radius:0;
-    -fx-border-color:rgb(98,99,99);
-}
-.combo-box .combo-box-popup .list-view{
-    -fx-background-color:rgb(98,99,99);
-}
-.additive{
-    -fx-text-fill:rgb(150,150,150);
-}
-.selected{
-    -fx-text-fill:rgb(113,112,113);
-}
-.validation_error{
-    -fx-text-fill:rgb(153,60,58);
-}
-
