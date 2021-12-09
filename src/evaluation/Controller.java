@@ -303,6 +303,17 @@ public class Controller implements hasDataObject,Initializable{
         additive.textProperty().addListener((ob,ov,nv)-> {
             System.out.println("new : " + nv);
             System.out.println("old : " + ov);
+            System.out.println(additive.getHeight());
+            System.out.println(additive.getWidth());
+            System.out.println(additive.getLayoutX());
+            System.out.println(additive.getLayoutY());
+            System.out.println(additive.getLayoutBounds());
+            System.out.println(additive.getBoundsInLocal());
+            System.out.println(additive.getBoundsInParent());
+            System.out.println(filter.getBoundsInParent());
+            System.out.println(additive.getInsets());
+            System.out.println(additive.getBoundsInParent().getMinX()+filter.getBoundsInParent().getMinX());
+            System.out.println(additive.getBoundsInParent().getMinY()+filter.getBoundsInParent().getMinY() + additive.getParent().getBoundsInParent().getMinY());
             autoComplete_target = additive;
             if(nv.length() > ov.length()){
                 activateAutoComplete(additive,391.0,177.0);
@@ -371,6 +382,13 @@ public class Controller implements hasDataObject,Initializable{
         binder.textProperty().addListener((ob,ov,nv)-> {
             System.out.println("new : " + nv);
             System.out.println("old : " + ov);
+            System.out.println(binder.getBoundsInParent());
+            System.out.println(binder.getBoundsInLocal());
+            System.out.println(binder.getLayoutBounds());
+            System.out.println(binder.getInsets());
+            System.out.println(binder.getLayoutX());
+            System.out.println(binder.getLayoutY());
+            System.out.println(binder.getParent().getBoundsInParent());
             autoComplete_target = binder;
             if(nv.length() > ov.length()){
                 activateAutoComplete(binder,391.0,213.0);
@@ -380,7 +398,6 @@ public class Controller implements hasDataObject,Initializable{
                 validation(binder);
             }
         });
-
         binder.addEventFilter(KeyEvent.KEY_PRESSED,(keyEvent)->{
             if(keyEvent.getCode() == KeyCode.TAB){
                 autoComplete.setVisible(false);
@@ -424,7 +441,7 @@ public class Controller implements hasDataObject,Initializable{
                                 if(label.getStyleClass().contains("selected")){
                                     binders.remove(label.getText());
                                     hBox.getChildren().remove(label);
-                                    changeAdditive_();
+                                    changeBinder_();
                                 }
                             }
                         });
@@ -584,6 +601,35 @@ public class Controller implements hasDataObject,Initializable{
                 constraints.remove("additive");
         }
         refreshTable(constraints);
+    }   
+    
+    @FXML
+    private void changeBinder(KeyEvent keyEvent){
+        changeBinder_();
+    }
+
+    private void changeBinder_(){
+        String constraint = "b.name ";
+        int i = 0;
+        if(binders.size() > 0){
+            for (String key:binders.keySet()) {
+                if (i == 0){
+                    constraint += " = '" + key + "'";
+                    i++;
+                    continue;
+                }
+                constraint += " or b.name = '" + key + "'";
+            }
+            if(constraints.containsKey("binder")){
+                constraints.replace("binder",constraint);
+            }else {
+                constraints.put("binder",constraint);
+            }
+        }else {
+            if(constraints.containsKey("binder"))
+                constraints.remove("binder");
+        }
+        refreshTable(constraints);
     }
 
 
@@ -597,7 +643,11 @@ public class Controller implements hasDataObject,Initializable{
         ArrayList<TextFlow>textFlowArrayList = new ArrayList<>();
         if(text != ""){
             try {
-                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
+                 if(autoComplete_target == additive){
+                     arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
+                 }else {
+                     arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from binder where name like '%" + text + "%'");
+                 }
                 for (String str:arrayList) {
                     TextFlow textFlow = new TextFlow();
                     Pattern pattern = Pattern.compile(text,Pattern.CASE_INSENSITIVE);
@@ -655,7 +705,11 @@ public class Controller implements hasDataObject,Initializable{
 
         if(text != ""){
             try {
-                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name = '" + text + "'");
+                if(autoComplete_target == additive){
+                    arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name = '" + text + "'");
+                }else {
+                    arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from binder where name = '" + text + "'");
+                }
                 if(arrayList.size() == 0){
                     if(!textField.getStyleClass().contains("validation_error")) {
                         textField.getStyleClass().add("validation_error");
