@@ -6,6 +6,8 @@ import com.sun.management.GarbageCollectionNotificationInfo;
 import database.*;
 import home.SceneTransition;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -123,6 +125,9 @@ public class Controller implements hasDataObject,Initializable{
     private TextField additive;
 
     @FXML
+    private TextField binder;
+
+    @FXML
     private TextField fromPh;
 
     @FXML
@@ -130,6 +135,10 @@ public class Controller implements hasDataObject,Initializable{
 
     @FXML
     private ListView<TextFlow> autoComplete = new ListView<>();
+
+    private TextField autoComplete_target;
+
+    private HashMap<String,Label> binders = new HashMap<>();
 
     private HashMap<String,Label> additives = new HashMap<>();
 
@@ -166,10 +175,7 @@ public class Controller implements hasDataObject,Initializable{
     }
 
     private void setParameters(Tungsten tungsten){
-        System.out.println(tungsten);
-        System.out.println(tungsten.getLot());
-        System.out.println(lot);
-        System.out.println("Thread setParameter : " + Thread.currentThread().getName());
+
         lot.setText(tungsten.getLot());
         date.setText(tungsten.getProduct_date().toString());
         product.setText(tungsten.getQuantity() + "kg");
@@ -184,7 +190,6 @@ public class Controller implements hasDataObject,Initializable{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(arrayList.size());
 
         observableList = FXCollections.observableList((ArrayList<Evaluation>)arrayList);
         result_tb.getColumns().clear();
@@ -196,8 +201,6 @@ public class Controller implements hasDataObject,Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println("Thread init : " + Thread.currentThread().getName());
-
         ObservableList details_observableList = ((VBox)details.getChildren().get(0)).getChildren();
         for (int i = 0; i < details_observableList.size() ; i++) {
             ((HBox)details_observableList.get(i)).getStyleClass().add("details");
@@ -206,6 +209,42 @@ public class Controller implements hasDataObject,Initializable{
         for (int i = 0; i < filter_observableList.size() ; i++) {
             ((HBox)filter_observableList.get(i)).getStyleClass().add("filter");
         }
+
+        fromConcentration.textProperty().addListener((observableValue, s, t1) -> {
+            if(!t1.matches("[\\d.]*")){
+                fromConcentration.setText(t1.replaceAll("[^\\d.]",""));
+            }
+            if(t1.matches("[\\d.]*[.][\\d.]*[.]")){
+                fromConcentration.setText(t1.substring(0,t1.length()-1));
+            }
+        });
+
+        toConcentration.textProperty().addListener((observableValue, s, t1) -> {
+            if(!t1.matches("[\\d.]*")){
+                toConcentration.setText(t1.replaceAll("[^\\d.]",""));
+            }
+            if(t1.matches("[\\d.]*[.][\\d.]*[.]")){
+                toConcentration.setText(t1.substring(0,t1.length()-1));
+            }
+        });
+
+        fromPh.textProperty().addListener((observableValue, s, t1) -> {
+            if(!t1.matches("[\\d.]*")){
+                fromPh.setText(t1.replaceAll("[^\\d.]",""));
+            }
+            if(t1.matches("[\\d.]*[.][\\d.]*[.]")){
+                fromPh.setText(t1.substring(0,t1.length()-1));
+            }
+        });
+
+        toPh.textProperty().addListener((observableValue, s, t1) -> {
+            if(!t1.matches("[\\d.]*")){
+                toPh.setText(t1.replaceAll("[^\\d.]",""));
+            }
+            if(t1.matches("[\\d.]*[.][\\d.]*[.]")){
+                toPh.setText(t1.substring(0,t1.length()-1));
+            }
+        });
 
         String[] qualitiy_str = {"-","A","B","C","D"};
 
@@ -217,10 +256,24 @@ public class Controller implements hasDataObject,Initializable{
             comboBox.getItems().addAll(qualitiy_str);
             comboBox.getSelectionModel().selectFirst();
         }
+        autoComplete_target = additive;
 
         autoComplete.setVisible(false);
-        autoComplete.setMaxHeight(132);
+        autoComplete.setMaxHeight(144);
         autoComplete.setFocusTraversable(false);
+//        autoComplete.addEventFilter(MouseEvent.MOUSE_CLICKED,(e)->{
+//            if (e.getClickCount() >= 2){
+//                StringBuilder stringBuilder = new StringBuilder();
+//                for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
+//                    if (node instanceof Text){
+//                        stringBuilder.append(((Text)node).getText());
+//                    }
+//                }
+//                additive.setText(stringBuilder.toString());
+//                additive.positionCaret(additive.getText().length());
+//                autoComplete.setVisible(false);
+//            }
+//        });
         autoComplete.addEventFilter(MouseEvent.MOUSE_CLICKED,(e)->{
             if (e.getClickCount() >= 2){
                 StringBuilder stringBuilder = new StringBuilder();
@@ -229,11 +282,12 @@ public class Controller implements hasDataObject,Initializable{
                         stringBuilder.append(((Text)node).getText());
                     }
                 }
-                additive.setText(stringBuilder.toString());
-                additive.positionCaret(additive.getText().length());
+                autoComplete_target.setText(stringBuilder.toString());
+                autoComplete_target.positionCaret(autoComplete_target.getText().length());
                 autoComplete.setVisible(false);
             }
         });
+
         autoComplete.addEventFilter(KeyEvent.KEY_RELEASED,(e)->{
             if (e.getCode() == KeyCode.UP & autoComplete.getSelectionModel().getSelectedIndex() == 0){
                 autoComplete.getSelectionModel().selectLast();
@@ -246,70 +300,24 @@ public class Controller implements hasDataObject,Initializable{
             }
         });
 
-        additive.textProperty().addListener((ob,nv,ov)->{
-            TextField textField = additive;
-
-            String text = additive.getText();
-            ArrayList<String> arrayList;
-            ArrayList<TextFlow>textFlowArrayList = new ArrayList<>();
-            if(text != ""){
-                try {
-                    arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
-                    System.out.println(arrayList.size());
-                    System.out.println(text);
-                    for (String str:arrayList) {
-                        System.out.println(str);
-                        TextFlow textFlow = new TextFlow();
-                        Pattern pattern = Pattern.compile(text,Pattern.CASE_INSENSITIVE);
-                        Matcher matcher = pattern.matcher(str);
-//                    System.out.println(matcher.find());
-                        if (matcher.find()){
-                            int index = 0;
-                            int[] index_ = {matcher.start(),matcher.end(),str.length()};
-                            System.out.println(index_[0] + " : " + index_[1] + " : " + index_[2]);
-                            for(int i = 0; i < 3;i++){
-                                Text text_ = new Text();
-                                System.out.println("index : " + index + " index_ : " + index_[i]);
-                                text_.setText(str.substring(index,index_[i]));
-                                System.out.println(text_.getText() + " : " + i);
-                                if(i == 1)
-                                    text_.setFill(Color.AQUA);
-                                textFlow.getChildren().add(text_);
-                                index = index_[i];
-                            }
-                            textFlowArrayList.add(textFlow);
-                        }
-                    }
-                    ObservableList observableList = FXCollections.observableList(textFlowArrayList);
-                    autoComplete.getItems().clear();
-                    autoComplete.getItems().addAll(observableList);
-                    autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
-                    autoComplete.getSelectionModel().selectFirst();
-                    if(observableList.size() == 0){
-                        if(!textField.getStyleClass().contains("validation_error")) {
-                            textField.getStyleClass().add("validation_error");
-                        }
-                        System.out.println(textField);
-                        autoComplete.setVisible(false);
-                    }else {
-                        if(!autoComplete.isVisible()){
-                            textField.getStyleClass().remove("validation_error");
-                            AnchorPane.setTopAnchor(autoComplete,177.0);
-                            AnchorPane.setLeftAnchor(autoComplete,391.0);
-                            autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
-                            autoComplete.getSelectionModel().selectFirst();
-                            autoComplete.setVisible(true);
-                        }
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else if(text == ""){
-                autoComplete.setVisible(false);
+        additive.textProperty().addListener((ob,ov,nv)-> {
+            System.out.println("new : " + nv);
+            System.out.println("old : " + ov);
+            autoComplete_target = additive;
+            if(nv.length() > ov.length()){
+                activateAutoComplete(additive,391.0,177.0);
+            }else if(nv.length()==0){
+                activateAutoComplete(additive,391.0,177.0);
+            }else if(nv.length() <= ov.length()){
+                validation(additive);
             }
         });
 
         additive.addEventFilter(KeyEvent.KEY_PRESSED,(keyEvent)->{
+            if(keyEvent.getCode() == KeyCode.TAB){
+                autoComplete.setVisible(false);
+                return;
+            }
             if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN){
                 if(autoComplete.getSelectionModel().getSelectedIndex() == 0 & keyEvent.getCode() == KeyCode.UP | autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1 & keyEvent.getCode() == KeyCode.DOWN){
                     Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_RELEASED,"","",keyEvent.getCode(),false,false,false,false));
@@ -318,8 +326,10 @@ public class Controller implements hasDataObject,Initializable{
                 }
             }
         });
+
         additive.addEventFilter(KeyEvent.KEY_RELEASED,(keyEvent -> {
             HBox hBox = (HBox)additive.getParent();
+            System.out.println(keyEvent.getCode());
             if(keyEvent.getCode().isWhitespaceKey() & autoComplete.isVisible()){
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
@@ -346,6 +356,7 @@ public class Controller implements hasDataObject,Initializable{
                                 if(label.getStyleClass().contains("selected")){
                                     additives.remove(label.getText());
                                     hBox.getChildren().remove(label);
+                                    changeAdditive_();
                                 }
                             }
                         });
@@ -356,17 +367,74 @@ public class Controller implements hasDataObject,Initializable{
                 }
             }
         }));
-//        autoComplete.toFront();
-//        ArrayList<? extends DataObject>arrayList = new ArrayList<>();
-//
-//        try {
-//            arrayList = ConnectionDB.connectionDB.connectDB().select(DataObjectType.Evaluation, Evaluation.createSelectSQL());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(arrayList.size());
-//
-//        observableList = FXCollections.observableList((ArrayList<Evaluation>)arrayList);
+
+        binder.textProperty().addListener((ob,ov,nv)-> {
+            System.out.println("new : " + nv);
+            System.out.println("old : " + ov);
+            autoComplete_target = binder;
+            if(nv.length() > ov.length()){
+                activateAutoComplete(binder,391.0,213.0);
+            }else if(nv.length()==0){
+                activateAutoComplete(binder,391.0,213.0);
+            }else if(nv.length() <= ov.length()){
+                validation(binder);
+            }
+        });
+
+        binder.addEventFilter(KeyEvent.KEY_PRESSED,(keyEvent)->{
+            if(keyEvent.getCode() == KeyCode.TAB){
+                autoComplete.setVisible(false);
+                return;
+            }
+            if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN){
+                if(autoComplete.getSelectionModel().getSelectedIndex() == 0 & keyEvent.getCode() == KeyCode.UP | autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1 & keyEvent.getCode() == KeyCode.DOWN){
+                    Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_RELEASED,"","",keyEvent.getCode(),false,false,false,false));
+                }else {
+                    Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
+                }
+            }
+        });
+
+        binder.addEventFilter(KeyEvent.KEY_RELEASED,(keyEvent -> {
+            HBox hBox = (HBox)binder.getParent();
+            System.out.println(keyEvent.getCode());
+            if(keyEvent.getCode().isWhitespaceKey() & autoComplete.isVisible()){
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
+                    if (node instanceof Text){
+                        stringBuilder.append(((Text)node).getText());
+                    }
+                }
+                binder.setText(stringBuilder.toString());
+                binder.positionCaret(binder.getText().length());
+                autoComplete.setVisible(false);
+            }else if(keyEvent.getCode() == KeyCode.ENTER & !autoComplete.isVisible()){
+                if(binder.getText() != ""){
+                    if(!binders.containsKey(binder.getText())){
+                        Label label = new Label(binder.getText());
+                        label.getStyleClass().add("binder");
+                        label.setOnMouseClicked((e)->{
+                            if(e.getButton() == MouseButton.PRIMARY){
+                                if(label.getStyleClass().contains("selected")){
+                                    label.getStyleClass().remove("selected");
+                                }else {
+                                    label.getStyleClass().add("selected");
+                                }
+                            }else if(e.getButton() == MouseButton.SECONDARY){
+                                if(label.getStyleClass().contains("selected")){
+                                    binders.remove(label.getText());
+                                    hBox.getChildren().remove(label);
+                                    changeAdditive_();
+                                }
+                            }
+                        });
+                        binders.put(binder.getText(),label);
+                        ((HBox)((TextField)keyEvent.getSource()).getParent()).getChildren().add(label);
+                    }
+                    binder.setText("");
+                }
+            }
+        }));
 
         column_concentration.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("concentration"));
         column_ph.setCellValueFactory(new PropertyValueFactory<Evaluation,Integer>("ph"));
@@ -380,28 +448,22 @@ public class Controller implements hasDataObject,Initializable{
     }
 
     public boolean refreshTable(HashMap<String,String> constraintsMap){
-        System.out.println("hash map : " + constraintsMap);
-        System.out.println(constraintsMap.entrySet());
-        System.out.println("method : " + constraintsMap.get("method"));
+//        System.out.println("hash map : " + constraintsMap);
+//        System.out.println(constraintsMap.entrySet());
+//        System.out.println("method : " + constraintsMap.get("method"));
         ArrayList<? extends DataObject>arrayList = new ArrayList<>();
         ArrayList<String> constraintList = new ArrayList<>(constraintsMap.values());
-//        System.out.println((String[]) constraintList.toArray(constraintList.toArray(new String[arrayList.size()])));
-//        System.out.println(constraintsMap.values());
-//        System.out.println(constraintsMap.values().toArray()[0].getClass());
-//        System.out.println(constraintsMap.values().toArray().getClass());
-//        System.out.println((String[])constraintsMap.values().toArray());
         constraintList.add("lot = '" + tungsten.getLot() + "'");
         String[] args = constraintList.toArray(constraintList.toArray(new String[arrayList.size()]));
-//        String[] args = (String[])constraintsMap.values().toArray();
 
-        System.out.println(args.length);
-        System.out.println(args);
+//        System.out.println(args.length);
+//        System.out.println(args);
         try {
             arrayList = ConnectionDB.connectionDB.connectDB().select(DataObjectType.Evaluation, Evaluation.createSelectSQL(args));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(arrayList.size());
+//        System.out.println(arrayList.size());
 
         observableList = FXCollections.observableList((ArrayList<Evaluation>)arrayList);
 
@@ -497,119 +559,215 @@ public class Controller implements hasDataObject,Initializable{
 
     @FXML
     private void changeAdditive(KeyEvent keyEvent){
-        System.out.println("aaa");
-
-
-        System.out.println(keyEvent.getCode() + " : " + keyEvent.getCode().isWhitespaceKey());
-
-       
+        changeAdditive_();
     }
-//    @FXML
-//    private void changeAdditive(KeyEvent keyEvent){
-//        System.out.println("aaa");
-//
-//        TextField textField = (TextField) keyEvent.getSource();
-//        HBox hBox = (HBox)((TextField)keyEvent.getSource()).getParent();
-//        String text = textField.getText();
-//        ArrayList<String> arrayList;
-//        ArrayList<TextFlow>textFlowArrayList = new ArrayList<>();
-//        System.out.println(keyEvent.getCode() + " : " + keyEvent.getCode().isWhitespaceKey());
-//
-//        if(text != "" & !keyEvent.getCode().isArrowKey() & !keyEvent.getCode().isWhitespaceKey()){
-//            try {
-//                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
-//                System.out.println(arrayList.size());
-//                System.out.println(text);
-//                for (String str:arrayList) {
-//                    System.out.println(str);
-//                    TextFlow textFlow = new TextFlow();
-//                    Pattern pattern = Pattern.compile(text,Pattern.CASE_INSENSITIVE);
-//                    Matcher matcher = pattern.matcher(str);
-////                    System.out.println(matcher.find());
-//                    if (matcher.find()){
-//                        int index = 0;
-//                        int[] index_ = {matcher.start(),matcher.end(),str.length()};
-//                        System.out.println(index_[0] + " : " + index_[1] + " : " + index_[2]);
-//                        for(int i = 0; i < 3;i++){
-//                            Text text_ = new Text();
-//                            System.out.println("index : " + index + " index_ : " + index_[i]);
-//                            text_.setText(str.substring(index,index_[i]));
-//                            System.out.println(text_.getText() + " : " + i);
-//                            if(i == 1)
-//                                text_.setFill(Color.AQUA);
-//                            textFlow.getChildren().add(text_);
-//                            index = index_[i];
-//                        }
-//                        textFlowArrayList.add(textFlow);
-//                    }
-//                }
-//                ObservableList observableList = FXCollections.observableList(textFlowArrayList);
-//                autoComplete.getItems().clear();
-//                autoComplete.getItems().addAll(observableList);
-//                autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
-//                autoComplete.getSelectionModel().selectFirst();
-//                if(observableList.size() == 0){
-//                    if(!textField.getStyleClass().contains("validation_error")) {
-//                        textField.getStyleClass().add("validation_error");
-//                    }
-//                    System.out.println(textField);
-//                    autoComplete.setVisible(false);
-//                }else {
-//                    if(!autoComplete.isVisible()){
-//                        textField.getStyleClass().remove("validation_error");
-//                        AnchorPane.setTopAnchor(autoComplete,177.0);
-//                        AnchorPane.setLeftAnchor(autoComplete,391.0);
-//                        autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
-//                        autoComplete.getSelectionModel().selectFirst();
-//                        autoComplete.setVisible(true);
-//                    }
-//                }
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        }else if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN){
-//            if(autoComplete.getSelectionModel().getSelectedIndex() == 0 & keyEvent.getCode() == KeyCode.UP | autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1 & keyEvent.getCode() == KeyCode.DOWN){
-//                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_RELEASED,"","",keyEvent.getCode(),false,false,false,false));
-//            }else {
-//                Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
-//            }
-//        }else if(text == ""){
-//            autoComplete.setVisible(false);
-//        }
-//        if(keyEvent.getCode().isWhitespaceKey() & autoComplete.isVisible()){
-//            StringBuilder stringBuilder = new StringBuilder();
-//            for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
-//                if (node instanceof Text){
-//                    stringBuilder.append(((Text)node).getText());
-//                }
-//            }
-//            textField.setText(stringBuilder.toString());
-//            textField.positionCaret(textField.getText().length());
-//            autoComplete.setVisible(false);
-//        }else if(keyEvent.getCode() == KeyCode.ENTER & !autoComplete.isVisible()){
-//            if(textField.getText() != ""){
-//                if(!additives.containsKey(text)){
-//                    Label label = new Label(textField.getText());
-//                    label.getStyleClass().add("additive");
-//                    label.setOnMouseClicked((e)->{
-//                        if(e.getButton() == MouseButton.PRIMARY){
-//                            if(label.getStyleClass().contains("selected")){
-//                                label.getStyleClass().remove("selected");
-//                            }else {
-//                                label.getStyleClass().add("selected");
-//                            }
-//                        }else if(e.getButton() == MouseButton.SECONDARY){
-//                            if(label.getStyleClass().contains("selected")){
-//                                additives.remove(label.getText());
-//                                hBox.getChildren().remove(label);
-//                            }
-//                        }
-//                    });
-//                    additives.put(text,label);
-//                    ((HBox)((TextField)keyEvent.getSource()).getParent()).getChildren().add(label);
-//                }
-//                textField.setText("");
-//            }
-//        }
-//    }
+
+    private void changeAdditive_(){
+        String constraint = "a.name ";
+        int i = 0;
+        if(additives.size() > 0){
+            for (String key:additives.keySet()) {
+                if (i == 0){
+                    constraint += " = '" + key + "'";
+                    i++;
+                    continue;
+                }
+                constraint += " and a.name = '" + key + "'";
+            }
+            if(constraints.containsKey("additive")){
+                constraints.replace("additive",constraint);
+            }else {
+                constraints.put("additive",constraint);
+            }
+        }else {
+            if(constraints.containsKey("additive"))
+                constraints.remove("additive");
+        }
+        refreshTable(constraints);
+    }
+
+
+
+    private void activateAutoComplete(TextInputControl target,double x,double y){
+
+        TextField textField = (TextField) target;
+
+        String text = target.getText();
+        ArrayList<String> arrayList;
+        ArrayList<TextFlow>textFlowArrayList = new ArrayList<>();
+        if(text != ""){
+            try {
+                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name like '%" + text + "%'");
+                for (String str:arrayList) {
+                    TextFlow textFlow = new TextFlow();
+                    Pattern pattern = Pattern.compile(text,Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(str);
+                    if (matcher.find()){
+                        int index = 0;
+                        int[] index_ = {matcher.start(),matcher.end(),str.length()};
+                        for(int i = 0; i < 3;i++){
+                            Text text_ = new Text();
+                            text_.setText(str.substring(index,index_[i]));
+                            if(i == 1)
+                                text_.setFill(Color.AQUA);
+                            textFlow.getChildren().add(text_);
+                            index = index_[i];
+                        }
+                        textFlowArrayList.add(textFlow);
+                    }
+                }
+                ObservableList observableList = FXCollections.observableList(textFlowArrayList);
+                autoComplete.getItems().clear();
+                autoComplete.getItems().addAll(observableList);
+                autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+                autoComplete.getSelectionModel().selectFirst();
+                if(observableList.size() == 0){
+                    if(!textField.getStyleClass().contains("validation_error")) {
+                        textField.getStyleClass().add("validation_error");
+                    }
+                    autoComplete.setVisible(false);
+                }else {
+                    if(!autoComplete.isVisible()){
+                        textField.getStyleClass().remove("validation_error");
+                        AnchorPane.setLeftAnchor(autoComplete,x);
+                        AnchorPane.setTopAnchor(autoComplete,y);
+                        autoComplete.prefHeightProperty().bind(Bindings.size(observableList).multiply(24));
+                        autoComplete.getSelectionModel().selectFirst();
+                        autoComplete.setVisible(true);
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(text == ""){
+            autoComplete.setVisible(false);
+            if(textField.getStyleClass().contains("validation_error")){
+                textField.getStyleClass().remove("validation_error");
+            }
+        }
+    }
+
+    private boolean validation(TextInputControl target){
+        TextField textField = (TextField) target;
+
+        String text = target.getText();
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        if(text != ""){
+            try {
+                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name = '" + text + "'");
+                if(arrayList.size() == 0){
+                    if(!textField.getStyleClass().contains("validation_error")) {
+                        textField.getStyleClass().add("validation_error");
+                    }
+                }else {
+                    if(textField.getStyleClass().contains("validation_error")){
+                        textField.getStyleClass().remove("validation_error");
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(text == ""){
+            if(textField.getStyleClass().contains("validation_error")){
+                textField.getStyleClass().remove("validation_error");
+            }
+        }
+        return arrayList.size() == 1;
+    }
+
+    private void changeTarget(TextField target){
+        autoComplete_target = target;
+//        autoComplete.removeEventFilter();
+        autoComplete.addEventFilter(MouseEvent.MOUSE_CLICKED,(e)->{
+            if (e.getClickCount() >= 2){
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
+                    if (node instanceof Text){
+                        stringBuilder.append(((Text)node).getText());
+                    }
+                }
+                autoComplete_target.setText(stringBuilder.toString());
+                autoComplete_target.positionCaret(autoComplete_target.getText().length());
+                autoComplete.setVisible(false);
+            }
+        });
+    }
+
+    public class AutoComplete extends ListView<TextFlow>{
+
+        private TextField target;
+        private ArrayList<TextField> registry = new ArrayList<>();
+
+        public void init(ArrayList<TextField> arrayList,AutoComplete autoComplete){
+            registry = arrayList;
+            for (TextField entry:registry){
+                entry.textProperty().addListener((ob,ov,nv)-> {
+                    if(nv.length() > ov.length()){
+                        activateAutoComplete(entry,391.0,177.0);
+                    }else if(nv.length()==0){
+                        activateAutoComplete(entry,391.0,177.0);
+                    }else if(nv.length() <= ov.length()){
+                        validation_(entry,"sql");
+                    }
+                });
+                entry.addEventFilter(KeyEvent.KEY_PRESSED,(keyEvent)->{
+                    if(keyEvent.getCode() == KeyCode.TAB){
+                        System.out.println(this);
+                        autoComplete.setVisible(false);
+                        return;
+                    }
+                    if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN){
+                        if(autoComplete.getSelectionModel().getSelectedIndex() == 0 & keyEvent.getCode() == KeyCode.UP | autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1 & keyEvent.getCode() == KeyCode.DOWN){
+                            Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_RELEASED,"","",keyEvent.getCode(),false,false,false,false));
+                        }else {
+                            Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
+                        }
+                    }
+                });
+                entry.addEventFilter(KeyEvent.KEY_RELEASED,(keyEvent -> {
+                    if(keyEvent.getCode().isWhitespaceKey() & autoComplete.isVisible()){
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
+                            if (node instanceof Text){
+                                stringBuilder.append(((Text)node).getText());
+                            }
+                        }
+                        entry.setText(stringBuilder.toString());
+                        entry.positionCaret(entry.getText().length());
+                        autoComplete.setVisible(false);
+                    }
+                }));
+            }
+        }
+        private boolean validation_(TextInputControl target,String sql){
+            TextField textField = (TextField) target;
+
+            String text = target.getText();
+            ArrayList<String> arrayList = new ArrayList<>();
+
+            if(text != ""){
+                try {
+//                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name = '" + text + "'");
+                    arrayList = ConnectionDB.connectionDB.connectDB().selectRaw(sql);
+                    if(arrayList.size() == 0){
+                        if(!textField.getStyleClass().contains("validation_error")) {
+                            textField.getStyleClass().add("validation_error");
+                        }
+                    }else {
+                        if(textField.getStyleClass().contains("validation_error")){
+                            textField.getStyleClass().remove("validation_error");
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else if(text == ""){
+                if(textField.getStyleClass().contains("validation_error")){
+                    textField.getStyleClass().remove("validation_error");
+                }
+            }
+            return arrayList.size() == 1;
+        }
+    }
 }

@@ -126,8 +126,8 @@ public class Evaluation implements DataObject{
         Evaluation previous_evaluation = new Evaluation();
         try{
             while (resultSet.next()){
-                System.out.println(previous_evaluation.getId());
-                System.out.println(resultSet.getString("Id"));
+//                System.out.println(previous_evaluation.getId());
+//                System.out.println(resultSet.getString("Id"));
                 evaluation  = new Evaluation();
                 if(previous_evaluation.getId() != resultSet.getInt("id")){
                     evaluation.setId(resultSet.getInt("id"));

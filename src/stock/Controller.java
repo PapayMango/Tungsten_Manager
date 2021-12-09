@@ -147,6 +147,30 @@ public class Controller implements Initializable{
             }
         });
 
+        fromPh.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if(!t1.matches("[\\d.]*")){
+                    fromPh.setText(t1.replaceAll("[^\\d.]",""));
+                }
+                if(t1.matches("[\\d.]*[.][\\d.]*[.]")){
+                    fromPh.setText(t1.substring(0,t1.length()-1));
+                }
+            }
+        });
+
+        toPh.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if(!t1.matches("[\\d.]*")){
+                    toPh.setText(t1.replaceAll("[^\\d.]",""));
+                }
+                if(t1.matches("[\\d.]*[.][\\d.]*[.]")){
+                    toPh.setText(t1.substring(0,t1.length()-1));
+                }
+            }
+        });
+
         String[] qualitiy_str = {"-","A","B","C","D"};
 
         qualities.add(deodorize);
@@ -262,7 +286,7 @@ public class Controller implements Initializable{
             if(constraints.containsKey("method"))
                 constraints.remove("method");
             refreshTable(constraints);
-        }else {
+        }else{
             for(int i = 0; i < selectedMethods.size(); i++) {
                 if (i == 0) {
                     constraint += selectedMethods.get(i).getText() + "'";
