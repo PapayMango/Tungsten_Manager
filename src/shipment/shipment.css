@@ -9,9 +9,12 @@
 }
 #toStock{
     -fx-font-size:17px;
+//    -fx-font-family:'Meiryo ui';
 }
 #toEvaluation{
     -fx-font-size:17px;
+    -fx-font-family:'Meiryo ui';
+    -fx-font-weight:bold;
 }
 #title > .label{
     -fx-font-size:21px;

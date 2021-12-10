@@ -15,6 +15,7 @@
 <?import javafx.scene.control.ListView?>
 <?import java.lang.String?>
 <?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane fx:id="root" fx:controller="sample.Controller"
             xmlns:fx="http://javafx.com/fxml"
             stylesheets="@main.css">
@@ -58,7 +59,7 @@
                 <RowConstraints valignment="CENTER"/>
             </rowConstraints>
     <!--        <Label text="Label1" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.halignment="CENTER" GridPane.valignment="CENTER"/>-->
-            <Label text="Label1" GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="label_" onMouseClicked="#click"/>
+            <VBox GridPane.columnIndex="2" GridPane.rowIndex="1"><Label fx:id="label_" onMouseClicked="#click"/><Label fx:id="label_1" onMouseClicked="#click"/><Label fx:id="label_2" onMouseClicked="#click"/></VBox>
             <TextFlow fx:id="textFlow" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         </GridPane>
         <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">

@@ -1,5 +1,6 @@
 package shipment;
 
+import home.SceneTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -7,6 +8,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -78,6 +81,20 @@ public class Controller implements Initializable {
 
     @FXML
     public void changePage(MouseEvent mouseEvent) {
+        Label label = (Label)mouseEvent.getSource();
+        System.out.println(location_.getScene().getWindow());
+        System.out.println(label.getId());
+        System.out.println(label.getId().matches("toStock"));
+        location_.getScene().getWindow().hide();
+        if(label.getId().matches("toStock")){
+            System.out.println("a");
+            Stage stage = SceneTransition.sceneTransition.transition("../stock/stock.fxml","在庫管理",(Stage)result_tb.getScene().getWindow());
+            System.out.println(stage);
+            stage.show();
+        }else if(label.getId().matches("toEvaluation")){
+            System.out.println("b");
+            SceneTransition.sceneTransition.getPrevious().show();
+        }
     }
 
     @Override

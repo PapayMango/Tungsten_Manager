@@ -19,6 +19,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -48,6 +50,10 @@ public class Controller implements Initializable {
 
     @FXML
     public Label label_;
+    @FXML
+    public Label label_1;
+    @FXML
+    public Label label_2;
 
     @FXML
     private Button nextButton;
@@ -105,6 +111,20 @@ public class Controller implements Initializable {
                 textFlows[i].getChildren().add(text);
             }
         }
+        Font font = new javafx.scene.text.Font("Meiryo",15.0);
+        Font font_ = Font.font("Meiryo",FontWeight.BOLD,15.0);
+        Font.loadFont("file:./src/sample/resource/font/Harenosora.otf",15.0);
+        Font font_1 = Font.font("HarenosoraMincho",FontWeight.BOLD,15.0);
+        System.out.println(Font.getDefault());
+        System.out.println(Font.getFontNames());
+        System.out.println(Font.getFamilies());
+        Text text = new Text("Graphene水分散液");
+        label_.setFont(font_);
+        label_.setText("Graphene水分散液");
+        label_1.setFont(font);
+        label_1.setText("Graphene水分散液");
+        label_2.setFont(font_1);
+        label_2.setText("Graphene水分散液");
         observableList = FXCollections.observableArrayList(textFlows);
         listView.getItems().addAll(observableList);
         listView.getSelectionModel().selectFirst();
@@ -261,6 +281,7 @@ public class Controller implements Initializable {
         listView.addEventFilter(KeyEvent.KEY_PRESSED,(e)->{
             System.out.println(listView.getId() + " : event filter   Key event : " + e );
         });
+
 
 //
 //        root.addEventFilter(ActionEvent.ACTION,(e)->{

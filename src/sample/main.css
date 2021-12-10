@@ -1,3 +1,6 @@
+#root{
+    -fx-font-family:'Mairyo';
+}
 .label {-fx-background-color  : yellow;}
 #nextButton {
         -fx-color: rgb(0,75,134);

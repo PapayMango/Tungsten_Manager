@@ -157,13 +157,15 @@ public class Controller implements hasDataObject,Initializable{
         System.out.println(location_.getScene().getWindow());
         System.out.println(label.getId());
         System.out.println(label.getId().matches("toStock"));
-        location_.getScene().getWindow().hide();
-        if(label.getId().matches("toShipment")){
-            System.out.println("a");
-            Stage stage = SceneTransition.sceneTransition.transition("../shipment/shipment.fxml","出荷管理",tungsten,(Stage)result_tb.getScene().getWindow());
-            System.out.println(stage);
-            stage.show();
-        }else if(label.getId().matches("toStock")){
+//        location_.getScene().getWindow().hide();
+//        if(label.getId().matches("toShipment")){
+//            System.out.println("a");
+//            Stage stage = SceneTransition.sceneTransition.transition("../shipment/shipment.fxml","出荷管理",tungsten,(Stage)result_tb.getScene().getWindow());
+//            System.out.println(stage);
+//            stage.show();
+//        }else if(label.getId().matches("toStock")){
+        if(label.getId().matches("toStock")){
+            location_.getScene().getWindow().hide();
             System.out.println("b");
             SceneTransition.sceneTransition.getPrevious().show();
         }
@@ -474,6 +476,26 @@ public class Controller implements hasDataObject,Initializable{
         column_cockroach.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("cockroach"));
         column_shipment.setCellValueFactory(new PropertyValueFactory<Evaluation,Integer>("shipment"));
         column_date.setCellValueFactory(new PropertyValueFactory<Evaluation, Date>("update_date"));
+        result_tb.setRowFactory((t) ->{
+            TableRow tableRow = new TableRow();
+            tableRow.addEventFilter(MouseEvent.MOUSE_CLICKED,(event)->{
+                if(event.getClickCount() >= 2){
+                    TableRow selected = (TableRow)event.getSource();
+                    if(result_tb.getSelectionModel().getSelectedIndex() == selected.getIndex()){
+                        Stage current = (Stage)result_tb.getScene().getWindow();
+                        if(current != currentWindow){
+                            currentWindow = current;
+                        }
+                        result_tb.getScene().getWindow().hide();
+//                        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
+
+                        Stage stage = SceneTransition.sceneTransition.transition("../shipment/shipment.fxml","出荷管理",tungsten,(Stage) result_tb.getScene().getWindow());
+                        stage.show();
+                    }
+                }
+            });
+            return tableRow;
+        });
     }
 
     public boolean refreshTable(HashMap<String,String> constraintsMap){

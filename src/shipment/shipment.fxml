@@ -35,7 +35,7 @@
 
     <Label fx:id="toStock" text="在庫データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="145" onMouseClicked="#changePage"/>
     <Label fx:id="toEvaluation" text="評価データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" onMouseClicked="#changePage"/>
-    <TableView fx:id="result_tb" prefWidth="470" prefHeight="600" AnchorPane.topAnchor="30" AnchorPane.rightAnchor="30">
+    <TableView fx:id="result_tb" prefWidth="470" prefHeight="720" AnchorPane.topAnchor="55" AnchorPane.rightAnchor="20">
         <columns>
             <TableColumn fx:id="column_date" minWidth="80" text="出荷日"/>
             <TableColumn fx:id="column_shipment" minWidth="80" text="出荷量"/>
