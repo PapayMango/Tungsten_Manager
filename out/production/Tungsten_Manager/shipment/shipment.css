@@ -1,0 +1,46 @@
+#main{
+    -fx-background-color: rgb(64,64,64);
+}
+.label{
+    -fx-text-fill:rgb(180,179,179);
+//    -fx-font-size:18px;
+    -fx-font-size:16px;
+    -fx-font-family:cursive;
+}
+#toStock{
+    -fx-font-size:17px;
+//    -fx-font-family:'Meiryo ui';
+}
+#toEvaluation{
+    -fx-font-size:17px;
+    -fx-font-family:'Meiryo ui';
+    -fx-font-weight:bold;
+}
+#title > .label{
+    -fx-font-size:21px;
+    -fx-font-weight:200;
+}
+.table-column{
+    //-fx-background-color:rgb(69,72,73);
+}
+.table-view .column-header-background .filler{
+    -fx-background-color:rgb(110,110,110);
+}
+.table-view{
+    -fx-background-color:rgb(69,72,73);
+}
+.table-view .column-header{
+    -fx-background-color:rgb(110,110,110);
+}
+#title{
+    -fx-padding:5 0 5 0;
+    -fx-spacing:25;
+}
+.details{
+    -fx-padding:5 0 5 0;
+    -fx-spacing:25;
+}
+.filter{
+    -fx-padding:5 0 5 0;
+    -fx-spacing:25;
+}
