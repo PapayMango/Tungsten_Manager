@@ -3,11 +3,14 @@ package shipment;
 import home.SceneTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -78,6 +81,12 @@ public class Controller implements Initializable {
     public TableColumn column_costs;
     @FXML
     public TableColumn column_company;
+    @FXML
+    public VBox product_box;
+    @FXML
+    public VBox evaluation_box;
+    @FXML
+    public VBox shipment_box;
 
     @FXML
     public void changePage(MouseEvent mouseEvent) {
@@ -99,6 +108,14 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        for (Node node:product_box.getChildren()){
+                node.getStyleClass().add("hbox_margin");
+        }
+        for (Node node:evaluation_box.getChildren()){
+                node.getStyleClass().add("hbox_margin");
+        }
+        for (Node node:shipment_box.getChildren()){
+                node.getStyleClass().add("hbox_margin");
+        }
     }
 }
