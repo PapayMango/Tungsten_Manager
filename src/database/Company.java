@@ -9,6 +9,7 @@ public class Company implements DataObject{
     private String name;
     private int capital;
     private int employees;
+    private String location;
 
     public int getId() {
         return id;
@@ -47,4 +48,16 @@ public class Company implements DataObject{
         return DataObjectType.Company;
     }
 
+    @Override
+    public String toString(){
+        return getName();
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

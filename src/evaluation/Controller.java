@@ -489,7 +489,7 @@ public class Controller implements hasDataObject,Initializable{
                         result_tb.getScene().getWindow().hide();
 //                        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
 
-                        Stage stage = SceneTransition.sceneTransition.transition("../shipment/shipment.fxml","出荷管理",tungsten,(Stage) result_tb.getScene().getWindow());
+                        Stage stage = SceneTransition.sceneTransition.transition("../shipment/shipment.fxml","出荷管理",(Evaluation)result_tb.getSelectionModel().getSelectedItem(),(Stage) result_tb.getScene().getWindow());
                         stage.show();
                     }
                 }

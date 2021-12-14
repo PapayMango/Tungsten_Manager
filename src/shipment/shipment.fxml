@@ -27,7 +27,7 @@
             <HBox><Label text="濃度 : "/><Label fx:id="concentration_" minWidth="160"/><Label text="PH : "/><Label fx:id="ph_"/></HBox>
             <HBox><Label text="添加物 : "/><Label fx:id="additive_" minWidth="145"/><Label text="バインダー : "/><Label fx:id="binder"/></HBox>
             <HBox><Label text="消臭 : "/><Label fx:id="deodorize" minWidth="160"/><Label text="メチレン : "/><Label fx:id="methylene"/></HBox>
-            <HBox><Label text="ゴキブリ : "/><Label fx:id="cockroach" minWidth="145"/><Label text="最終更新日 : "/><Label fx:id="update_date"/></HBox>
+            <HBox><Label text="ゴキブリ : "/><Label fx:id="cockroach" minWidth="145"/><Label text="最終更新日 : "/><Label fx:id="update_date" maxWidth="135"/></HBox>
         </VBox>
     </AnchorPane>
     <AnchorPane fx:id="shipment_pane" AnchorPane.topAnchor="410" AnchorPane.leftAnchor="25">

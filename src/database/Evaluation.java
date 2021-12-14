@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,15 +12,14 @@ public class Evaluation implements DataObject{
     private String methylene;
     private String deodorize;
     private String cockroach;
-    private Date update_date;
+    private Timestamp update_date;
     private float concentration;
     private String additive;
     private String binder;
     private float ph;
     private int shipment;
 
-
-    public Evaluation(int id, String lot, String methylene, String deodorize, String cockroach, Date update_date, float concentration, String additive, String binder, float ph, int shipment) {
+    public Evaluation(int id, String lot, String methylene, String deodorize, String cockroach, Timestamp update_date, float concentration, String additive, String binder, float ph, int shipment) {
         this.id = id;
         this.lot = lot;
         this.methylene = methylene;
@@ -72,11 +72,11 @@ public class Evaluation implements DataObject{
         this.cockroach = cockroach;
     }
 
-    public Date getUpdate_date() {
+    public Timestamp getUpdate_date() {
         return update_date;
     }
 
-    public void setUpdate_date(Date update_date) {
+    public void setUpdate_date(Timestamp update_date) {
         this.update_date = update_date;
     }
 

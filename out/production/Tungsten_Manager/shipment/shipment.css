@@ -8,12 +8,18 @@
     -fx-font-family:cursive;
 }
 #toStock{
-    -fx-font-size:17px;
-//    -fx-font-family:'Meiryo ui';
+    -fx-font-size:16px;
+    -fx-font-family:'Meiryo';
+    -fx-font-weight:bold;
 }
 #toEvaluation{
-    -fx-font-size:17px;
-    -fx-font-family:'Meiryo ui';
+    -fx-font-size:16px;
+    -fx-font-family:'Meiryo';
+    -fx-font-weight:bold;
+}
+#toPrevious{
+    -fx-font-size:16px;
+    -fx-font-family:'Meiryo';
     -fx-font-weight:bold;
 }
 #title > .label{
@@ -43,4 +49,38 @@
 .filter{
     -fx-padding:5 0 5 0;
     -fx-spacing:25;
+}
+#product_box{
+    -fx-border-style:solid;
+    -fx-border-color:rgb(180,179,179);
+    -fx-border-width:0.5;
+    -fx-padding:10;
+}
+#evaluation_box{
+    -fx-border-style:solid;
+    -fx-border-color:rgb(180,179,179);
+    -fx-border-width:0.5;
+    -fx-padding:10;
+}
+#shipment_box{
+    -fx-border-style:solid;
+    -fx-border-color:rgb(180,179,179);
+    -fx-border-width:0.5;
+    -fx-padding:10;
+}
+.hbox_margin{
+//    -fx-border-insets:20;
+//    -fx-border-style:none;
+//    -fx-background-insets:5;
+//    -fx-spacing:5;
+    -fx-padding:2.5;
+}
+#product_header{
+    -fx-font-size:17;
+}
+#evaluation_header{
+    -fx-font-size:17;
+}
+#shipment_header{
+    -fx-font-size:17;
 }

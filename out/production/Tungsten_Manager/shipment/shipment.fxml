@@ -12,36 +12,44 @@
             fx:controller="shipment.Controller"
             stylesheets="@shipment.css"
             prefHeight="400.0" prefWidth="600.0">
-    <AnchorPane fx:id="profile" AnchorPane.topAnchor="15" AnchorPane.leftAnchor="30">
-        <VBox>
-            <HBox fx:id="title"><Label text="Lot  No."/><Label fx:id="lot"/></HBox>
-            <HBox><Label text="生産日 : "/><Label fx:id="date"/><Label text="総出荷量 : "/><Label fx:id="shipment"/></HBox>
-            <HBox><Label text="固形分濃度 : "/><Label fx:id="concentration"/><Label text="PH : "/><Label fx:id="ph"/></HBox>
-            <HBox><Label text="生産量 : "/><Label fx:id="product"/><Label text="保管場所 : "/><Label fx:id="location_"/></HBox>
+    <HBox fx:id="title" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30"><Label text="Lot  No."/><Label fx:id="lot"/></HBox>
+    <AnchorPane fx:id="product_pane" AnchorPane.topAnchor="70" AnchorPane.leftAnchor="25">
+        <Label fx:id="product_header" text="生産" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5"/>
+        <VBox minWidth="455" fx:id="product_box" AnchorPane.topAnchor="35" AnchorPane.leftAnchor="5">
+            <HBox><Label text="生産日 : "/><Label fx:id="date" minWidth="145"/><Label text="総出荷量 : "/><Label fx:id="shipment"/></HBox>
+            <HBox><Label text="固形分濃度 : "/><Label fx:id="concentration" minWidth="115"/><Label text="PH : "/><Label fx:id="ph"/></HBox>
+            <HBox><Label text="生産量 : "/><Label fx:id="amount_product" minWidth="145"/><Label text="保管場所 : "/><Label fx:id="location_"/></HBox>
         </VBox>
     </AnchorPane>
-    <AnchorPane fx:id="details" AnchorPane.topAnchor="180" AnchorPane.leftAnchor="30">
-        <VBox>
-            <HBox><Label text="会社名 : "/><Label fx:id="company"/><Label text="濃度 : "/><Label fx:id="concentration_"/></HBox>
-            <HBox><Label text="従業員数 : "/><Label fx:id="num_employee"/><Label text="PH : "/><Label fx:id="ph_"/></HBox>
-            <HBox><Label text="資本金 : "/><Label fx:id="capital"/><Label text="バインダー : "/><Label fx:id="binder"/></HBox>
-            <HBox><Label text="所在地 : "/><Label fx:id="company_location"/><Label text="添加物 : "/><Label fx:id="additive_"/></HBox>
-            <HBox><Label text="出荷量 : "/><Label fx:id="shipment_"/><Label text="消臭 : "/><Label fx:id="deodorize"/></HBox>
-            <HBox><Label text="出荷日 : "/><Label fx:id="shipping_date"/><Label text="メチレン : "/><Label fx:id="methylene"/></HBox>
-            <HBox><Label text="売上高 : "/><Label fx:id="sales"/><Label text="ゴキブリ : "/><Label fx:id="cockroach"/></HBox>
-            <HBox><Label text="売上原価 : "/><Label fx:id="costs"/></HBox>
+    <AnchorPane fx:id="evaluation_pane" AnchorPane.topAnchor="225" AnchorPane.leftAnchor="25">
+        <Label fx:id="evaluation_header" text="評価" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5"/>
+        <VBox minWidth="455" fx:id="evaluation_box" AnchorPane.topAnchor="35" AnchorPane.leftAnchor="5">
+            <HBox><Label text="濃度 : "/><Label fx:id="concentration_" minWidth="160"/><Label text="PH : "/><Label fx:id="ph_"/></HBox>
+            <HBox><Label text="添加物 : "/><Label fx:id="additive_" minWidth="145"/><Label text="バインダー : "/><Label fx:id="binder"/></HBox>
+            <HBox><Label text="消臭 : "/><Label fx:id="deodorize" minWidth="160"/><Label text="メチレン : "/><Label fx:id="methylene"/></HBox>
+            <HBox><Label text="ゴキブリ : "/><Label fx:id="cockroach" minWidth="145"/><Label text="最終更新日 : "/><Label fx:id="update_date" maxWidth="135"/></HBox>
         </VBox>
     </AnchorPane>
-
-    <Label fx:id="toStock" text="在庫データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="145" onMouseClicked="#changePage"/>
-    <Label fx:id="toEvaluation" text="評価データ一覧" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="10" onMouseClicked="#changePage"/>
-    <TableView fx:id="result_tb" prefWidth="470" prefHeight="720" AnchorPane.topAnchor="55" AnchorPane.rightAnchor="20">
+    <AnchorPane fx:id="shipment_pane" AnchorPane.topAnchor="410" AnchorPane.leftAnchor="25">
+        <Label fx:id="shipment_header" text="出荷" AnchorPane.topAnchor="5" AnchorPane.leftAnchor="5"/>
+        <VBox minWidth="455" fx:id="shipment_box" AnchorPane.topAnchor="35" AnchorPane.leftAnchor="5">
+            <HBox><Label text="会社名 : "/><Label fx:id="company_name"/></HBox>
+            <HBox><Label text="所在地 : "/><Label fx:id="company_location"/></HBox>
+            <HBox><Label text="従業員数 : "/><Label fx:id="num_employee" minWidth="130"/><Label text="資本金 : "/><Label fx:id="capital"/></HBox>
+            <HBox><Label text="出荷量 : "/><Label fx:id="amount_shipment" minWidth="145"/><Label text="出荷日 : "/><Label fx:id="shipping_date"/></HBox>
+            <HBox><Label text="売上高 : "/><Label fx:id="sales" minWidth="145"/><Label text="売上原価 : "/><Label fx:id="costs"/></HBox>
+        </VBox>
+    </AnchorPane>
+    <Label fx:id="toPrevious" text="前のページに戻る" AnchorPane.topAnchor="30" AnchorPane.rightAnchor="315" onMouseClicked="#changePage"/>
+    <Label fx:id="toStock" text="在庫データ一覧" AnchorPane.topAnchor="30" AnchorPane.rightAnchor="170" onMouseClicked="#changePage"/>
+    <Label fx:id="toEvaluation" text="評価データ一覧" AnchorPane.topAnchor="30" AnchorPane.rightAnchor="35" onMouseClicked="#changePage"/>
+    <TableView fx:id="result_tb" prefWidth="460" prefHeight="690" AnchorPane.topAnchor="75" AnchorPane.rightAnchor="25">
         <columns>
-            <TableColumn fx:id="column_date" minWidth="80" text="出荷日"/>
+            <TableColumn fx:id="column_date" minWidth="108" text="出荷日"/>
             <TableColumn fx:id="column_shipment" minWidth="80" text="出荷量"/>
-            <TableColumn fx:id="column_sales" minWidth="150" text="売上高"/>
-            <TableColumn fx:id="column_costs" minWidth="150" text="売上原価"/>
-            <TableColumn fx:id="column_company" minWidth="80" text="相手先企業"/>
+            <TableColumn fx:id="column_sales" minWidth="80" text="売上高"/>
+            <TableColumn fx:id="column_costs" minWidth="80" text="売上原価"/>
+            <TableColumn fx:id="column_company" minWidth="112" text="相手先企業"/>
         </columns>
     </TableView>
 </AnchorPane>
