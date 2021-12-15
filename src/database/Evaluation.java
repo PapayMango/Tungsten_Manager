@@ -157,7 +157,7 @@ public class Evaluation implements DataObject{
 
     public static String createSelectSQL(String... args){
 //        String sql = "select * from evaluation";
-        String sql = "select e.deodorize,e.methylene,e.cockroach,e.total_shipment,e.concentration,e.ph,e.update_date, b.name as binder ,e.lot,e.id,a.name as additive from evaluation as e left join (select binder_mixing.binder_id,binder_mixing.evaluation_id ,binder.name from binder_mixing inner join binder on binder.id\n" +
+        String sql = "select e.lot,e.deodorize,e.methylene,e.cockroach,e.total_shipment,e.concentration,e.ph,e.update_date, b.name as binder ,e.lot,e.id,a.name as additive from evaluation as e left join (select binder_mixing.binder_id,binder_mixing.evaluation_id ,binder.name from binder_mixing inner join binder on binder.id\n" +
                 "= binder_mixing.binder_id) as b on e.id = b.evaluation_id left join (select additive.material_id,additive.evaluation_id,material.name from additive inner join material on additive.material_id = material.id) as a on e.id = a.evaluation_id";
         if(args.length == 0){
             return sql;

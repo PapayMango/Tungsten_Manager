@@ -22,6 +22,12 @@ public class Controller {
     private AnchorPane product;
 
     @FXML
+    public AnchorPane evaluation;
+
+    @FXML
+    public AnchorPane shipment;
+
+    @FXML
     protected void OnClickedStock(MouseEvent event){
         System.out.println(event);
         stock.getScene().getWindow().hide();
@@ -34,5 +40,16 @@ public class Controller {
     @FXML
     protected void OnClickedProduct(MouseEvent event){
         System.out.println(event);
+    }
+
+    public void OnClickedEvaluation(MouseEvent mouseEvent) {
+        stock.getScene().getWindow().hide();
+        if(stock_stage == null){
+            stock_stage = sceneTransition.transition("../evaluation/evaluationMain.fxml","評価管理",(Stage) evaluation.getScene().getWindow());
+        }
+        stock_stage.show();
+    }
+
+    public void OnClickedShipment(MouseEvent mouseEvent) {
     }
 }

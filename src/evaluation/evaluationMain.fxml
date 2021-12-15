@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="evaluation.MainController"
+            stylesheets="@evaluationMain.css"
+            prefHeight="800.0" prefWidth="1000.0">
+    <AnchorPane fx:id="filter" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30">
+        <VBox>
+            <HBox><Label text="Lot No. :"/><TextField maxWidth="130" prefWidth="130" onKeyTyped="#changeLot"/></HBox>
+            <HBox><Label text="最終更新日 :"/><DatePicker fx:id="fromDate" maxWidth="150" onAction="#changeDate"/><Label>～</Label><DatePicker fx:id="toDate" maxWidth="150" onAction="#changeDate"/></HBox>
+            <HBox><Label text="濃度 : "/><TextField fx:id="fromConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/><Label>～</Label><TextField fx:id="toConcentration" maxWidth="50" onKeyTyped="#changeConcentration"/></HBox>
+            <HBox><Label text="PH : "/><TextField fx:id="fromPh" maxWidth="50" onKeyTyped="#changePh"/><Label>～</Label><TextField fx:id="toPh" maxWidth="50" onKeyTyped="#changePh"/></HBox>
+            <HBox><Label text="消臭 : "/><ComboBox fx:id="deodorize" maxWidth="65" onAction="#changeQuality"/><Label text="メチレン : "/><ComboBox fx:id="methylene" maxWidth="65" onAction="#changeQuality"/><Label text="ゴキブリ : "/><ComboBox fx:id="cockroach" maxWidth="65" onAction="#changeQuality"/></HBox>
+            <HBox><Label text="添加剤 : "/><TextField fx:id="additive" maxWidth="100" onKeyReleased="#changeAdditive"/></HBox>
+            <HBox><Label text="バインダー : "/><TextField fx:id="binder" maxWidth="100" onKeyReleased="#changeBinder"/></HBox>
+        </VBox>
+    </AnchorPane>
+    <TableView fx:id="result_tb" prefWidth="940" prefHeight="525"  AnchorPane.topAnchor="250" AnchorPane.leftAnchor="30">
+        <columns>
+            <TableColumn fx:id="column_lot" prefWidth="140" text="  Lot No."/>
+            <TableColumn fx:id="column_concentration" minWidth="80" text="濃度"/>
+            <TableColumn fx:id="column_ph" minWidth="80" text="PH"/>
+            <TableColumn fx:id="column_additive" minWidth="120" text="添加剤"/>
+            <TableColumn fx:id="column_binder" minWidth="130" text="バインダー"/>
+            <TableColumn fx:id="column_deodorize" minWidth="75" text="消臭"/>
+            <TableColumn fx:id="column_methylene" minWidth="75" text="メチレン"/>
+            <TableColumn fx:id="column_cockroach" minWidth="75" text="ゴキブリ"/>
+            <TableColumn fx:id="column_date" minWidth="150" text="最終更新日"/>
+        </columns>
+    </TableView>
+</AnchorPane>

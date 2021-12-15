@@ -4,6 +4,12 @@
 #stock{
     -fx-background-color:rgb(0,75,134);
 }
+#evaluation{
+    -fx-background-color:rgb(0,75,134);
+}
+#shipment{
+    -fx-background-color:rgb(0,75,134);
+}
 #product{
     -fx-background-color:rgb(0,75,134);
 }
@@ -12,6 +18,14 @@
     -fx-font-size:35px;
 }
 #stock:hover{
+    -fx-background-color:rgb(0,97,175);
+    -fx-cursor:hand;
+}
+#evaluation:hover{
+    -fx-background-color:rgb(0,97,175);
+    -fx-cursor:hand;
+}
+#shipment:hover{
     -fx-background-color:rgb(0,97,175);
     -fx-cursor:hand;
 }
