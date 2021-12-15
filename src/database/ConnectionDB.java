@@ -95,6 +95,7 @@ public class ConnectionDB {
     }
 
     public ArrayList<String> selectRaw(String sql){
+        System.out.println(sql);
         ArrayList<String> arrayList = new ArrayList<>();
         if(isConnected){
             try {

@@ -9,6 +9,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="evaluation.MainController"
+            fx:id="main"
             stylesheets="@evaluationMain.css"
             prefHeight="800.0" prefWidth="1000.0">
     <AnchorPane fx:id="filter" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="30">
