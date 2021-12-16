@@ -5,6 +5,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import evaluation.AutoComplete ?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -36,4 +37,5 @@
             <TableColumn fx:id="column_date" minWidth="150" text="最終更新日"/>
         </columns>
     </TableView>
+    <AutoComplete fx:id="autoComplete"/>
 </AnchorPane>

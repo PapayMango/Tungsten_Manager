@@ -349,6 +349,7 @@ public class Controller implements hasDataObject,Initializable{
                 }else {
                     Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false)); 
                 }
+                keyEvent.consume();
             }
         });
 
@@ -466,7 +467,6 @@ public class Controller implements hasDataObject,Initializable{
                 }
             }
         }));
-
         column_concentration.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("concentration"));
         column_ph.setCellValueFactory(new PropertyValueFactory<Evaluation,Integer>("ph"));
         column_additive.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("additive"));
@@ -610,6 +610,8 @@ public class Controller implements hasDataObject,Initializable{
 
     @FXML
     private void changeAdditive(KeyEvent keyEvent){
+        if (keyEvent.getCode() != KeyCode.ENTER)
+            return;
         changeAdditive_();
     }
 
@@ -639,6 +641,8 @@ public class Controller implements hasDataObject,Initializable{
     
     @FXML
     private void changeBinder(KeyEvent keyEvent){
+        if (keyEvent.getCode() != KeyCode.ENTER)
+            return;
         changeBinder_();
     }
 
@@ -665,8 +669,6 @@ public class Controller implements hasDataObject,Initializable{
         }
         refreshTable(constraints);
     }
-
-
 
     private void activateAutoComplete(TextInputControl target,double x,double y){
 
@@ -780,82 +782,5 @@ public class Controller implements hasDataObject,Initializable{
                 autoComplete.setVisible(false);
             }
         });
-    }
-
-    public class AutoComplete extends ListView<TextFlow>{
-
-        private TextField target;
-        private ArrayList<TextField> registry = new ArrayList<>();
-
-        public void init(ArrayList<TextField> arrayList,AutoComplete autoComplete){
-            registry = arrayList;
-            for (TextField entry:registry){
-                entry.textProperty().addListener((ob,ov,nv)-> {
-                    if(nv.length() > ov.length()){
-                        activateAutoComplete(entry,391.0,177.0);
-                    }else if(nv.length()==0){
-                        activateAutoComplete(entry,391.0,177.0);
-                    }else if(nv.length() <= ov.length()){
-                        validation_(entry,"sql");
-                    }
-                });
-                entry.addEventFilter(KeyEvent.KEY_PRESSED,(keyEvent)->{
-                    if(keyEvent.getCode() == KeyCode.TAB){
-                        System.out.println(this);
-                        autoComplete.setVisible(false);
-                        return;
-                    }
-                    if(keyEvent.getCode() == KeyCode.UP|keyEvent.getCode() == KeyCode.DOWN){
-                        if(autoComplete.getSelectionModel().getSelectedIndex() == 0 & keyEvent.getCode() == KeyCode.UP | autoComplete.getSelectionModel().getSelectedIndex() == autoComplete.getItems().size()-1 & keyEvent.getCode() == KeyCode.DOWN){
-                            Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_RELEASED,"","",keyEvent.getCode(),false,false,false,false));
-                        }else {
-                            Event.fireEvent(autoComplete,new KeyEvent(KeyEvent.KEY_PRESSED,"","",keyEvent.getCode(),false,false,false,false));
-                        }
-                    }
-                });
-                entry.addEventFilter(KeyEvent.KEY_RELEASED,(keyEvent -> {
-                    if(keyEvent.getCode().isWhitespaceKey() & autoComplete.isVisible()){
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for (Node node:autoComplete.getSelectionModel().getSelectedItem().getChildren()){
-                            if (node instanceof Text){
-                                stringBuilder.append(((Text)node).getText());
-                            }
-                        }
-                        entry.setText(stringBuilder.toString());
-                        entry.positionCaret(entry.getText().length());
-                        autoComplete.setVisible(false);
-                    }
-                }));
-            }
-        }
-        private boolean validation_(TextInputControl target,String sql){
-            TextField textField = (TextField) target;
-
-            String text = target.getText();
-            ArrayList<String> arrayList = new ArrayList<>();
-
-            if(text != ""){
-                try {
-//                arrayList = ConnectionDB.connectionDB.connectDB().selectRaw("select name from material where name = '" + text + "'");
-                    arrayList = ConnectionDB.connectionDB.connectDB().selectRaw(sql);
-                    if(arrayList.size() == 0){
-                        if(!textField.getStyleClass().contains("validation_error")) {
-                            textField.getStyleClass().add("validation_error");
-                        }
-                    }else {
-                        if(textField.getStyleClass().contains("validation_error")){
-                            textField.getStyleClass().remove("validation_error");
-                        }
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }else if(text == ""){
-                if(textField.getStyleClass().contains("validation_error")){
-                    textField.getStyleClass().remove("validation_error");
-                }
-            }
-            return arrayList.size() == 1;
-        }
     }
 }

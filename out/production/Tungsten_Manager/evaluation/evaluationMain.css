@@ -2,3 +2,6 @@
     -fx-padding:3 0 3 0;
     -fx-spacing:20;
 }
+.validation_error{
+    -fx-text-fill:rgb(153,60,58);
+}
