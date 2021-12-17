@@ -1,6 +1,7 @@
 package evaluation;
 
 import database.*;
+import home.SceneTransition;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -274,10 +276,24 @@ public class MainController implements Initializable {
             }
         });
 
+        additive.focusedProperty().addListener((a,o,n)->{
+            if(!n){
+                changeAdditive_();
+                System.out.println("focus");
+            }
+        });
+
+        binder.focusedProperty().addListener((a,o,n)->{
+            if(!n){
+                changeBinder_();
+                System.out.println("focus");
+            }
+        });
+
+
         autoComplete.register(new AutoComplete.ColumnTablePair("name","material","additive"),additive);
         autoComplete.register(new AutoComplete.ColumnTablePair("name","binder","binder"),binder);
         autoComplete.init();
-
 
         String[] qualitiy_str = {"-","A","B","C","D"};
 
@@ -310,6 +326,26 @@ public class MainController implements Initializable {
         column_methylene.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("methylene"));
         column_cockroach.setCellValueFactory(new PropertyValueFactory<Evaluation,String>("cockroach"));
         column_date.setCellValueFactory(new PropertyValueFactory<Evaluation, Date>("update_date"));
+        result_tb.setRowFactory((t) ->{
+            TableRow tableRow = new TableRow();
+            tableRow.addEventFilter(MouseEvent.MOUSE_CLICKED,(event)->{
+                if(event.getClickCount() >= 2){
+                    TableRow selected = (TableRow)event.getSource();
+                    if(result_tb.getSelectionModel().getSelectedIndex() == selected.getIndex()){
+                        Stage current = (Stage)result_tb.getScene().getWindow();
+//                        if(current != currentWindow){
+//                            currentWindow = current;
+//                        }
+                        result_tb.getScene().getWindow().hide();
+//                        SceneTransition.sceneTransition.changeScene("../evaluation/evaluation.fxml",result_tb.getScene(),(Tungsten)result_tb.getSelectionModel().getSelectedItem());
+
+                        Stage stage = SceneTransition.sceneTransition.transition("../shipment/shipment.fxml","出荷管理",(Evaluation)result_tb.getSelectionModel().getSelectedItem(),(Stage) result_tb.getScene().getWindow());
+                        stage.show();
+                    }
+                }
+            });
+            return tableRow;
+        });
         observableList = FXCollections.observableList((ArrayList<Evaluation>)arrayList);
         result_tb.getColumns().clear(); 
         result_tb.setItems(observableList);
@@ -334,12 +370,47 @@ public class MainController implements Initializable {
         }
         refreshTable(constraints);
     }
+    private void changeAdditive_(){
+        String constraint = "a.name ";
+        String text = additive.getText();
+
+        if(text != ""){
+            constraint += " = '" + text + "'";
+            if(constraints.containsKey("additive")){
+                constraints.replace("additive",constraint);
+            }else {
+                constraints.put("additive",constraint);
+            }
+        }else {
+            if(constraints.containsKey("additive"))
+                constraints.remove("additive");
+        }
+        refreshTable(constraints);
+    }
     @FXML
     private void changeBinder(KeyEvent keyEvent){
         String constraint = "b.name ";
         String text = binder.getText();
         if (keyEvent.getCode() != KeyCode.ENTER & keyEvent.getCode() != KeyCode.TAB)
             return;
+//        if(keyEvent.getCode().isArrowKey())
+//            return;
+        if(text != ""){
+            constraint += " = '" + text + "'";
+            if(constraints.containsKey("binder")){
+                constraints.replace("binder",constraint);
+            }else {
+                constraints.put("binder",constraint);
+            }
+        }else {
+            if(constraints.containsKey("binder"))
+                constraints.remove("binder");
+        }
+        refreshTable(constraints);
+    }
+    private void changeBinder_(){
+        String constraint = "b.name ";
+        String text = binder.getText();
         if(text != ""){
             constraint += " = '" + text + "'";
             if(constraints.containsKey("binder")){
